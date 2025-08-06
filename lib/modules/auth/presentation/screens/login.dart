@@ -1,3 +1,4 @@
+import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/register_screen_donor.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/register_screen_patient.dart';
 import 'package:flutter/material.dart';
@@ -15,21 +16,21 @@ import '../controllers/login/login_middleware.dart';
 
 class LoginScreen5 extends GetView<LoginController> {
   String? role;
+    String? userRole = CacheHelper.get("user_role");
+
   LoginScreen5({super.key, this.role});
 
   static const name = '/login';
   static final page = GetPage(
-      name: name,
-      page: () => LoginScreen5(),
-      binding: LoginBinding(),
-      middlewares: [
-        LoginMiddleware(),
-      ]);
+    name: name,
+    page: () => LoginScreen5(),
+    binding: LoginBinding(),
+  );
 
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    controller.userRole = role!;
+    controller.userRole = role?? "patient";
     print("controller is: ${controller.emailController}"); // فحص
     return Stack(
       children: [
@@ -130,9 +131,11 @@ class LoginScreen5 extends GetView<LoginController> {
                         return GestureDetector(
                           onTap: () {
                             if (controller.userRole == 'patient') {
-                              Get.offAllNamed(RegisterScreenPatient.name, arguments: {'role': 'patient'});
+                              Get.toNamed(RegisterScreenPatient.name,
+                                  arguments: {'role': 'patient'});
                             } else {
-                              Get.offAllNamed(RegisterScreenDonor.name, arguments: {'role': 'donor'});
+                              Get.toNamed(RegisterScreenDonor.name,
+                                  arguments: {'role': 'donor'});
                             }
                             //Get.offAllNamed(RegisterScreen.name);
                           },

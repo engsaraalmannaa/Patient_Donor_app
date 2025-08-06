@@ -1,3 +1,4 @@
+import 'package:Pationt_Donor/core/core_components/pop_up.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,7 @@ import '../../../patient/presentation/screens/home_screen.dart';
 class AuthDataSource {
   static ApiHelper apiHelper = ApiHelper();
   static Future<bool?> login(
-      String email, String password, String endpoint) async {
+      String email, String password, String endpoint, String userRole) async {
     print(email ?? "000");
     print(password ?? "000");
     var response = await apiHelper.sendRequest(
@@ -24,9 +25,18 @@ class AuthDataSource {
         "password": password,
       },
     );
-    print("test respo${response}");
+
     if (response != null) {
-      await CacheHelper.set( 'token_placeholder',key: AppKey.token, value: response["token"]);
+      await CacheHelper.set(key: AppKey.role, value: userRole); // تخزين role
+      await CacheHelper.set(key: AppKey.token, value: response["token"]);
+      // final user = response['user'];
+      // await CacheHelper.set(
+      //     key: 'user_name',
+      //     value: "${user['first_name']}" ?? "" "${user['last_name']}" ?? "");
+      // await CacheHelper.set(key: 'user_email', value: user['email']);
+      // await CacheHelper.set(
+      //     key: 'user_id', value: response['data']['user_id'].toString());
+
       return true;
     }
     Get.snackbar(
@@ -35,37 +45,33 @@ class AuthDataSource {
     return false;
   }
 
+  static Future<Map<String, dynamic>?> registerpatient(
+      {required String first_name,
+      required String father_name,
+      required String last_name,
+      required String gender,
+      required String birth_data,
+      required String national_number,
+      required String address,
+      required String phone,
+      required String email,
+      required String password,
+      required String password_confirmation,
+      required String social_status,
+      required String emergency_num,
+      required String insurance_company,
+      required String insurance_num,
+      required bool smoker,
+      required bool pregnant,
+      required String blood_type,
+      required String genetic_diseases,
+      required String chronic_diseases,
+      required String drug_allergy,
+      required String last_operations,
+      required String present_medicines,
+      required String endpoint}) async {
+    String userRole = 'patient';
 
-
-
-
-
-  static Future<bool?> registerpatient(
-    String first_name,
-    String father_name, 
-    String last_name, 
-    String gender,
-    String birth_data,
-    String national_number,
-    String address,
-    String phone,
-    String email, 
-    String password,
-    String password_confirmation,
-    String ?social_status,
-    String ?emergency_num,
-    String ?insurance_company,
-    String ?insurance_num,
-    bool ?smoker,
-    bool ? pregnant,
-    String ? blood_type,
-    String ? genetic_diseases,
-    String ? chronic_diseases,
-    String ? drug_allergy,
-    String ? last_operations,
-    String ? present_medicines,
-    String endpoint
-    ) async {
     print(father_name ?? "000");
     print(email ?? "000");
     print(password ?? "000");
@@ -75,56 +81,67 @@ class AuthDataSource {
       method: RequestType.post,
       context: Get.context!,
       body: {
-         "first_name" : first_name,                   // required|string|max:255
-    "father_name":father_name ,               // required|string|max:255
-    "last_name":last_name,                     // required|string|max:255
-    "gender":gender,                       // required|in:male,female
-    "birth_date":birth_data,             // required|date
-    "national_number":birth_data,    // required|string|unique:patients,national_number
-    "address":address,           // required|string|max:255
-    "phone" :phone ,                  // required|string|unique:patients,phone
-    "email" : email,        // required|email|unique:patients,email
-    "password" : password,                // required|string|min:8|confirmed
-    "password_confirmation" : password_confirmation,   // required for confirmation matching
-    "social_status" : social_status,              // nullable|string // optional
-    "emergency_num" : emergency_num,          // nullable|string|max:20 // optional
-    "insurance_company" : insurance_company,   // nullable|string|max:255 // optional
-    "insurance_num" : insurance_num,           // nullable|string|max:50 // optional
-    "smoker" : smoker,                         // nullable|boolean // optional
-    "pregnant" : pregnant,                      // nullable|boolean // optional
-    "blood_type" :blood_type,                     // nullable|string|max:3 // optional
-    "genetic_diseases" : genetic_diseases,             // nullable|string // optional
-    "chronic_diseases" : chronic_diseases,     // nullable|string // optional
-    "drug_allergy" : drug_allergy,           // nullable|string // optional
-    "last_operations" : last_operations,      // nullable|string // optional
-    "present_medicines" : present_medicines,
+        "first_name": first_name, // required|string|max:255
+        "father_name": father_name, // required|string|max:255
+        "last_name": last_name, // required|string|max:255
+        "gender": gender, // required|in:male,female
+        "birth_date": birth_data, // required|date
+        "national_number":
+            national_number, // required|string|unique:patients,national_number
+        "address": address, // required|string|max:255
+        "phone": phone, // required|string|unique:patients,phone
+        "email": email, // required|email|unique:patients,email
+        "password": password, // required|string|min:8|confirmed
+        "password_confirmation":
+            password_confirmation, // required for confirmation matching
+        "social_status": social_status, // nullable|string // optional
+        "emergency_num": emergency_num, // nullable|string|max:20 // optional
+        "insurance_company":
+            insurance_company, // nullable|string|max:255 // optional
+        "insurance_num": insurance_num, // nullable|string|max:50 // optional
+        "smoker": smoker, // nullable|boolean // optional
+        "pregnant": pregnant, // nullable|boolean // optional
+        "blood_type": blood_type, // nullable|string|max:3 // optional
+        "genetic_diseases": genetic_diseases, // nullable|string // optional
+        "chronic_diseases": chronic_diseases, // nullable|string // optional
+        "drug_allergy": drug_allergy, // nullable|string // optional
+        "last_operations": last_operations, // nullable|string // optional
+        "present_medicines": present_medicines,
       },
     );
-    print("test respo${response}");
-    if (response != null) {
-      await CacheHelper.set('token_placeholder',key: AppKey.token, value: response["token"]);
-      Get.offAllNamed(LoginScreen5.name);
+    print('RESPONSE: $response');
+    //print("test respo${response}");
+    if (response?['errors'] != null) {
+      final emailErrors = response['errors']['email'];
+      if (emailErrors != null && emailErrors.isNotEmpty) {
+        showSnackBar(emailErrors.first.toString());
+      }
+      return response;
     }
+    if (response != null) {
+      //await CacheHelper.set(key: AppKey.token, value: response["token"]);
+      await CacheHelper.set(key: AppKey.role, value: userRole);
+      Get.back();
+    }
+    return response;
   }
 
-
-
-  
-  static Future<bool ?> registerdonor(
-    String first_name,
-    String father_name, 
-    String last_name, 
-    String gender,
-    String birth_data,
-    String national_number,
-    String address,
-    String phone,
-    String email, 
-    String password,
-    String password_confirmation,
-    String country,
-    String endpoint
-    ) async {
+  static Future<bool?> registerdonor(
+      {required String first_name,
+      required String father_name,
+      required String last_name,
+      required String gender,
+      required String birth_data,
+      required String national_number,
+      required String address,
+      required String phone,
+      required String email,
+      required String password,
+      required String password_confirmation,
+      required String country,
+      required String endpoint}) async {
+    String userRole = 'donor';
+    // final gen = genderController.text == " ذكر" ? " male" : "female";
     print(father_name ?? "000");
     print(email ?? "000");
     print(password ?? "000");
@@ -134,24 +151,28 @@ class AuthDataSource {
       method: RequestType.post,
       context: Get.context!,
       body: {
-         "first_name" : first_name,                   // required|string|max:255
-    "father_name":father_name ,               // required|string|max:255
-    "last_name":last_name,                     // required|string|max:255
-    "gender":gender,                       // required|in:male,female
-    "birth_date":birth_data,             // required|date
-    "national_number":birth_data,    // required|string|unique:patients,national_number
-    "address":address,           // required|string|max:255
-    "phone" :phone ,                  // required|string|unique:patients,phone
-    "email" : email,        // required|email|unique:patients,email
-    "password" : password,                // required|string|min:8|confirmed
-    "password_confirmation" : password_confirmation,   // required for confirmation matching
-    "country" : country,
+        "first_name": first_name, // required|string|max:255
+        "father_name": father_name, // required|string|max:255
+        "last_name": last_name, // required|string|max:255
+        "gender": gender, // required|in:male,female
+        "birth_date": birth_data, // required|date
+        "national_number":
+            national_number, // required|string|unique:patients,national_number
+        "address": address, // required|string|max:255
+        "phone": phone, // required|string|unique:patients,phone
+        "email": email, // required|email|unique:patients,email
+        "password": password, // required|string|min:8|confirmed
+        "password_confirmation":
+            password_confirmation, // required for confirmation matching
+        "country": country,
       },
     );
-    print("test respo${response}");
+    //print("test respo${response}");
     if (response != null) {
-      await CacheHelper.set('token_placeholder' ,key: AppKey.token, value: response["token"]);
-      Get.offAllNamed(LoginScreen5.name);
+        await CacheHelper.set(key: AppKey.role, value: userRole);
+      Get.back();
+      return true;
     }
+    return null;
   }
 }

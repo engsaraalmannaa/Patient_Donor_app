@@ -8,7 +8,6 @@ import '../../../../../core/data_state/handler.dart';
 import '../../../data/data_source/auth_data_source.dart';
 
 class RegisterdonorController extends GetxController {
-
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final last_nameController = TextEditingController();
@@ -21,45 +20,45 @@ class RegisterdonorController extends GetxController {
   final phoneController = TextEditingController();
   final password_confirmationController = TextEditingController();
   final countryController = TextEditingController();
- 
-
+  RxBool isError = false.obs;
 
   String userRole = 'donor';
-  //final endpoint = ApiConst.registerpatient;
-  bool isloading=false;
-  Future <bool?> registerfunction()async {
-    isloading=true;
+  bool isloading = false;
+  Future<bool?> registerfunction() async {
+    //final gen = genderController.text == " ذكر" ? " male" : "female";
+    isloading = true;
     update();
     print("i am in register funcation");
     print("email :${emailController.text}");
     print("name :${last_nameController.text}");
     print("password :${passwordController.text}");
     print("role: $userRole");
+    isError.value = false;
     final String endpoint = userRole == 'patient'
         ? ApiConst.registerpatient
         : ApiConst.registerdonor;
-  
-    final result = await AuthDataSource.registerdonor(
-        emailController.text,
-        passwordController.text,
-        last_nameController.text,
-        first_nameController.text,
-        father_nameController.text,
-        genderController.text,
-        birth_dataController.text,
-        national_numberController.text,
-        addressController.text,
-        phoneController.text,
-        password_confirmationController.text,
-        countryController.text,
-        endpoint
 
-    );
+    final result = await AuthDataSource.registerdonor(
+        email: emailController.text,
+        password: passwordController.text,
+        last_name: last_nameController.text,
+        first_name: first_nameController.text,
+        father_name: father_nameController.text,
+        gender: genderController.text,
+        birth_data: birth_dataController.text,
+        national_number: national_numberController.text,
+        address: addressController.text,
+        phone: phoneController.text,
+        password_confirmation: password_confirmationController.text,
+        country: countryController.text,
+        endpoint: endpoint);
     update();
-    isloading=false;
+    isloading = false;
     update();
-    await CacheHelper.set('token_placeholder',key: 'userRole', value: userRole);  // تخزين role
+    if (result != true) {
+      isError.value = true; // صار خطأ، أظهر الزر بالأحمر
+    }
+   
     return result;
   }
-
 }

@@ -1,11 +1,17 @@
+import 'dart:math';
+
+import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/controllers/appointment_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:Pationt_Donor/core/core_components/app_button.dart';
 import 'package:Pationt_Donor/core/core_components/pop_up.dart';
 import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
 import '../../../../core/core_components/custom_dropdown.dart';
-
 
 class Appointment extends StatefulWidget {
   const Appointment({super.key});
@@ -21,58 +27,132 @@ class Appointment extends StatefulWidget {
   State<Appointment> createState() => _AppointmentState();
 }
 
-
-
-
 class _AppointmentState extends State<Appointment> {
-  //String? selectedValue;
-  String? selectedCountry;
-  final Map<String, List<String>> data = {
-    'عينية': ['علي', 'حازم', 'همام'],
-    'هضمية': ['تميم', 'عاصم', 'زهير'],
-    'قلبية': ['ايمن', 'تمام', 'كاظم'],
-  };
+
+  final GlobalKey<FormState> key = GlobalKey();
+  String? selectedValue;
+  final AppointmentController controller = Get.put(AppointmentController());
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getSpecialties();
+    });
+    String? savedReply =
+        CacheHelper.get<String>('appointmant_is${controller.doctorId}');
+    if (savedReply != null) {
+     
+    }
+  }
+
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Wallpaper(
           num: 0.3,
           image: "assets/images/pattern.png",
-
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 25.vmin,
-                ),
-                CustomDropdown(
-                  hint1: 'اختر التخصص المناسب',
-                  hint2:"اختر الطبيب",
-                  items:data.keys.toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      var selectedDoctor = value;
-                    });
-                    print('تم اختيار التخصص: $value');
-                  },
-                  data: data,
-                ),
-                // SizedBox(height: 20),
-                SizedBox(
-                  height: 15.vmin,
-                ),
-                AppButton(text: "تم", ontap:(){
-                  showSnackBar("تم حجز موعد .. سيتم ابلاغك بالوقت");
+          body: Form(
+            key: key,
+            child: GetBuilder<AppointmentController>(
+              
+                builder: (controller) {
+              return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Obx(
+                    () {
+                      if (controller.isLoadingSpecialty.value) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                } )
-              ],
-            ),
+                      return Column(
+                        children: [
+                          SizedBox(
+                            height: 25.vmin,
+                          ),
+                          DropdownButtonFormField<String>(
+                            decoration:
+                                const InputDecoration(labelText: 'اختر التخصص'),
+                            value: controller.specialties.contains(
+                                    controller.selectedSpecialty.value)
+                                ? controller.selectedSpecialty.value
+                                : null,
+                            items: controller.specialties
+                                .map((s) =>
+                                    DropdownMenuItem(value: s, child: Text(s)))
+                                .toList(),
+                            onChanged: (val) async {
+                              if (val != null) {
+                                controller.selectedSpecialty.value = val;
+                                await controller.getDoctorsBySpecialty(val);
+                                if (controller.doctorsOfSelected    != null) {
+                                  controller.selectedDoctor.value = null;
+                                }
+                              }
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          if (controller.isLoadingDoctors.value)
+                            const Center(child: CircularProgressIndicator())
+                          else if (controller.doctorsOfSelected?.data?.isNotEmpty ?? false)
+                            DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                  labelText: 'اختر الطبيب'),
+                              value: controller.selectedDoctor.value,
+                              
+                              items: (controller.doctorsOfSelected?.data ?? [])
+                                      .map((d) => DropdownMenuItem<String>(
+                                            value: d.id
+                                                ?.toString(), // <-- القيمة هي الـ id
+                                            child: Text(
+                                                "${d.firstName ?? ''} ${d.lastName ?? ''}"),
+                                          ))
+                                      .toList() ??
+                                  [],
+                             
+                              onChanged: (val) {
+                                if (val != null) {
+                                  print("${val}");
+                                  controller.selectedDoctor.value = val;
+                                  controller.onDoctorSelected(val);
+                                  print(
+                                      "the value :${controller.selectedDoctor.value}");
+                                  controller.onDoctorSelected(val);
+                                }
+                              },
+                            )
+                     ,
+                          SizedBox(
+                            height: 
+                            20.vmin,
+                          ),
+                          controller.isSubmitting
+                              ? CircularProgressIndicator()
+                              : AppButton(
+                                  ontap: () async {
+                                    print("🟡 تم الضغط على زر الإرسال");
+
+                                    await controller.appointmentRequest();
+                                  },
+                                  text: 'تم',
+
+                                 
+                                )
+                          
+                          ,
+                          SizedBox(
+                            height: 15.vmin,
+                          ),
+                          
+                        ],
+                      );
+                      
+                    },
+                  ));
+            }),
           ),
         ),
       ],

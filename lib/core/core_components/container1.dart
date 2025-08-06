@@ -9,7 +9,10 @@ import '../../modules/patient/presentation/controllers/home_controller.dart';
 import '../const/const_colors.dart';
 
 class Container1 extends StatelessWidget {
-  const Container1({super.key, required this.model, required this.index});
+  const Container1({super.key,
+  
+   required this.model,
+    required this.index});
 
   final ConsultationModel model;
   final int index;
@@ -24,7 +27,9 @@ class Container1 extends StatelessWidget {
           final controller = Get.find<HomeController>();
           controller.idConsltation = controller.data![index].id.toString();
 
-          Get.to(() => {} //Consultation(model: model,)
+          Get.to(() => {
+            
+          } //Consultation(model: model,)
               );
           //DetailsScreen(text: fullText,));
           // Action
@@ -46,28 +51,33 @@ class Container1 extends StatelessWidget {
               children: [
                 ListTile(
                   title: Text(
-                    model.patient?.fatherName ?? "",
+                    " رقم المريض:${model.patient?.userId.toString() ?? "-"}",
                     textDirection: TextDirection.rtl,
-                    style: TextStyle(color: Colors.indigo),
+                    style: TextStyle(color: Colors.indigo,
+                    fontSize: 12.spa),
                   ),
                   subtitle: Text(
-                    model.question ?? "",
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.sp,
-                    ),
+                  // "رقم المريض: ${widget.model.meetStatus ?? '-'}\n"
+                  " التخصص: ${model.specialty?.name ?? '-'}\n"
+                  "السؤال: ${model.question ?? '-'}\n",
+                 
+                  // "الكلفة: ${widget.model.meetCost!.toString()} ل.س ",
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.sp,
                   ),
-                  trailing: CircleAvatar(
-                    backgroundColor: Colors.white54,
-                    radius: 5.5.vmin,
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.indigo,
-                    ),
-                  ),
+                ),
+                  // trailing: CircleAvatar(
+                  //   backgroundColor: Colors.white54,
+                  //   radius: 5.5.vmin,
+                  //   child: Icon(
+                  //     Icons.person,
+                  //     color: Colors.indigo,
+                  //   ),
+                  // ),
                 )
               ],
             ),

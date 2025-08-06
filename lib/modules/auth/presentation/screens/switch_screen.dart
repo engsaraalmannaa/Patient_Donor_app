@@ -1,5 +1,5 @@
 import 'package:Pationt_Donor/modules/auth/presentation/controllers/login/login_controller.dart';
-import 'package:Pationt_Donor/modules/auth/presentation/screens/login_screen_patient.dart';
+import 'package:Pationt_Donor/modules/auth/presentation/controllers/login/login_middleware.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +8,6 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:Pationt_Donor/core/core_components/app_button.dart';
 import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
-import 'package:Pationt_Donor/modules/auth/presentation/screens/login_screen_donor.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/d_home_screen.dart';
 import '../../../../core/const/const_colors.dart';
 import 'login.dart';
@@ -20,7 +19,7 @@ class SwitchScreen extends StatelessWidget {
 
   static const name = "/1";
 
-  static final page = GetPage(name: name, page: () => SwitchScreen());
+  static final page = GetPage(name: name, page: () => SwitchScreen(),middlewares: [LoginMiddleware(),]);
 
   @override
   Widget build(BuildContext context) {

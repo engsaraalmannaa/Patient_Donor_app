@@ -16,9 +16,9 @@ class DioInstance {
       BaseOptions(
         baseUrl: ApiConst.baseUrl,
         receiveDataWhenStatusError: true,
-        sendTimeout: const Duration(seconds: 40),
-        receiveTimeout: const Duration(seconds: 40),
-        connectTimeout: const Duration(seconds: 40),
+        sendTimeout: const Duration(seconds: 60),
+        receiveTimeout: const Duration(seconds: 60),
+        connectTimeout: const Duration(seconds: 60),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',

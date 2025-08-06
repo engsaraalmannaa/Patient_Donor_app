@@ -1,12 +1,12 @@
 
 import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/login.dart';
-import 'package:Pationt_Donor/modules/auth/presentation/screens/login_screen_patient.dart';
-import 'package:Pationt_Donor/modules/auth/presentation/screens/register.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/register_screen_donor.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/about.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/setting.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/share.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/appointment_in_hold.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -16,7 +16,7 @@ import 'package:Pationt_Donor/modules/donor/presentation/screens/details.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/donation_information.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/my_donations.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/notifi_d_screen.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/donation_state.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/add_disease_state.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/home_screen.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/information_screen2.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/information_screen3.dart';
@@ -26,12 +26,11 @@ import 'package:Pationt_Donor/modules/auth/presentation/screens/switch_screen.da
 import 'core/const/const_colors.dart';
 import 'core/core_components/pop_up.dart';
 import 'modules/auth/presentation/controllers/login/login_binding.dart';
-import 'modules/auth/presentation/screens/login_screen_donor.dart';
 import 'modules/auth/presentation/screens/register_screen_patient.dart';
 import 'modules/auth/presentation/screens/splash_screen.dart';
 import 'modules/patient/presentation/screens/appointment.dart';
 import 'modules/patient/presentation/screens/concultations.dart';
-import 'modules/patient/presentation/screens/information_screen.dart';
+import 'modules/patient/presentation/screens/my_appointments.dart.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -73,10 +72,10 @@ class MyApp extends StatelessWidget {
           SplashScreen.page,
           RegisterScreenDonor.page,
           RegisterScreenPatient.page,
-          InformationScreen.page,
-          InformationScreen2.page,
-          InformationScreen3.page,
-          InformationScreen4.page,
+          // InformationScreen.page,
+          // InformationScreen2.page,
+          // InformationScreen3.page,
+          // InformationScreen4.page,
           HomeScreen.page,
           Appointment.page,
           NotificationP.page,
@@ -92,6 +91,9 @@ class MyApp extends StatelessWidget {
           AboutAppPage.page,
           ShareAppPage.page,
           LoginScreen5.page,
+          ProfilePatientScreen.page,
+          MyAppointments.page,
+          AppointmentInHold.page
           //RegisterScreen.page
         ],
         initialBinding: LoginBinding(),

@@ -6,7 +6,7 @@ import 'package:Pationt_Donor/core/core_components/custom_drawer.dart';
 import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/appointment.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/concultations.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/donation_state.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/add_disease_state.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/notofication.dart';
 
 import '../../../../core/core_components/container1.dart';
@@ -71,7 +71,7 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
         padding: EdgeInsets.only(right: 4.vmin),
         child: Image.asset("assets/images/logoo.png", width: 25.vmin),
       ),
-      title: Text("اهلا بك",
+      title: Text(" الاستشارات",
           style: TextStyle(fontSize: 14.spa, fontWeight: FontWeight.w600)),
     ),
     AppBar(
@@ -197,6 +197,7 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
                         itemCount: controller.data?.length,
                         itemBuilder: (context, i) {
                           return Container1(
+                            
                             model: controller.data![i],
                             index: i,
                           );

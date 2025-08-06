@@ -4,8 +4,6 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-
 import '../../const/api_const.dart';
 import '../../const/app_key.dart';
 import '../../const/const_colors.dart';
@@ -14,8 +12,6 @@ import '../../storage/shared_preferences.dart';
 import '../network_error.dart';
 import 'api_enum.dart';
 import 'dio.dart';
-
-
 
 const String applicationJson = "application/json";
 const String contentType = "content-type";
@@ -36,7 +32,6 @@ class ApiHelper {
   // Base URL
   String _baseUrl = ApiConst.baseUrl;
 
-
   // Get full URL
   String _getFullUrl(String endPoint) {
     return '$_baseUrl$endPoint';
@@ -46,14 +41,12 @@ class ApiHelper {
     required String endPoint,
     required RequestType method,
     bool isFormData = false,
-
     Map<String, dynamic>? headers,
     Map<String, dynamic>? body,
     bool requiresAuth = false,
     required BuildContext context,
     T Function(dynamic data)? fromJson,
   }) async {
-
     try {
 // Initialize headers
       final requestHeaders = {
@@ -63,10 +56,9 @@ class ApiHelper {
         ...?headers,
       };
 
-
       // Add auth header if required
       if (requiresAuth) {
-         final token =await CacheHelper.get(AppKey.token);
+        final token = await CacheHelper.get(AppKey.token);
         if (token != null) {
           requestHeaders[authorizationHeader] = '$bearerPrefix$token';
         }
@@ -118,20 +110,19 @@ class ApiHelper {
 
       return _handleResponse<T>(response, context, fromJson);
     } on NetworkError catch (e) {
-
       _handleNetworkError(e.toString(), e, context);
       return null;
     } on dio.DioException catch (e) {
       final networkError = NetworkError.fromDioError(e);
 
-    // // Check for specific error types
-    // if (e.type == dio.DioExceptionType.connectionTimeout ⠵⠺⠟⠵⠺⠺⠺⠺⠵⠵⠵⠞⠵⠺⠵⠺⠟⠟⠵⠞⠺⠺⠺⠵⠞⠵⠟⠟⠟⠟⠞⠵⠟⠞⠵⠺⠺⠵⠺⠵⠞⠟⠺⠵⠺⠞⠺⠞⠺⠞⠺⠞⠟⠺⠞⠟⠺⠟⠺⠟
-    //     e.type == dio.DioExceptionType.sendTimeout) {
-    //   _handleNetworkError(networkError.toString(), networkError, context);
-    //   return null;
-    // } else if (e.type == dio.DioExceptionType.connectionError) {
-    //   _handleNetworkError(networkError.toString(), networkError, context);
-    // }
+      // // Check for specific error types
+      // if (e.type == dio.DioExceptionType.connectionTimeout ⠵⠺⠟⠵⠺⠺⠺⠺⠵⠵⠵⠞⠵⠺⠵⠺⠟⠟⠵⠞⠺⠺⠺⠵⠞⠵⠟⠟⠟⠟⠞⠵⠟⠞⠵⠺⠺⠵⠺⠵⠞⠟⠺⠵⠺⠞⠺⠞⠺⠞⠺⠞⠟⠺⠞⠟⠺⠟⠺⠟
+      //     e.type == dio.DioExceptionType.sendTimeout) {
+      //   _handleNetworkError(networkError.toString(), networkError, context);
+      //   return null;
+      // } else if (e.type == dio.DioExceptionType.connectionError) {
+      //   _handleNetworkError(networkError.toString(), networkError, context);
+      // }
       _handleNetworkError(networkError.toString(), networkError, context);
       return null;
     } on FormatException catch (e) {
@@ -185,14 +176,15 @@ class ApiHelper {
   }
 
   Future<T?> _handleResponse<T>(
-      dio.Response response,
-      BuildContext context,
-      T Function(dynamic data)? fromJson,
-      ) async {
+    dio.Response response,
+    BuildContext context,
+    T Function(dynamic data)? fromJson,
+  ) async {
     if (response.statusCode == 200 ||
-      response.statusCode == 204) {
+        response.statusCode == 201 ||
+        response.statusCode == 204) {
       final data =
-      response.data is String ? json.decode(response.data) : response.data;
+          response.data is String ? json.decode(response.data) : response.data;
 
       if (fromJson != null) {
         return fromJson(data);
@@ -201,8 +193,6 @@ class ApiHelper {
     } else if (response.statusCode == 401) {
       // Handle 401 Unauthorized
       String message = "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى";
-
-
 
       // Clear all stored data
       // await CacheHelper.clear();
@@ -218,7 +208,7 @@ class ApiHelper {
         if (response.data is Map<String, dynamic>) {
           if (response.data['message'] != null) {
             message = response.data['message'];
-            AppToast.showToast(message: message, color:  ConstColors.grey);
+            AppToast.showToast(message: message, color: ConstColors.grey);
           } else if (response.data['error'] != null) {
             message = response.data['error'];
           } else if (response.data['errors'] != null) {
@@ -228,12 +218,10 @@ class ApiHelper {
               final firstError = errors.values.first;
               if (firstError is List && firstError.isNotEmpty) {
                 message = firstError.first.toString();
-                AppToast.showToast(
-                    message: message, color: ConstColors.grey);
+                AppToast.showToast(message: message, color: ConstColors.grey);
               } else {
                 message = firstError.toString();
-                AppToast.showToast(
-                    message: message, color: ConstColors.grey);
+                AppToast.showToast(message: message, color: ConstColors.grey);
               }
             } else if (errors is List && errors.isNotEmpty) {
               message = errors.first.toString();
@@ -246,7 +234,7 @@ class ApiHelper {
           if (responseString.contains('<title>')) {
             // Extract title from HTML
             final titleMatch =
-            RegExp(r'<title>(.*?)</title>').firstMatch(responseString);
+                RegExp(r'<title>(.*?)</title>').firstMatch(responseString);
             if (titleMatch != null) {
               message = titleMatch.group(1)?.trim() ?? message;
             }
@@ -255,9 +243,7 @@ class ApiHelper {
             message = responseString.trim();
           }
         }
-      } catch (e) {
-
-      }
+      } catch (e) {}
 
       // final error = NetworkError(
       //   type: _getNetworkErrorType(response.statusCode!),
@@ -372,7 +358,7 @@ class ApiHelper {
         RequestType.delete: 'DELETE',
         RequestType.patch: 'PATCH',
       }[requestType] ??
-          '';
+      '';
 }
 
 class GenericException implements Exception {

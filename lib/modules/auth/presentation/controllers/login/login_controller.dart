@@ -1,4 +1,5 @@
 import 'package:Pationt_Donor/core/const/api_const.dart';
+import 'package:Pationt_Donor/core/const/app_key.dart';
 import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,38 +8,34 @@ import '../../../../../core/core_components/pop_up.dart';
 import '../../../../../core/data_state/handler.dart';
 import '../../../data/data_source/auth_data_source.dart';
 
-class LoginController extends GetxController{
+class LoginController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-    String userRole=  'patient'; // أو 'donor'
-  bool isloading=false;
+  String userRole = 'patient'; // أو 'donor'
+  bool isloading = false;
 
-   Future <bool?> loginfunction() async {
+  Future<bool?> loginfunction() async {
     isloading = true;
     update();
     print("i am in login funcation");
     print("email :${emailController.text}");
     print("password :${passwordController.text}");
     print("role: $userRole");
-    String endpoint = userRole == 'patient'
-        ? ApiConst.loginpatient
-        : ApiConst.logindonor;
+    String endpoint =
+        userRole == 'patient' ? ApiConst.loginpatient : ApiConst.logindonor;
     /*await AuthDataSource.login(
         emailController.text,
         passwordController.text,
         endpoint
     );*/
     final result = await AuthDataSource.login(
-      emailController.text,
-      passwordController.text,
-      endpoint,
-    );
+        emailController.text, passwordController.text, endpoint, userRole);
+       
+
     update();
     isloading = false;
     update();
-    await CacheHelper.set('token_placeholder',key: 'userRole', value: userRole);  // تخزين role
+
     return result;
   }
-
-  }
-
+}

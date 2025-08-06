@@ -1,4 +1,3 @@
-
 import 'package:Pationt_Donor/modules/auth/presentation/controllers/register/register_donor_controller.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/controllers/register/register_middlewhere.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/login.dart';
@@ -7,21 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/information_screen.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/my_appointments.dart.dart';
 import '../../../../core/const/const_colors.dart';
 import '../../../../core/core_components/app_text_form_field.dart';
 import '../controllers/register/register_binding.dart';
 import '../controllers/register/register_patient_controller.dart';
-import 'login_screen_donor.dart';
 
 class RegisterScreenDonor extends GetView<RegisterdonorController> {
-   RegisterScreenDonor({super.key});
-    final role = Get.arguments?['role'] ?? 'patient';
+  RegisterScreenDonor({super.key});
+  final role = Get.arguments?['role'] ?? 'patient';
+  final controller = Get.put(RegisterdonorController());
 
   static const name = '/rd';
   static final page = GetPage(
     name: name,
-    page: () =>  RegisterScreenDonor(),
+    page: () => RegisterScreenDonor(),
     binding: RegisterBinding(),
     // middlewares: [
     //   RegisterMiddleware(),
@@ -31,21 +30,20 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
 
   @override
   Widget build(BuildContext context) {
+  controller.userRole = role!;
+
     return Stack(
       children: [
-       Wallpaper(
-         num: 0.3,
-         image: "assets/images/pattern.png",
-       ),
+        Wallpaper(
+          num: 0.3,
+          image: "assets/images/pattern.png",
+        ),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title:
-            Text("تسجيل حساب",
-                style: TextStyle(
-                  fontSize: 14.spa,
-                    fontWeight: FontWeight.bold
-                )),
+            title: Text("تسجيل حساب",
+                style:
+                    TextStyle(fontSize: 14.spa, fontWeight: FontWeight.bold)),
           ),
           body: SizedBox(
             width: double.infinity,
@@ -59,31 +57,28 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                     Opacity(
                       opacity: 0.9,
                       child: CircleAvatar(
-                        backgroundColor: Colors.white12,
-                        foregroundColor: Colors.transparent,
-                        radius: 21.vmin,
-                        backgroundImage:
-                        ExtendedAssetImageProvider("assets/images/logoo.png")
-                        // child: Icon(
-                        //   Icons.person,
-                        //   size: 37.vmin,
-                        // ),
-                      ),
+                          backgroundColor: Colors.white12,
+                          foregroundColor: Colors.transparent,
+                          radius: 21.vmin,
+                          backgroundImage: ExtendedAssetImageProvider(
+                              "assets/images/logoo.png")
+                          // child: Icon(
+                          //   Icons.person,
+                          //   size: 37.vmin,
+                          // ),
+                          ),
                     ),
                     SizedBox(
                       height: 2.5.vmin,
                     ),
-                    const Divider(
-                      color: ConstColors.darkBlue
-                    ),
+                    const Divider(color: ConstColors.darkBlue),
                     Text(
                       "ادخل بياناتك",
                       style: TextStyle(
                           //color: ConstColors.darkBlue,
-                        color: Colors.black,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14.spa
-                      ),
+                          fontSize: 14.spa),
                     ),
                     SizedBox(
                       height: 2.5.vmin,
@@ -92,12 +87,13 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       hint: ' الاسم الاول',
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
-                      controller: controller.first_nameController
-                      ,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      controller: controller.first_nameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'الاسم مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -105,10 +101,12 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.father_nameController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'اسم الأب مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -116,10 +114,12 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.last_nameController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'الكنية مطلوبة';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -127,13 +127,15 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       icon: const Icon(Icons.email_outlined),
                       keyboardType: TextInputType.emailAddress,
                       controller: controller.emailController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'البريد الالكتروني مطلوب';
                         }
-                        if(! value.isEmail ){
+                        if (!value.isEmail) {
                           return 'البريد الالكتروني غير صحيح';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -141,38 +143,77 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       icon: const Icon(Icons.lock_outlined),
                       isPass: true,
                       controller: controller.passwordController,
-                      validator: (String? value){
-                        if(value == null || value.isEmpty){
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
                           return 'كلمة المرور مطلوبة !';
                         }
-                        if(value.length < 6){
-                          return 'كلمة المرور يجب ان تكون 6 خانات';
+                        if (value.length < 8) {
+                          return 'كلمة المرور يجب ان تكون 8 خانات';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
-                    ), AppTextFormField(
+                    ),
+                    AppTextFormField(
                       hint: 'تاكيد كلمة المرور',
                       icon: const Icon(Icons.check),
                       isPass: true,
                       controller: controller.password_confirmationController,
-                      validator: (String? value){
-                        if(value == null || value.isEmpty){
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
                           return 'تاكيد كلمة المرور مطلوب';
                         }
-                        if(value != controller.passwordController.text){
+                        if (value != controller.passwordController.text) {
                           return "كلمة المرور غير صحيحة";
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
-                    AppTextFormField(
-                      hint: 'الجنس',
-                      icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.name,
-                      controller: controller.genderController
-                    ,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
-                          return 'الجنس مطلوب';
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        hintText: 'الجنس',
+                        prefixIcon: const Icon(Icons.perm_identity_outlined),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                          //borderSide:  BorderSide(color: Colors.grey),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                          //borderSide: const BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                          //borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                        ),
+                        fillColor: Colors.blue.shade50,
+                        filled: true,
+                      ),
+                      value: controller.genderController.text.isNotEmpty
+                          ? controller.genderController.text
+                          : null,
+                      items: const [
+                        DropdownMenuItem(
+                          value: "male",
+                          child: Text('ذكر'),
+                        ),
+                        DropdownMenuItem(
+                          value: "female",
+                          child: Text('أنثى'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        // حفظ القيمة في الكونترولر على شكل نص لتتوافق مع إرسال الـ API
+                        controller.genderController.text = value!;
+                        //controller. update();
+                        controller.isError.value = false;
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'الرجاء اختيار الجنس';
                         }
+                        return null;
                       },
                     ),
                     AppTextFormField(
@@ -180,21 +221,25 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.birth_dataController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'تاريخ الميلاد مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
-                     AppTextFormField(
+                    AppTextFormField(
                       hint: 'الرقم الوطني',
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.phone,
                       controller: controller.national_numberController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'الرقم الوطني مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -202,10 +247,12 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.addressController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'العنوان مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -213,10 +260,12 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.phone,
                       controller: controller.phoneController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'الرقم مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -224,74 +273,51 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.countryController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'هذا الحقل مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(2.vmin),
-                      child:
-                      ElevatedButton(
-                        onPressed:() async {
-                          print("after valid");
-                                  if (formKey.currentState!.validate()) {
-                                    var success =
+                    Obx(
+                      () {
+                        return Padding(
+                          padding: EdgeInsets.all(2.vmin),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              side: controller.isError.value
+                                  ? BorderSide(color: Colors.red, width: 1.5)
+                                  : BorderSide.none,
+                            ),
+                            onPressed: () async {
+                              print("after valid");
+                              if (formKey.currentState!.validate()) {
+                                var success =
                                     await controller.registerfunction();
-                                    if (success == true) {
-                                      if (controller.userRole == 'patient') {
-                                        Get.offAllNamed(LoginScreen5.name);
-                                      } else {
-                                        Get.offAllNamed(LoginScreen5.name);
-                                      }
-                                    }
-                                    {
-                                      print("test");
-                                    }
-                                  }
-                        },
-                        //controller.sendData,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12.vmin,
-                              vertical: 3.vmin
+                                if (success == true) {
+                                  Get.offAllNamed(LoginScreen5.name);
+                                }
+                              }
+                              controller.isError.value = true;
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12.vmin, vertical: 3.vmin),
+                              child: Text("تسجيل حساب",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.spa,
+                                      fontWeight: FontWeight.bold)),
+                            ),
                           ),
-                          child: Text(
-                              "تسجيل حساب",
-                              style: TextStyle(
-                                color: Colors.white,
-                                  fontSize: 14.spa,
-                                  fontWeight: FontWeight.bold
-                              )),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 4.vmin,
                     ),
-                    // InkWell(
-                    //   onTap: (){
-                    //     Get.offAllNamed(LoginScreen5.name);
-                    //   },
-                    //   child: Text.rich(
-                    //     TextSpan(
-                    //         text: "لديك حساب ",
-                    //         children: [
-                    //           TextSpan(
-                    //             text: "سجل دخول الان",
-                    //             style: TextStyle(
-                    //                 color: context.theme.primaryColor,
-                    //                 fontWeight: FontWeight.bold
-                    //             ),
-                    //           )
-                    //         ]
-                    //     ),
-                    //     style: TextStyle(
-                    //         fontSize: 13.spa
-                    //     ),
-                    //   ),
-                    // )
                   ],
                 ),
               ),
@@ -302,4 +328,3 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
     );
   }
 }
-

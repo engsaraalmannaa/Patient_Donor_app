@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-class CustomDropdown extends StatefulWidget {
+class CustomDropdown<S> extends StatefulWidget {
   final List<String> items; // قائمة العناصر للقائمة المنسدلة الأولى (البلدان)
   final String hint1;
   final String? hint2;

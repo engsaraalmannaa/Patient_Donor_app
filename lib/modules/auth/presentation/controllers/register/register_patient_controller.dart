@@ -8,7 +8,6 @@ import '../../../../../core/data_state/handler.dart';
 import '../../../data/data_source/auth_data_source.dart';
 
 class RegisterpatientController extends GetxController {
-
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final last_nameController = TextEditingController();
@@ -32,13 +31,12 @@ class RegisterpatientController extends GetxController {
   final drug_allergyController = TextEditingController();
   final last_operationsController = TextEditingController();
   final present_medicinesController = TextEditingController();
-
+  RxBool isError = false.obs;
 
   String userRole = 'patient';
-  //final endpoint = ApiConst.registerpatient;
-  bool isloading=false;
-  Future <bool?> registerfunction()async {
-    isloading=true;
+  bool isloading = false;
+  Future<bool?> registerfunction() async {
+    isloading = true;
     update();
     print("i am in register funcation");
     print("email :${emailController.text}");
@@ -48,40 +46,66 @@ class RegisterpatientController extends GetxController {
     final String endpoint = userRole == 'patient'
         ? ApiConst.registerpatient
         : ApiConst.registerdonor;
-  
-    final result = await AuthDataSource.registerpatient(
-        emailController.text,
-        passwordController.text,
-        last_nameController.text,
-        first_nameController.text,
-        father_nameController.text,
-        genderController.text,
-        birth_dataController.text,
-        national_numberController.text,
-        addressController.text,
-        phoneController.text,
-        password_confirmationController.text,
-        social_statusController.text,
-        emergency_numController.text,
-        insurance_companyController.text,
-        insurance_numController.text,
-        smokerController.isBlank,
-        pregnantController.isBlank,
-        blood_typeController.text ,
-        genetic_diseasesController.text,
-        chronic_diseasesController.text,
-        drug_allergyController.text,
-        last_operationsController.text,
-        present_medicinesController.text,
-        endpoint
 
-    );
+        
+
+    final result = await AuthDataSource.registerpatient(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+        last_name: last_nameController.text,
+        first_name: first_nameController.text,
+        father_name: father_nameController.text,
+        gender: genderController.text,
+        birth_data: birth_dataController.text,
+        national_number: national_numberController.text,
+        address: addressController.text,
+        phone: phoneController.text,
+        password_confirmation: password_confirmationController.text,
+        social_status: social_statusController.text,
+        emergency_num: emergency_numController.text,
+        insurance_num: insurance_numController.text,
+        insurance_company: insurance_companyController.text,
+        //emergency_num: emergency_numController.text.isEmpty ? null : emergency_numController.text,
+        // insurance_company: insurance_companyController.text.isEmpty ? null : insurance_companyController.text,
+        //insurance_num: insurance_numController.text.isEmpty ? null : insurance_numController.text,
+        //smoker: smokerController.isBlank,
+        smoker: smokerController.text.toLowerCase() == "true",
+        //pregnant: pregnantController.isBlank,
+        pregnant: pregnantController.text.toLowerCase() == 'true',
+        blood_type: blood_typeController.text,
+        genetic_diseases: genetic_diseasesController.text,
+        chronic_diseases: chronic_diseasesController.text,
+        drug_allergy: drug_allergyController.text,
+        last_operations: last_operationsController.text,
+        present_medicines: present_medicinesController.text,
+        endpoint: endpoint);
     update();
-    isloading=false;
+    isloading = false;
     update();
-    await CacheHelper.set('token_placeholder',key: 'userRole', value: userRole);  // تخزين role
-    return result;
+    if (result != null && result['user'] != null) {
+    final user = result['user'];
+
+    final firstName = user['first_name'] ?? '';
+    final lastName = user['last_name'] ?? '';
+    final email = user['email'] ?? '';
+    final id = user['id']?.toString() ?? '';
+
+    await CacheHelper.set(key: 'user_name', value: '$firstName $lastName');
+    await CacheHelper.set(key: 'user_email', value: email);
+    await CacheHelper.set(key: 'user_id', value: id);
+    await CacheHelper.set(key: 'userRole', value: userRole);
+
+    return true;
   }
 
+  isError.value = true;
+  return false;
+    // if (result != true) {
+    //   isError.value = true;
+    // }
+    // print("Result: $result");
+
+    // // await CacheHelper.set(key: 'userRole', value: userRole); // تخزين role
+    // return result;
+  }
 }
- 

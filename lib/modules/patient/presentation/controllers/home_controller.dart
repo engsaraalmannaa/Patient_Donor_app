@@ -1,3 +1,4 @@
+import 'package:Pationt_Donor/modules/patient/presentation/screens/show_consultation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
@@ -9,9 +10,10 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    Future.microtask(() => Consultations());
   }
 
-  final TextEditingController answer = TextEditingController();
+  //final TextEditingController answer = TextEditingController();
   String? idConsltation;
   bool isloading = false;
   Future<void> Consultations() async {
@@ -22,4 +24,7 @@ class HomeController extends GetxController {
     isloading = false;
     update();
   }
+
+
+
 }

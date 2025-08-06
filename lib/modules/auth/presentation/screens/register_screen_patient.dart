@@ -1,4 +1,3 @@
-
 import 'package:Pationt_Donor/modules/auth/presentation/controllers/login/login_middleware.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/controllers/register/register_middlewhere.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/login.dart';
@@ -7,22 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/information_screen.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/my_appointments.dart.dart';
 
 import '../../../../core/const/const_colors.dart';
 import '../../../../core/core_components/app_text_form_field.dart';
 import '../controllers/register/register_binding.dart';
 import '../controllers/register/register_patient_controller.dart';
-import 'login_screen_patient.dart';
 
 class RegisterScreenPatient extends GetView<RegisterpatientController> {
-   RegisterScreenPatient({super.key});
+  RegisterScreenPatient({super.key});
   final role = Get.arguments?['role'] ?? 'patient';
+  final controller = Get.put(RegisterpatientController());
 
   static const name = '/rp';
   static final page = GetPage(
     name: name,
-    page: () =>  RegisterScreenPatient(),
+    page: () => RegisterScreenPatient(),
     binding: RegisterBinding(),
     // middlewares: [
     //   RegisterMiddleware(),
@@ -33,23 +32,20 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
   @override
   Widget build(BuildContext context) {
     controller.userRole = role!;
-        print("controller is: ${controller.emailController}"); // فحص
+    //print("controller is: ${controller.emailController}"); // فحص
 
     return Stack(
       children: [
-       Wallpaper(
-         num: 0.3,
-         image: "assets/images/pattern.png",
-       ),
+        Wallpaper(
+          num: 0.3,
+          image: "assets/images/pattern.png",
+        ),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title:
-            Text("تسجيل حساب",
-                style: TextStyle(
-                  fontSize: 14.spa,
-                    fontWeight: FontWeight.bold
-                )),
+            title: Text("تسجيل حساب",
+                style:
+                    TextStyle(fontSize: 14.spa, fontWeight: FontWeight.bold)),
           ),
           body: SizedBox(
             width: double.infinity,
@@ -63,28 +59,23 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                     Opacity(
                       opacity: 0.9,
                       child: CircleAvatar(
-                        backgroundColor: Colors.white12,
-                        foregroundColor: Colors.transparent,
-                        radius: 21.vmin,
-                        backgroundImage:
-                        ExtendedAssetImageProvider("assets/images/logoo.png")
-                        
-                      ),
+                          backgroundColor: Colors.white12,
+                          foregroundColor: Colors.transparent,
+                          radius: 21.vmin,
+                          backgroundImage: ExtendedAssetImageProvider(
+                              "assets/images/logoo.png")),
                     ),
                     SizedBox(
                       height: 2.5.vmin,
                     ),
-                    const Divider(
-                      color: ConstColors.darkBlue
-                    ),
+                    const Divider(color: ConstColors.darkBlue),
                     Text(
                       "ادخل بياناتك",
                       style: TextStyle(
                           //color: ConstColors.darkBlue,
-                        color: Colors.black,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14.spa
-                      ),
+                          fontSize: 14.spa),
                     ),
                     SizedBox(
                       height: 2.5.vmin,
@@ -94,10 +85,12 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.first_nameController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'الاسم الاول مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -105,21 +98,25 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.father_nameController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'اسم الأب مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
                       hint: ' الكنية',
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
-                      controller: controller.father_nameController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      controller: controller.last_nameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'الكنية مطلوبة';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
 
@@ -128,13 +125,15 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       icon: const Icon(Icons.email_outlined),
                       keyboardType: TextInputType.emailAddress,
                       controller: controller.emailController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'البريد الالكتروني مطلوب';
                         }
-                        if(! value.isEmail ){
+                        if (!value.isEmail) {
                           return 'البريد الالكتروني غير صحيح';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -142,59 +141,102 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       icon: const Icon(Icons.lock_outlined),
                       isPass: true,
                       controller: controller.passwordController,
-                      validator: (String? value){
-                        if(value == null || value.isEmpty){
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
                           return 'كلمة المرور مطلوبة !';
                         }
-                        if(value.length < 6){
-                          return 'كلمة المرور يجب ان تكون 6 خانات';
+                        if (value.length < 8) {
+                          return 'كلمة المرور يجب ان تكون 8 خانات';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
-                    ), AppTextFormField(
+                    ),
+                    AppTextFormField(
                       hint: 'تاكيد كلمة المرور',
                       icon: const Icon(Icons.check),
                       isPass: true,
                       controller: controller.password_confirmationController,
-                      validator: (String? value){
-                        if(value == null || value.isEmpty){
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
                           return 'تاكيد كلمة المرور مطلوب';
                         }
-                        if(value != controller.passwordController.text){
+                        if (value != controller.passwordController.text) {
                           return "كلمة المرور غير صحيحة";
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
-                    AppTextFormField(
-                      hint: 'الجنس',
-                      icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.name,
-                      controller: controller.genderController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
-                          return 'الجنس مطلوب';
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        hintText: 'الجنس',
+                        prefixIcon: const Icon(Icons.perm_identity_outlined),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        fillColor: Colors.blue.shade50,
+                        filled: true,
+                      ),
+                      value: controller.genderController.text.isNotEmpty
+                          ? controller.genderController.text
+                          : null,
+                      items: const [
+                        DropdownMenuItem(
+                          value: "male",
+                          child: Text('ذكر'),
+                        ),
+                        DropdownMenuItem(
+                          value: "female",
+                          child: Text('أنثى'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        // حفظ القيمة في الكونترولر على شكل نص لتتوافق مع إرسال الـ API
+                        controller.genderController.text = value!;
+                        //controller. update();
+                        controller.isError.value = false;
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'الرجاء اختيار الجنس';
                         }
+                        return null;
                       },
                     ),
                     AppTextFormField(
+                      
                       hint: ' تاريخ الميلاد ',
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.birth_dataController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'تاريخ الميلاد مطلوب';
                         }
+                      
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
                       hint: 'الرقم الوطني',
                       icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.phone,
                       controller: controller.national_numberController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'الرقم الوطني مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -202,10 +244,12 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.addressController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'العنوان مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -213,10 +257,12 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.phone,
                       controller: controller.phoneController,
-                      validator: (value){
-                        if(value == null || value.isEmpty){
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'الرقم مطلوب';
                         }
+                        onChanged:
+                        (_) => controller.isError.value = false;
                       },
                     ),
                     AppTextFormField(
@@ -224,149 +270,257 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
                       controller: controller.social_statusController,
-                      // validator: (value){
-                      //   if(value == null || value.isEmpty){
-                      //     return 'اسم الأب مطلوب';
-                      //   }
-                      // },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'الحالة  مطلوبة';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
                     AppTextFormField(
                       hint: ' رقم للطوارئ',
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.phone,
                       controller: controller.emergency_numController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'الرقم  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
                     AppTextFormField(
                       hint: "شركة التأمين",
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.text,
                       controller: controller.insurance_companyController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
                     AppTextFormField(
                       hint: ' رقم التأمين',
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.phone,
                       controller: controller.insurance_numController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
-                    // AppTextFormField(
-                    //   hint: 'هل انت مدخن',
-                    //   icon: const Icon(Icons.perm_identity_outlined),
-                    //   keyboardType: TextInputType.phone,
-                    //   controller: controller.emergency_numController,
+                    DropdownButtonFormField<String>(
+                      padding: EdgeInsets.symmetric(vertical:2.vmin),
+                      isDense: true,
+                      decoration: InputDecoration(
+                        
+                        labelText: 'هل أنت مدخن؟',
+                        prefixIcon: const Icon(Icons.perm_identity_outlined),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        fillColor: Colors.blue.shade50,
+                        filled: true,
+                      ),
+                      value: controller.smokerController.text.isNotEmpty
+                          ? controller.smokerController.text
+                          : null,
+                      items: ['true', 'false'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value == 'true' ? 'نعم' : 'لا'),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        controller.smokerController.text = value!;
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
+                    ),
+                    DropdownButtonFormField<String>(
+                      padding: EdgeInsets.symmetric(vertical:2.vmin),
+                      isDense: true,
+                      decoration: InputDecoration(
+                        labelText: 'هل انتِ حامل؟',
+                        prefixIcon: const Icon(Icons.perm_identity_outlined),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.vmin),
+                        ),
+                        fillColor: Colors.blue.shade50,
+                        filled: true,
+                      ),
+                      value: controller.pregnantController.text.isNotEmpty
+                          ? controller.pregnantController.text
+                          : null,
+                      items: ['true', 'false'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value == 'true' ? 'نعم' : 'لا'),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        controller.pregnantController.text = value!;
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
+                    ),
+
+                    // DropdownMenuItem(
+                    //   child: AppTextFormField(
+                    //     hint: ' هل انتِ حامل؟',
+                    //     icon: const Icon(Icons.perm_identity_outlined),
+                    //     keyboardType: TextInputType.phone,
+                    //     controller: controller.smokerController,
+                    //   ),
                     // ),
-                    DropdownMenuItem(
-                      child: AppTextFormField(
-                      hint: ' هل انت مدخن؟',
-                      icon: const Icon(Icons.perm_identity_outlined),
-                      //keyboardType: TextInputType.phone,
-                      controller: controller.smokerController,
-                    ),
-                    ),
-                    DropdownMenuItem(
-                      child: AppTextFormField(
-                      hint: ' هل انتِ حامل؟',
-                      icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.phone,
-                      controller: controller.smokerController,
-                    ),
-                    ),
                     AppTextFormField(
                       hint: ' زمرة الدم',
                       icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.phone,
-                      controller: controller.emergency_numController,
+                      keyboardType: TextInputType.text,
+                      controller: controller.blood_typeController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
                     AppTextFormField(
                       hint: ' أمراض وراثية ',
                       icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.phone,
-                      controller: controller.emergency_numController,
+                      keyboardType: TextInputType.text,
+                      controller: controller.genetic_diseasesController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
                     AppTextFormField(
                       hint: ' أمراض مزمنة',
                       icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.phone,
-                      controller: controller.emergency_numController,
+                      keyboardType: TextInputType.text,
+                      controller: controller.chronic_diseasesController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
                     AppTextFormField(
                       hint: ' أدوية تسبب لك تحسس',
                       icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.phone,
-                      controller: controller.emergency_numController,
+                      keyboardType: TextInputType.text,
+                      controller: controller.drug_allergyController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
                     AppTextFormField(
                       hint: ' اَخر عملية ',
                       icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.phone,
-                      controller: controller.emergency_numController,
+                      keyboardType: TextInputType.text,
+                      controller: controller.last_operationsController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
                     AppTextFormField(
                       hint: ' أدوية حالية',
                       icon: const Icon(Icons.perm_identity_outlined),
-                      keyboardType: TextInputType.phone,
-                      controller: controller.emergency_numController,
+                      keyboardType: TextInputType.text,
+                      controller: controller.present_medicinesController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا الحقل  مطلوب';
+                        }
+                        onChanged:
+                        (_) => controller.isError.value = false;
+                      },
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(2.vmin),
-                      child:
-                      ElevatedButton(
-                        onPressed:() async{
-                          print("after valid");
-                                  if (formKey.currentState!.validate()) {
-                                    var success =
+                    Obx(
+                      () {
+                        return Padding(
+                          padding: EdgeInsets.all(2.vmin),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              side: controller.isError.value
+                                  ? BorderSide(color: Colors.red, width: 1.5)
+                                  : BorderSide.none,
+                            ),
+                            onPressed: () async {
+                              print("after valid");
+                              if (formKey.currentState!.validate()) {
+                                var success =
+                                
                                     await controller.registerfunction();
-                                    if (success == true) {
-                                      if (controller.userRole == 'patient') {
-                                        Get.offAllNamed(LoginScreen5.name);
-                                      } else {
-                                        Get.offAllNamed(LoginScreen5.name);
-                                      }
-                                    }
-                                    {
-                                      print("test");
-                                    }
-                                  }
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12.vmin,
-                              vertical: 3.vmin
+                                if (success == true) {
+                                  Get.offAllNamed(LoginScreen5.name);
+                                }
+                              }
+                              controller.isError.value = true;
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12.vmin, vertical: 3.vmin),
+                              child: Text("تسجيل حساب",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.spa,
+                                      fontWeight: FontWeight.bold)),
+                            ),
                           ),
-                          child: Text(
-                              "تسجيل حساب",
-                              style: TextStyle(
-                                color: Colors.white,
-                                  fontSize: 14.spa,
-                                  fontWeight: FontWeight.bold
-                              )),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 4.vmin,
                     ),
-                    // InkWell(
-                    //   onTap: (){
-                    //     Get.offAllNamed(InformationScreen.name);
-                    //   },
-                    //   child: Text.rich(
-                    //     TextSpan(
-                    //         text: "لديك حساب ",
-                    //         children: [
-                    //           TextSpan(
-                    //             text: "سجل دخول الان",
-                    //             style: TextStyle(
-                    //                 color: context.theme.primaryColor,
-                    //                 fontWeight: FontWeight.bold
-                    //             ),
-                    //           )
-                    //         ]
-                    //     ),
-                    //     style: TextStyle(
-                    //         fontSize: 13.spa
-                    //     ),
-                    //   ),
-                    // )
                   ],
                 ),
               ),
@@ -377,4 +531,3 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
     );
   }
 }
-

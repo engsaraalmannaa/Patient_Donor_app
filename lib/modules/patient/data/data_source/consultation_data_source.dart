@@ -1,3 +1,4 @@
+import 'package:Pationt_Donor/modules/patient/data/model/show_consultation_model.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -10,18 +11,35 @@ class ConsultationDataSource {
   static ApiHelper apiHelper = ApiHelper();
   static Future<List<ConsultationModel>> getAllConsultations() async {
     var response = await apiHelper.sendRequest(
-        endPoint: ApiConst.consultations,
+        endPoint: ApiConst.indexconsultations,
         method: RequestType.get,
         requiresAuth: true,
         context: Get.context!);
     //List<dynamic> data = response!['data'] ?? [""];
-    List<dynamic> data = response['data'];
-    if (data == null) {
-      throw Exception("لا يوجد استجابة من السيرفر");
-    }
-    List<ConsultationModel> consultations = data.map((e) => ConsultationModel.fromJson(e)).toList();
-    //log(response.data.length.toString());
-    //log(jsonEncode(response.data));
-    return consultations;
+    //List<ConsultationModel>? consultation;
+    List<dynamic> data = response['data'] ?? [];
+
+    return response != null
+        ? data.map((e) => ConsultationModel.fromJson(e)).toList()
+        : [];
+  }
+
+
+  static Future<List<Data>> ShowConsultation(
+      int id) async {
+    var response = await apiHelper.sendRequest(
+        endPoint: ApiConst.showconsultation(id),
+        method: RequestType.get,
+        requiresAuth: true,
+      
+        context: Get.context!);
+    ShowConsultationModel? showconsultation =ShowConsultationModel();
+
+        if (response != null && response["data"] != null) {
+    List<dynamic> rawList = response["data"];
+    return rawList.map((json) => Data.fromJson(json)).toList();
+  }
+
+  return [];
   }
 }

@@ -1,5 +1,14 @@
-
-
+import 'package:Pationt_Donor/core/core_components/pop_up.dart';
+import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
+import 'package:Pationt_Donor/modules/auth/presentation/screens/login.dart';
+import 'package:Pationt_Donor/modules/patient/data/data_source/profile_data_source.dart';
+import 'package:Pationt_Donor/modules/patient/data/model/consultation_model.dart';
+import 'package:Pationt_Donor/modules/patient/data/model/profile_model.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/controllers/home_controller.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/controllers/profile_controller.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/appointment_in_hold.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/my_appointments.dart.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,13 +21,18 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String? userName = CacheHelper.get('user_name');
+    final String? userEmail = CacheHelper.get('user_email');
+
+    //final controller =Get.put (HomeController());
+    //final ConsultationModel consultation = Get.put( ConsultationModel());
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration:
-            BoxDecoration(
+            decoration: BoxDecoration(
               color: ConstColors.darkBlue,
             ),
             child: Column(
@@ -35,19 +49,19 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'اسم المريض',
+                  userName ?? 'الاسم غير متوفر',
                   style: TextStyle(
-                    color: Colors.red,
-                    //color: Colors.white,
+                    //color: Colors.red,
+                    color: Colors.white,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  'doctor@email.com',
+                  userEmail ?? 'البريد غير متوفر',
                   style: TextStyle(
                     color: Colors.red,
-                   // color: Colors.white70,
+                    // color: Colors.white70,
                     fontSize: 14.sp,
                   ),
                 ),
@@ -55,51 +69,107 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.home,color: ConstColors.darkBlue,),
-            title: Text('مواعيد محجوزة',
-              style: TextStyle(color: ConstColors.darkBlue,
-                  fontWeight: FontWeight.w400),),
+            leading: Icon(
+              Icons.home,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'مواعيد محجوزة',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
             onTap: () {
-             // Get.offAllNamed(PortalScreen.name);
+              Get.toNamed(MyAppointments.name);
             },
           ),
           ListTile(
-            leading: Icon(Icons.person,color: ConstColors.darkBlue,),
-            title: Text('ملف شخصي',style: TextStyle(color: ConstColors.darkBlue,fontWeight: FontWeight.w400),),
-            onTap: () {
-             // Get.toNamed(ProfileScreen.name);
+            leading: Icon(
+              Icons.person,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'ملف شخصي',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
+            onTap: () async {
+              Get.toNamed(ProfilePatientScreen.name);
+
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings,color: ConstColors.darkBlue,),
-            title: Text('اعدادات',style: TextStyle(color: ConstColors.darkBlue,fontWeight: FontWeight.w400),),
+            leading: Icon(
+              Icons.settings,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'اعدادات',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
             onTap: () {
               //Get.toNamed(SettingsScreen.name);
             },
           ),
           ListTile(
-            leading: Icon(Icons.info,color: ConstColors.darkBlue,),
-            title: Text('حول التطبيق',style: TextStyle(color: ConstColors.darkBlue,fontWeight: FontWeight.w400),),
+            leading: Icon(
+              Icons.info,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'حول التطبيق',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
             onTap: () {
               // Handle logout
               Navigator.pop(context);
             },
-          ),ListTile(
-            leading: Icon(Icons.apartment,color: ConstColors.darkBlue,),
-            title: Text('حول المشفى',
-              style: TextStyle(color: ConstColors.darkBlue,fontWeight: FontWeight.w400),),
-
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.pending,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'مواعيد قيد الانتظار ',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
+            onTap: () {
+              // Handle logout
+              Get.toNamed(AppointmentInHold.name);
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.apartment,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'حول المشفى',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
             onTap: () {
               // Handle logout
               Navigator.pop(context);
             },
-          ),ListTile(
-            leading: Icon(Icons.logout,color: ConstColors.darkBlue,),
-            title: Text('تسجيل خروج',
-              style: TextStyle(color: ConstColors.darkBlue,fontWeight: FontWeight.w400),),
-            onTap: () {
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.logout,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'تسجيل خروج',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
+            onTap: () async {
+              await CacheHelper.clear();
+              Get.offAllNamed(LoginScreen5.name);
               // Handle logout
-              Navigator.pop(context);
             },
           ),
         ],

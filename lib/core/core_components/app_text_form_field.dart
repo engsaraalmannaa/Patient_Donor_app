@@ -12,15 +12,20 @@ class AppTextFormField extends StatefulWidget {
     this.keyboardType,
     this.controller,
     this.isPass = false,
-    this.validator
+    this.validator,
+     this.enabled,
+    this.isEditing = false,
   });
 
   final String? hint;
   final Widget? icon;
   final bool isPass;
+final bool isEditing;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
+  
+  final dynamic enabled;
 
   @override
   State<AppTextFormField> createState() => _AppTextFormFieldState();
@@ -32,6 +37,8 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isEditing;
+    
     return Padding(
       padding: EdgeInsets.symmetric(vertical:2.vmin),
       child: Directionality(
@@ -43,8 +50,8 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           controller: widget.controller,
           validator: widget.validator,
           cursorColor: Colors.black,
+           enabled: widget.enabled ?? true,
           decoration: InputDecoration(
-            // hintText: widget.hint,
             labelText: widget.hint,
             labelStyle: TextStyle(
               fontSize: 15.spa,
@@ -60,7 +67,6 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.vmin)
             ),
-            //fillColor: ConstColors.skyBlue,
             fillColor: Colors.blue.shade50,
             filled: true,
             prefixIcon: widget.icon,
