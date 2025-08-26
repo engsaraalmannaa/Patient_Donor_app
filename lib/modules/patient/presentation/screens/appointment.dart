@@ -67,64 +67,109 @@ class _AppointmentState extends State<Appointment> {
                       if (controller.isLoadingSpecialty.value) {
                         return const Center(child: CircularProgressIndicator());
                       }
-
                       return Column(
                         children: [
-                          SizedBox(
-                            height: 25.vmin,
-                          ),
-                          DropdownButtonFormField<String>(
-                            decoration:
-                                const InputDecoration(labelText: 'اختر التخصص'),
-                            value: controller.specialties.contains(
-                                    controller.selectedSpecialty.value)
-                                ? controller.selectedSpecialty.value
-                                : null,
-                            items: controller.specialties
-                                .map((s) =>
-                                    DropdownMenuItem(value: s, child: Text(s)))
-                                .toList(),
-                            onChanged: (val) async {
-                              if (val != null) {
-                                controller.selectedSpecialty.value = val;
-                                await controller.getDoctorsBySpecialty(val);
-                                if (controller.doctorsOfSelected    != null) {
-                                  controller.selectedDoctor.value = null;
-                                }
-                              }
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          if (controller.isLoadingDoctors.value)
-                            const Center(child: CircularProgressIndicator())
-                          else if (controller.doctorsOfSelected?.data?.isNotEmpty ?? false)
-                            DropdownButtonFormField<String>(
-                              decoration: const InputDecoration(
-                                  labelText: 'اختر الطبيب'),
-                              value: controller.selectedDoctor.value,
-                              
-                              items: (controller.doctorsOfSelected?.data ?? [])
-                                      .map((d) => DropdownMenuItem<String>(
-                                            value: d.id
-                                                ?.toString(), // <-- القيمة هي الـ id
-                                            child: Text(
-                                                "${d.firstName ?? ''} ${d.lastName ?? ''}"),
-                                          ))
-                                      .toList() ??
-                                  [],
-                             
-                              onChanged: (val) {
-                                if (val != null) {
-                                  print("${val}");
-                                  controller.selectedDoctor.value = val;
-                                  controller.onDoctorSelected(val);
-                                  print(
-                                      "the value :${controller.selectedDoctor.value}");
-                                  controller.onDoctorSelected(val);
-                                }
-                              },
-                            )
-                     ,
+                          
+                        DropdownButtonFormField<String>(
+                                        isExpanded: true,
+  decoration: InputDecoration(
+    labelText: "التخصص",
+    labelStyle: TextStyle(color: Colors.grey.shade700),
+    filled: true,
+    fillColor: Colors.blue.shade50,
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.grey.shade900, width: 0.5),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.grey.shade500, width: 0.5),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.red, width: 0.5),
+      borderRadius: BorderRadius.circular(12),
+    ),
+  ),
+  icon: const Icon(Icons.arrow_drop_down),
+
+                                        value: controller.specialties.contains(
+                                                controller
+                                                    .selectedSpecialty.value)
+                                            ? controller.selectedSpecialty.value
+                                            : null,
+                                        items: controller.specialties
+                                            .map((s) => DropdownMenuItem(
+                                                value: s, child: Text(s)))
+                                            .toList(),
+                                        onChanged: (val) async {
+                                          if (val != null) {
+                                            controller.selectedSpecialty.value =
+                                                val;
+                                            await controller
+                                                .getDoctorsBySpecialty(val);
+                                            if (controller.doctorsOfSelected !=
+                                                null) {
+                                              controller.selectedDoctor.value =
+                                                  null;
+                                            }
+                                          }
+                                        },
+                                      ),
+                                      SizedBox(height: 5.vmin),
+                                      if (controller.isLoadingDoctors.value)
+                                        const Center(
+                                            child: CircularProgressIndicator())
+                                      else if (controller.doctorsOfSelected
+                                              ?.data?.isNotEmpty ??
+                                          false)
+                                        DropdownButtonFormField<String>(
+                                          isExpanded: true,
+  decoration: InputDecoration(
+    labelText: "الطبيب",
+    labelStyle: TextStyle(color: Colors.grey.shade700),
+    filled: true,
+    fillColor: Colors.blue.shade50,
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.grey.shade900, width: 0.5),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.grey.shade500, width: 0.5),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.red, width: 0.5),
+      borderRadius: BorderRadius.circular(12),
+    ),
+  ),
+  icon: const Icon(Icons.arrow_drop_down),
+
+                                          value:
+                                              controller.selectedDoctor.value,
+                                          items: (controller.doctorsOfSelected
+                                                          ?.data ??
+                                                      [])
+                                                  .map((d) =>
+                                                      DropdownMenuItem<String>(
+                                                        value: d.id
+                                                            ?.toString(), // <-- القيمة هي الـ id
+                                                        child: Text(
+                                                            "${d.firstName ?? ''} ${d.lastName ?? ''}"),
+                                                      ))
+                                                  .toList() ??
+                                              [],
+                                          onChanged: (val) {
+                                            if (val != null) {
+                                              print("${val}");
+                                              controller.selectedDoctor.value =
+                                                  val;
+                                              controller.onDoctorSelected(val);
+                                              print(
+                                                  "the value :${controller.selectedDoctor.value}");
+                                              controller.onDoctorSelected(val);
+                                            }
+                                          },
+                                        ),
                           SizedBox(
                             height: 
                             20.vmin,

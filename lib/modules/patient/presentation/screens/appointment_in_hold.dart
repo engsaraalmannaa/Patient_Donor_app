@@ -6,18 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/information_screen2.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/show_consultations.dart';
 import '../../../../core/core_components/app_button.dart';
 import '../../../../core/core_components/app_text_form_field.dart';
 
 class AppointmentInHold extends StatefulWidget {
-   AppointmentInHold({super.key});
+  AppointmentInHold({super.key});
 
   static const name = '/myappointmentsinhold';
-  
+
   static final page = GetPage(
     name: name,
-    page: () =>  AppointmentInHold(),
+    page: () => AppointmentInHold(),
     //binding: LoginBinding(),
     // middlewares: [
     //   LoginMiddleware(),
@@ -28,7 +28,8 @@ class AppointmentInHold extends StatefulWidget {
 }
 
 class AppointmentInHoldState extends State<AppointmentInHold> {
-     AppointmentInHoldController controller = Get.put<AppointmentInHoldController>(AppointmentInHoldController());
+  AppointmentInHoldController controller =
+      Get.put<AppointmentInHoldController>(AppointmentInHoldController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,53 +42,55 @@ class AppointmentInHoldState extends State<AppointmentInHold> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            shape: Border.all(),
+           shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(3.vmin),
+              ),
+            ),
             leading: Padding(
               padding: EdgeInsets.only(right: 4.vmin),
               child: Image.asset("assets/images/logoo.png", width: 25.vmin),
             ),
-            title: Text("مواعيد قيد المعالجة",
+            title: Text("مواعيد قيد الإنتظار",
                 style:
                     TextStyle(fontSize: 14.spa, fontWeight: FontWeight.w600)),
           ),
           body: SafeArea(
               child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(5.vmin),
+              padding: EdgeInsets.all(2.vmin),
               child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                        GetBuilder<AppointmentInHoldController>(
-                          initState: (state) {
-                            controller.myAppointmentsinhold();
-                          },
-                          builder: (controller) {
-                            if (controller.isloading) {
-                              return Center(child: CircularProgressIndicator());
-                            }
-                            return SizedBox
-                            
-                            (
-                              child: RefreshIndicator(
-                                
-                                onRefresh: () async => controller.myAppointmentsinhold(),
-                                child: ListView.builder(
-                                  
-                                   shrinkWrap: true,
-                                    itemCount: controller.data?.length,
-                                    itemBuilder: (context, i) {
-                                      return AppointmentInHoldCard(
-                                        
-                                        model: controller.data![i],
-                                        index: i,
-                                      );
-                                    }),
-                              ),
-                            );
-                          },
+                  //SizedBox(height: 2.h),
+                  GetBuilder<AppointmentInHoldController>(
+                    initState: (state) {
+                      controller.myAppointmentsinhold();
+                    },
+                    builder: (controller) {
+                     
+                      if (controller.isloading) {
+                        return SizedBox(
+                          height: 500,
+                          child: Center(child: CircularProgressIndicator()));
+                      }
+                      return SizedBox(
+                        child: RefreshIndicator(
+                          onRefresh: () async =>
+                              controller.myAppointmentsinhold(),
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: controller.data?.length,
+                              itemBuilder: (context, i) {
+                                return AppointmentInHoldCard(
+                                  model: controller.data![i],
+                                  index: i,
+                                );
+                              }),
                         ),
-                
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

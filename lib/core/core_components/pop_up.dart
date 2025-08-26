@@ -42,6 +42,8 @@ class GlobalTextController extends GetxController {
     controller.dispose();
     super.onClose();
   }
+
+  
 }
 
 

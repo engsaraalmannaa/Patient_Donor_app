@@ -29,16 +29,15 @@ class Consultations extends StatefulWidget {
 }
 
 class ConsultationsState extends State<Consultations> {
-    String? replyText;
+  String? replyText;
 
-    final GlobalKey<FormState> key = GlobalKey();
+  final GlobalKey<FormState> key = GlobalKey();
 
   String? selectedValue;
   final WriteConsultationController controller =
       Get.put(WriteConsultationController());
   String? selectedSpecialtyName;
 
- 
   @override
   void initState() {
     super.initState();
@@ -48,6 +47,7 @@ class ConsultationsState extends State<Consultations> {
       replyText = savedReply;
     }
   }
+
   Widget build(
     BuildContext context,
   ) {
@@ -59,97 +59,92 @@ class ConsultationsState extends State<Consultations> {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          body:
-              // Obx(() {
-              //   if (controller.isLoading.value) {
-              //     return const Center(child: CircularProgressIndicator());
-              //   }
-              //   List<String> specialtyNames = controller.specialties
-              //     .map((specialty) => specialty.name ?? '')
-              //     .toList();
-              //   return
-              Form(
-
-                key: key,
-                child:  Padding(
-                            padding: EdgeInsets.all(10.vmin),
-                            child: SingleChildScrollView(
+          body: Form(
+            key: key,
+            child: Padding(
+              padding: EdgeInsets.all(8.vmin),
+              child: SingleChildScrollView(
                 child: GetBuilder<WriteConsultationController>(
                   init: WriteConsultationController(),
                   initState: (state) {
                     controller.getspecialety();
                   },
-                  builder: (controller) => controller.isloading
-                      ? SizedBox(
-                          height: 300,
-                          width: double.infinity,
-                          child: Center(child: CircularProgressIndicator()))
-                      : Column(
-                          children: [
-                            CustomDropdown(
-                              items: controller.specialties,
-                              hint1: "اختر التخصص",
-                              onChanged: (val) {
-                                log("$val");
-                                final matchedSpecialty = controller
-                                    .specialtiesModel?.data
-                                    ?.firstWhereOrNull((e) => e.name == val);
-                
-                                if (matchedSpecialty != null) {
-                                  controller.selectedSpecialtyId =
-                                      matchedSpecialty.id.toString();
-                                  controller.specialty_id =
-                                      matchedSpecialty.id.toString();
-                                  log(controller.specialty_id.toString());
-                                } else {
-                                  controller.selectedSpecialtyId = null;
-                                  controller.specialty_id = null;
-                                  showSnackBar("لم يتم العثور على التخصص المحدد");
-                                }
-                                
-                              },
-                              showSecondDropdown: false,
-                            ),
-                            SizedBox(
-                              height: 10.vmin,
-                            ),
-                            AppTextFormField1(
-                              hint: "اكتب استشارتك",
-                              controller: controller.question,
-                              minlines: 4,
-                            ),
-                            SizedBox(
-                              height: 10.vmin,
-                            ),
-                            controller.isloading_write_Consltation
-                                  ? CircularProgressIndicator()
-                                  : AppButton(
-                                text: "تم",
-                                ontap: () async {
-                                        if (key.currentState!.validate()) {
-                                          await controller.Writeconsultations();
-                                          await CacheHelper.set(
-                                            key:
-                                                'consultation_reply_${controller.question}',
-                                            value: controller.question.text,
-                                          );
-                                          setState(() {
-                                            replyText = controller.question.text;
-                                            controller.question.clear();
-                                          });
-                                        }
-                                      },
-                                // ontap: () {
-                                //   globalController.submitAndClear(context,
-                                //       " تم كتابة الاستشارة,سيتم الرد في اقرب وقت");
-                                // }
-                                )
-                          ],
-                        ),
-                ),
-                            ),
+                  builder: (controller) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:controller.isloading
+    ?  SizedBox(
+      height: 500,
+        //width: double.infinity,
+      child:
+       Center(child: CircularProgressIndicator()))
+    :  Column(
+                        children: [
+                          CustomDropdown(
+                            items: controller.specialties,
+                            hint1: "اختر التخصص",
+                            onChanged: (val) {
+                              log("$val");
+                              final matchedSpecialty = controller
+                                  .specialtiesModel?.data
+                                  ?.firstWhereOrNull((e) => e.name == val);
+
+                              if (matchedSpecialty != null) {
+                                controller.selectedSpecialtyId =
+                                    matchedSpecialty.id.toString();
+                                controller.specialty_id =
+                                    matchedSpecialty.id.toString();
+                                log(controller.specialty_id.toString());
+                              } else {
+                                controller.selectedSpecialtyId = null;
+                                controller.specialty_id = null;
+                                showSnackBar("لم يتم العثور على التخصص المحدد");
+                              }
+                            },
+                            showSecondDropdown: false,
                           ),
+                          SizedBox(
+                            height: 10.vmin,
+                          ),
+                          AppTextFormField1(
+                            hint: "اكتب استشارتك",
+                            controller: controller.question,
+                            minlines: 4,
+                          ),
+                          SizedBox(
+                            height: 10.vmin,
+                          ),
+                          controller.isloading_write_Consltation
+                              ? CircularProgressIndicator()
+                              : AppButton(
+                                  text: "تم",
+                                  ontap: () async {
+                                    if (key.currentState!.validate()) {
+                                      await controller.Writeconsultations();
+                                      await CacheHelper.set(
+                                        key:
+                                            'consultation_reply_${controller.question}',
+                                        value: controller.question.text,
+                                      );
+                                      setState(() {
+                                        replyText = controller.question.text;
+                                        controller.question.clear();
+                                      });
+                                    }
+                                  },
+                                  // ontap: () {
+                                  //   globalController.submitAndClear(context,
+                                  //       " تم كتابة الاستشارة,سيتم الرد في اقرب وقت");
+                                  // }
+                                )
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
+            ),
+          ),
         ),
       ],
     );

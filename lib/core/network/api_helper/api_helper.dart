@@ -43,6 +43,7 @@ class ApiHelper {
     bool isFormData = false,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? body,
+    dynamic? body2,
     bool requiresAuth = false,
     required BuildContext context,
     T Function(dynamic data)? fromJson,
@@ -51,7 +52,7 @@ class ApiHelper {
 // Initialize headers
       final requestHeaders = {
         accept: applicationJson,
-        contentType: applicationJson,
+        contentType: isFormData ? 'multipart/form-data' : applicationJson,
         'ngrok-skip-browser-warning': 'true',
         ...?headers,
       };
@@ -81,28 +82,28 @@ class ApiHelper {
         case RequestType.post:
           response = await _dio.post(
             fullUrl,
-            data: isFormData ? dio.FormData.fromMap(body!) : body,
+            data: isFormData ? body2 : body,
             options: options,
           );
           break;
         case RequestType.put:
           response = await _dio.put(
             fullUrl,
-            data: isFormData ? dio.FormData.fromMap(body!) : body,
+            data: isFormData ? body2: body,
             options: options,
           );
           break;
         case RequestType.delete:
           response = await _dio.delete(
             fullUrl,
-            data: isFormData ? dio.FormData.fromMap(body!) : body,
+            data: isFormData ? body2 : body,
             options: options,
           );
           break;
         case RequestType.patch:
           response = await _dio.patch(
             fullUrl,
-            data: isFormData ? dio.FormData.fromMap(body!) : body,
+            data: isFormData ? body2 : body,
             options: options,
           );
           break;

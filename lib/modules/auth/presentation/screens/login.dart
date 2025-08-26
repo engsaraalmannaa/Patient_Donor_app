@@ -16,7 +16,7 @@ import '../controllers/login/login_middleware.dart';
 
 class LoginScreen5 extends GetView<LoginController> {
   String? role;
-    String? userRole = CacheHelper.get("user_role");
+  String? userRole = CacheHelper.get("user_role");
 
   LoginScreen5({super.key, this.role});
 
@@ -30,7 +30,7 @@ class LoginScreen5 extends GetView<LoginController> {
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    controller.userRole = role?? "patient";
+    controller.userRole = role ?? "patient";
     print("controller is: ${controller.emailController}"); // فحص
     return Stack(
       children: [
@@ -111,7 +111,10 @@ class LoginScreen5 extends GetView<LoginController> {
                                   if (formKey.currentState!.validate()) {
                                     var success =
                                         await controller.loginfunction();
+                                    
+                                        
                                     if (success == true) {
+                                     
                                       if (controller.userRole == 'patient') {
                                         Get.offAllNamed(HomeScreen.name);
                                       } else {

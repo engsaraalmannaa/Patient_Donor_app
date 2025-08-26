@@ -1,40 +1,114 @@
 import 'package:Pationt_Donor/core/core_components/pop_up.dart';
 import 'package:Pationt_Donor/modules/patient/data/data_source/disease_data_source.dart';
+import 'package:Pationt_Donor/modules/patient/data/model/doctorbyspecialety_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class AddDiseaseController extends GetxController {
+  final isLoadingSpecialty = false.obs;
+  final isLoadingDoctors = false.obs;
+  bool isSubmitting = false;
+
+  // بيانات
+  final specialties = <String>[].obs;
+  DoctorBySpecialetyModel? doctorsOfSelected;
+
+  // خرائط ربط اسم ↔ id
+  final Map<String, String> specialtyNameToId = {};
+  final Map<String, String> doctorNameToId = {};
+
   String? specialty_id;
-  String? doctor_id;
+  String? doctorId;
+  final selectedSpecialty = RxnString(); // أو RxString('')
+  final selectedDoctor = RxnString(); // أو RxString('')
+  @override
+  void onInit() {
+    super.onInit();
+    // ممكن تستدعي getSpecialties() من هون بدل initState في الواجهة
+  }
+
+  Future<void> getSpecialties() async {
+    try {
+      isLoadingSpecialty.value = true;
+
+      final res = await DiseaseDataSource.getAllSpecialety();
+      specialties
+        ..clear()
+        ..addAll(res.data?.map((e) {
+              specialtyNameToId[e.name ?? ''] = e.id.toString();
+              return e.name ?? '';
+            }).where((e) => e.isNotEmpty) ??
+            []);
+    } catch (e) {
+      Get.snackbar("خطأ", "حدث خطأ أثناء تحميل التخصصات");
+    } finally {
+      isLoadingSpecialty.value = false;
+    }
+  }
+
+  Future<void> getDoctorsBySpecialty(String specialtyName) async {
+    final id = specialtyNameToId[specialtyName];
+    if (id == null) {
+      Get.snackbar("خطأ", "لم يتم العثور على معرف التخصص");
+      return;
+    }
+    specialty_id = id;
+
+    isLoadingDoctors.value = true;
+    try {
+      final res = await DiseaseDataSource.getAlldoctorsbyspecialety(id: id);
+      // doctorsOfSelected = null;
+      // doctorNameToId.clear();
+      if ((res.data?.isEmpty ?? true)) {
+        doctorsOfSelected = null; // هذا يعني لا تعرض الدروب داون
+        showSnackBar("لا يوجد أطباء لهذا التخصص");
+      } else {
+        doctorsOfSelected = res;
+      }
+      selectedDoctor.value = null;
+      doctorId = null;
+    } catch (e) {
+      Get.snackbar("خطأ", "حدث خطأ أثناء تحميل الأطباء");
+    } finally {
+      isLoadingDoctors.value = false;
+    }
+  }
+
+  void onDoctorSelected(String doctorIdSelected) {
+    // selectedDoctor.value = doctorName;
+    // doctor_id = doctorNameToId[doctorName];
+    doctorId = doctorIdSelected;
+    print("✅ تم اختيار الطبيب id = $doctorId");
+    //print("✅ تم اختيار الطبيب: $doctorName => id = test");
+  }
+
   final TextEditingController patient_status = TextEditingController();
   final TextEditingController available_money = TextEditingController();
   final TextEditingController urgency_level = TextEditingController();
   final TextEditingController final_time = TextEditingController();
-  //String? idConsltation;
-    String patient_statusreplytext = "";
+  
+  String patient_statusreplytext = "";
   String available_money_replytext = "";
   String urgency_levelreplyText = "";
   String final_timereplyText = "";
-
-
-
   bool isloading = false;
+
   Future<void> add_disease() async {
     isloading = true;
     update();
- try {
-
-   await DiseaseDataSource.adddisease(
-    specialty_id:specialty_id! ,
-     doctor_id: doctor_id!,
-      patient_status: patient_status.text,
-       //available_money: available_money.text,
-       available_money: int.tryParse(available_money.text) ?? 0,
-        urgency_level: '',
-         final_time: ''
-       
-      );
+    try {
+      await DiseaseDataSource.adddisease(
+          specialty_id: specialty_id!,
+          doctor_id: doctorId!,
+          patient_status: patient_status.text,
+         
+          available_money: int.tryParse(available_money.text) ?? 0,
+          urgency_level: urgency_level.text,
+          final_time: final_time.text);
       patient_statusreplytext = patient_status.text;
       available_money_replytext = available_money.text;
       final_timereplyText = final_time.text;
@@ -44,36 +118,11 @@ class AddDiseaseController extends GetxController {
       available_money.clear();
       final_time.clear();
       urgency_level.clear();
-      showSnackBar("تم إرسال الحالة بنجاح");
+      showSnackBar("تم إرسال الطلب بنجاح");
     } catch (e) {
-      showSnackBar("فشل في إرسال الحالة");
+      showSnackBar("فشل في إرسال الطلب");
     }
     isloading = false;
     update();
-      // final int specialtyId = int.tryParse(specialety_idController.text) ?? 0;
-      // final int doctorId = int.tryParse(doctor_idController.text) ?? 0;
-       //final int availableMoney = int.tryParse(available_moneyController.text) ?? 0;
-
-      // if (specialtyId == 0 || doctorId == 0 || availableMoney == 0) {
-      //   showSnackBar("تحققي من القيم الرقمية"); // توجهي رسالة للمستخدم
-      //   return;
-      // }
-
-    // final result = await DiseaseDataSource.adddisease(
-    //     specialty_id: specialtyId,
-    //     doctor_id: doctorId,
-    //     urgency_level:urgency_levelController.text,
-    //     available_money: availableMoney,
-    //     final_time: final_timeController.text,
-    //     patient_status: patient_statusController.text,
-    //     ),
-    // data = await DiseaseDataSource.adddisease();
-    // print(data?.length.toString());
-    // isloading = false;
-    // update();
-    // showSnackBar("تم الإرسال بنجاح ✅");
-    // } catch (e) {
-    //   showSnackBar("فشل في الإرسال: $e");
-    // }
   }
 }

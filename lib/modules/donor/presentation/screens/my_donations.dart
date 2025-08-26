@@ -1,4 +1,5 @@
 import 'package:Pationt_Donor/core/core_components/container2.dart';
+import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/controllers/my_donations_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,41 +8,48 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class MyDonations extends StatelessWidget {
+class MyDonations extends StatefulWidget {
   MyDonations({super.key});
   static const name = '/my_donations';
   static final page = GetPage(
     name: name,
     page: () => MyDonations(),
   );
-  final controller = Get.put((MyDonationsController()));
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  State<MyDonations> createState() => _MyDonationsState();
+}
+
+class _MyDonationsState extends State<MyDonations> {
+  //final controller = Get.put((MyDonationsController()));
+    MyDonationsController controller = Get.put<MyDonationsController>(MyDonationsController());
+
+  //final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.white,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.white30, Colors.black26],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-          ),
+        // Container(
+        //   width: double.infinity,
+        //   height: double.infinity,
+        //   color: Colors.white,
+        //   child: Container(
+        //     decoration: BoxDecoration(
+        //       gradient: LinearGradient(
+        //         colors: [Colors.white30, Colors.black26],
+        //         begin: Alignment.topCenter,
+        //         end: Alignment.bottomCenter,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+         Wallpaper(
+          num: 0.3,
+          image: "assets/images/pattern.png",
         ),
-        GetBuilder<MyDonationsController>(
-            init: MyDonationsController(),
-            builder: (controller) {
-              return controller.isloading
-                  ? Center(child: CircularProgressIndicator())
-                  : Scaffold(
-                      key: scaffoldKey,
+       Scaffold(
+                      
                       backgroundColor: Colors.transparent,
                       appBar: AppBar(
                         automaticallyImplyLeading: false,
@@ -59,46 +67,41 @@ class MyDonations extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward))
                         ],
                       ),
-                    body: Form( key: key,
-                    
-                    
-                    child: SingleChildScrollView(
-                      child: Padding(
-        padding: EdgeInsets.all(3.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 2.h),
-            Expanded(
-              child: GetBuilder<MyDonationsController>(
-                initState: (state) {
-                  controller.Donations();
-                },
-                builder: (controller) {
-                  if (controller.isloading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return RefreshIndicator(
-                    onRefresh: () async => controller.Donations(),
-                    child: ListView.builder(
-                        itemCount: controller.data?.length,
-                        itemBuilder: (context, i) {
-                          return Container2(
-                            ontap: () => {},
-                            model: controller.data![i],
-                            index: i,
-                          );
-                        }),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-                    ), ),
-                    );
-            }),
+                    body: Padding(
+                            padding: EdgeInsets.all(0.5.vmin),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //SizedBox(height: 2.h),
+                                Expanded(
+                                  child: GetBuilder<MyDonationsController>(
+                          
+                                    builder: (controller) {
+                                      if (controller.isloading) {
+                                        return Center(child: CircularProgressIndicator());
+                                      }
+                                      return RefreshIndicator(
+                                        onRefresh: () async => controller.Donations(),
+                                        child:controller.data == null || controller.data!.isEmpty
+                        ? Center(child: Text(" لا يوجد حالات تم التبرع بها "))
+                        : ListView.builder(
+                      itemCount: controller.data?.length,
+                      itemBuilder: (context, i) {
+                        return Container2(
+                         
+                          model: controller.data![i],
+                          index: i,
+                        );
+                      }),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                    )
+            
       ],
     );
   }

@@ -1,14 +1,14 @@
 class ShowDiseaseModel {
   int? status;
   String? message;
-  Data? data;
+  Data1? data;
 
   ShowDiseaseModel({this.status, this.message, this.data});
 
   ShowDiseaseModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data1.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,7 +22,7 @@ class ShowDiseaseModel {
   }
 }
 
-class Data {
+class Data1 {
   int? id;
   int? specialtyId;
   int? doctorId;
@@ -38,7 +38,7 @@ class Data {
   String? updatedAt;
   int? isShown;
 
-  Data(
+  Data1(
       {this.id,
       this.specialtyId,
       this.doctorId,
@@ -54,7 +54,7 @@ class Data {
       this.updatedAt,
       this.isShown});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Data1.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     specialtyId = json['specialty_id'];
     doctorId = json['doctor_id'];

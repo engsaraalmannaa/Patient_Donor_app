@@ -57,12 +57,34 @@ class CustomDropdownState extends State<CustomDropdown> {
     });
   }
 
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      //labelText: label,
+      labelStyle: TextStyle(color: Colors.grey.shade700),
+      filled: true,
+      fillColor: Colors.blue.shade50,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade900, width: 0.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade500, width: 0.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.red, width: 0.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         // القائمة المنسدلة الأولى (البلدان)
-        DropdownButton<String>(
+        DropdownButtonFormField<String>(
+          decoration: _inputDecoration(widget.hint1),
           hint: Text(widget.hint1) ,
           value: selectedSpecialety != null && widget.items.contains(selectedSpecialety)
               ? selectedSpecialety

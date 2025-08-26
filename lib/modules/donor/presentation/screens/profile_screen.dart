@@ -70,14 +70,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       appBar: PreferredSize(
                         preferredSize: Size(double.infinity, 10.h),
                         child: AppBar(
+                          title: Text("الملف الشخصي",style: TextStyle(fontSize: 13.spa),),
+                          centerTitle: true,
                           leading: IconButton(
                             icon: Icon(
                               Icons.arrow_back,
-                              size: 10.vmin,
+                              size: 8.vmin,
                               color: Colors.white,
                             ),
                             onPressed: () {
                               Navigator.pop(context);
+                              
                             },
                           ),
                           actions: [
@@ -85,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               icon: Icon(
                                 isEditing ? Icons.save : Icons.edit,
                                 color: Colors.white,
-                                size: 10.vmin,
+                                size: 8.vmin,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -98,7 +101,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             ),
                           ],
-                          backgroundColor: ConstColors.darkBlue,
+                          backgroundColor: ConstColors.darkBlue,shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(3.vmin),
+              ),
+            ),
                         ),
                       ),
                       body: Form(
@@ -118,57 +125,103 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   hint: " الاسم الاول",
                                   keyboardType: TextInputType.text,
                                   controller: controller.first_name,
-                                  isEditing: isEditing,
-                                
+                                  readOnly: true,
+                                  fillColor: isEditing
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
                                 ),
                                 AppTextFormField(
                                   hint: " اسم الاب",
+                                  readOnly: true,
+                                  fillColor: isEditing
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
                                   keyboardType: TextInputType.text,
                                   controller: controller.father_name,
                                 ),
                                 AppTextFormField(
                                   hint: "  الاسم الاخير",
+                                  readOnly: true,
+                                  fillColor: isEditing
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
                                   keyboardType: TextInputType.text,
                                   controller: controller.last_name,
-                                 
                                 ),
                                 AppTextFormField(
                                   hint: "الايميل",
+                                  
                                   isEditing: isEditing,
                                   controller: controller.email,
-                                        keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.emailAddress,
+                                  readOnly: true,
+                                    fillColor: isEditing
+                                        ? Colors.grey.shade400
+                                        : Colors.blue.shade50,
                                 ),
                                 AppTextFormField(
                                   hint: "الهاتف",
+                                  readOnly: !isEditing,
                                   isEditing: isEditing,
                                   controller: controller.phone,
-                                   keyboardType: TextInputType.phone,
+                                  keyboardType: TextInputType.phone,
+                                  fillColor: Colors.blue.shade50,
                                 ),
                                 AppTextFormField(
                                   hint: " الجنس",
+                                  readOnly: true,
+                                  fillColor: isEditing
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
                                   keyboardType: TextInputType.text,
-                                  controller: controller.gender,
-                                      ),
+                                  controller: TextEditingController(
+                                    text: controller.gender.text
+                                                .toLowerCase() ==
+                                            "female"
+                                        ? "أنثى"
+                                        : controller.gender.text
+                                                    .toLowerCase() ==
+                                                "male"
+                                            ? "ذكر"
+                                            : controller.gender
+                                                .text, // لو فيه أي نص آخر يظل كما هو
+                                  ),
+                                ),
                                 AppTextFormField(
                                   hint: " تاريخ الميلاد",
+                                  readOnly: true,
+                                  fillColor: isEditing
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
                                   keyboardType: TextInputType.text,
                                   controller: controller.birth_data,
-                                   ),
+                                ),
                                 AppTextFormField(
                                   hint: " البلد",
+                                  readOnly: true,
+                                  fillColor: isEditing
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
                                   keyboardType: TextInputType.text,
                                   controller: controller.country,
-                                    ),
+                                ),
                                 AppTextFormField(
                                   hint: " العنوان",
+                                  readOnly: !isEditing,
+                                  isEditing: isEditing,
+                                  fillColor: Colors.blue.shade50,
                                   keyboardType: TextInputType.text,
                                   controller: controller.address,
-                                  ),
+                                ),
                                 AppTextFormField(
                                   hint: " الرقم الوطني",
+                                  readOnly: true,
+                                  fillColor: isEditing
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
                                   keyboardType: TextInputType.text,
                                   controller: controller.national_number,
-                                 ),
+                                ),
                                 if (isEditing)
                                   controller.isloading
                                       ? CircularProgressIndicator()
@@ -181,6 +234,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   .validate()) {
                                                 await controller
                                                     .updateprofile();
+     
+
                                                 showSnackBar(
                                                     "تم حفظ التعديلات");
                                               }

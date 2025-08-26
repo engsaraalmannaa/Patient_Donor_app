@@ -23,7 +23,23 @@ bool isloading = false;
     isloading = false;
     update();
   }
-
+bool isLoadingDel = false;
+  Future<void> deleteappointmentrequist(int id) async {
+    print('>> بدء حذف الموعد id: $id');
+    isLoadingDel = true ;
+    update();
+    final result = await AppointmentInHoldDataSource.deletrappointrequist(id: id);
+    print(' نتيجة الحذف: $result'); 
+    isLoadingDel = false ;
+    update();
+   if (result) {
+    await myAppointmentsinhold(); // جلب المواعيد من جديد
+    
+  } else {
+    print(' فشل الحذف!');
+  }
+    update();
+  }
 
   
 }

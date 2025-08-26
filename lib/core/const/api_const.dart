@@ -1,8 +1,8 @@
 import 'package:Pationt_Donor/modules/patient/presentation/screens/appointment.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/show_consultation.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/show_my_consultation.dart';
 
 class ApiConst {
-  static const baseUrl = 'https://99cfc0ea053c.ngrok-free.app';
+  static const baseUrl = 'https://96b05ff5d8d1.ngrok-free.app';
 
   static const loginpatient = '/api/patient/login';
   static const logindonor = '/api/donor/login';
@@ -19,6 +19,8 @@ class ApiConst {
 
 
   static const appointmentrequest = "/api/patient/appointment-requests/store";
+  static deleteappointmentrequest({required int id}) =>
+      '/api/patient/appointment-requests/$id';
   static const specialties = '/api/patient/specialties';
   static docbyspecialety({required String id}) =>
       '/api/patient/doctorbyspeciality/$id';
@@ -39,6 +41,16 @@ class ApiConst {
   
 
   static const storedisease = "/api/patient/diseases/store";
+  static const indexdisease = "/api/patient/diseases/";
+
+
+  static const indexmyconsultation = "/api/patient/consultations/my-consultations";
+  static deletemyconsultation(int id) => '/api/patient/consultations/delete/$id';
+  static updatemyconsultation(int id) => '/api/patient/consultations/update/$id';
+
+
+
+
 
 // donor
   static const updateprofile = '/api/donor/profile';
@@ -48,11 +60,17 @@ class ApiConst {
 
 
   static const indexmydonation = '/api/donor/donations';
+  static showmydonation(int id) => '/api/donor/donations/$id';
+  static editmydonation(int id) => '/api/donor/donations/update/$id';
+
 
 
 
   
   static const indexdiseas = '/api/donor/diseases/';
   static showdisease(int id) => '/api/donor/diseases/$id';
+
+  static const postdonation = '/api/donor/donations/store/';
+
 
 }

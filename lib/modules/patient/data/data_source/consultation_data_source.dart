@@ -15,8 +15,6 @@ class ConsultationDataSource {
         method: RequestType.get,
         requiresAuth: true,
         context: Get.context!);
-    //List<dynamic> data = response!['data'] ?? [""];
-    //List<ConsultationModel>? consultation;
     List<dynamic> data = response['data'] ?? [];
 
     return response != null
@@ -25,21 +23,20 @@ class ConsultationDataSource {
   }
 
 
-  static Future<List<Data>> ShowConsultation(
-      int id) async {
+  static Future<ShowConsultationModel?> ShowConsultation(
+    int id,
+  ) async {
     var response = await apiHelper.sendRequest(
         endPoint: ApiConst.showconsultation(id),
         method: RequestType.get,
         requiresAuth: true,
-      
         context: Get.context!);
-    ShowConsultationModel? showconsultation =ShowConsultationModel();
+    ShowConsultationModel? showconsultation = ShowConsultationModel();
 
-        if (response != null && response["data"] != null) {
-    List<dynamic> rawList = response["data"];
-    return rawList.map((json) => Data.fromJson(json)).toList();
-  }
+    if (response != null && response["data"] != null) {
+      return ShowConsultationModel.fromJson(response);
+    }
 
-  return [];
+    return null;
   }
 }

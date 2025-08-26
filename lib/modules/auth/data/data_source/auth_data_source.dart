@@ -12,7 +12,7 @@ import '../../../patient/presentation/screens/home_screen.dart';
 
 class AuthDataSource {
   static ApiHelper apiHelper = ApiHelper();
-  static Future<bool?> login(
+  static Future<Map<String, dynamic>?> login(
       String email, String password, String endpoint, String userRole) async {
     print(email ?? "000");
     print(password ?? "000");
@@ -37,12 +37,12 @@ class AuthDataSource {
       // await CacheHelper.set(
       //     key: 'user_id', value: response['data']['user_id'].toString());
 
-      return true;
+      return response;
     }
     Get.snackbar(
         "خطأ في تسجيل الدخول", response?["message"] ?? "فشل تسجيل الدخول",
         backgroundColor: Colors.red, colorText: Colors.white);
-    return false;
+    return null;
   }
 
   static Future<Map<String, dynamic>?> registerpatient(

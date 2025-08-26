@@ -23,7 +23,9 @@ import '../../../auth/presentation/controllers/login/login_binding.dart';
 import 'notifi_d_screen.dart';
 
 class DHomeScreen extends StatefulWidget {
-  const DHomeScreen({super.key,});
+  const DHomeScreen({
+    super.key,
+  });
 
   static const name = '/dhome';
   static final page = GetPage(
@@ -40,47 +42,36 @@ class DHomeScreen extends StatefulWidget {
 }
 
 class DHomeScreenState extends State<DHomeScreen> {
-  final TextEditingController name = TextEditingController();
-  final TextEditingController email = TextEditingController();
-  final TextEditingController phone = TextEditingController();
-  final TextEditingController id = TextEditingController();
-  late String userName;
-  late String userEmail;
-  final controller = Get.put((HomeControllerd()));
-  //get email => null;
 
+  final controller = Get.put((HomeControllerd()));
+  
   @override
   void initState() {
     super.initState();
-    
-    userName = CacheHelper.get("user_name") ?? "";
-    userEmail = CacheHelper.get("user_email") ?? "";
 
-    name.text = userName;
-    email.text = userEmail;
-    phone.text = CacheHelper.get("user_phone") ?? "";
-    id.text = CacheHelper.get("user_id") ?? "";
-
-    print("ID: ${id.text}");
-    print("Email: ${userEmail}");
-  }
+    }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-//     String? name = CacheHelper.get<String>('user_name');
-// String? email = CacheHelper.get<String>('user_email');
-    // عدّل هذا الرقم لاحقاً ليأتي من مزوّد بيانات الإشعارات عندك
+    final String? email1 = CacheHelper.get("email");
+
+    final String? email = CacheHelper.get("email");
+    final String? first_name = CacheHelper.get("first_name");
+    final String? last_name = CacheHelper.get("last_name");
+    final String? father_name = CacheHelper.get("father_name");
+String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
+
     int notificationCount = 4;
 
     return Stack(children: [
       Wallpaper(image: "assets/images/pattern.png", num: 0.3),
       Scaffold(
-          drawer: Drawer(
+          endDrawer: Drawer(
             backgroundColor: Colors.white,
             clipBehavior: Clip.antiAlias,
-            width: 380.vmin,
+            width: 90.w,
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
@@ -100,25 +91,25 @@ class DHomeScreenState extends State<DHomeScreen> {
                           child: Icon(
                             Icons.person,
                             size: 30,
-                            color: Colors.teal,
+                            color: ConstColors.darkBlue,
                           ),
                         ),
                         SizedBox(height: 10),
                         Text(
-                           "",
+                          fullName.trim().isEmpty ? 'الاسم غير متوفر' : fullName,
 
-                          ///name ?? 'الاسم',
+                      
                           style: TextStyle(
-                            color: Colors.red,
+                            color: Colors.white70,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          "",
-                          //DHomeScreen.email ?? 'الاسم',
+                           email ?? 'البريد غير متوفر',
+                        
                           style: TextStyle(
-                            color: Colors.red,
+                            color: Colors.white70,
                             fontSize: 14.sp,
                           ),
                         ),
@@ -164,61 +155,14 @@ class DHomeScreenState extends State<DHomeScreen> {
                   title: Text('تسجيل الخروج ',
                       style: TextStyle(color: ConstColors.darkBlue)),
                   onTap: () async {
-                    String? role =
-                        CacheHelper.get("user_role"); // احفظيها مؤقتاً
-                    await CacheHelper.clear();
-                    if (role != null)
-                      await CacheHelper.set(key: "user_role", value: role);
+                       await CacheHelper.clear();
+                    Get.offAllNamed(LoginScreen5.name);
 
-                    //   await CacheHelper.clear();
-                    // Get.toNamed(
-                    //   LoginScreen5.name,
-                    //   arguments: ["role"] == ["donor"],
-                    // ); // يغلق الدراور
 
+                  
                     Get.to(() => LoginScreen5(role: 'donor'));
                   },
                 ),
-                ListTile(
-                    leading:
-                        Icon(Icons.emoji_emotions, color: ConstColors.darkBlue),
-                    title: Text(
-                      'قيَم التطبيق',
-                      style: TextStyle(color: ConstColors.darkBlue),
-                    ),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: Text('تقييم التطبيق'),
-                          content: Text('هل ترغب في تقييم التطبيق الآن؟'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('لاحقاً'),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                Navigator.pop(context);
-                                final url = Uri.parse(
-                                    'https://play.google.com/store/apps/details?id=com.example.yourapp'); // غيّر الرابط لرابط تطبيقك
-                                if (await canLaunchUrl(url)) {
-                                  await launchUrl(url,
-                                      mode: LaunchMode.externalApplication);
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('تعذر فتح رابط المتجر')),
-                                  );
-                                }
-                              },
-                              child: const Text('نعم'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                // يغلق الدراور
               ],
             ),
           ),
@@ -239,57 +183,11 @@ class DHomeScreenState extends State<DHomeScreen> {
                 padding: EdgeInsets.only(left: 3.vmin, right: 1.vmin),
                 child: Row(
                   children: [
-                    IconButton(
-                      icon: Icon(Icons.ac_unit, size: 25),
-                      onPressed: () {
-                        showLocalNotification(
-                          title: "إشعار جديد",
-                          body: "مرحبا! هذا إشعار بدون فايربيس",
-                        );
-                        // افتح صفحة الإشعارات مثلاً
-                        //Get.to(() => NotifiDScreen());
-                      },
-                    ),
-                    Stack(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.notifications, size: 25),
-                          onPressed: () {
-                            // افتح صفحة الإشعارات مثلاً
-                            Get.to(() => NotifiDScreen());
-                          },
-                        ),
-                        if (notificationCount > 0)
-                          Positioned(
-                            right: 9,
-                            top: 2,
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                              ),
-                              constraints: BoxConstraints(
-                                minWidth: 15,
-                                minHeight: 15,
-                              ),
-                              child: Text(
-                                '$notificationCount',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
                     Builder(builder: (context) {
                       return IconButton(
                         icon: Icon(Icons.menu, size: 25),
                         onPressed: () {
-                          Scaffold.of(context).openDrawer();
+                          Scaffold.of(context).openEndDrawer();
                         },
                       );
                     }),
@@ -299,9 +197,7 @@ class DHomeScreenState extends State<DHomeScreen> {
             ],
           ),
           body: GetBuilder<HomeControllerd>(
-            initState: (state) async {
-              await controller.Diseases();
-            },
+           
             builder: (controller) => controller.isloading
                 ? Center(child: CircularProgressIndicator())
                 : RefreshIndicator(

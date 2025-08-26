@@ -45,7 +45,7 @@ class ProfileController extends GetxController {
 
     // بعدها خزن القيم الجديدة
     await CacheHelper.set(key: "user_name", value: first_name.text);
-    await CacheHelper.set(key: "user_email", value: email.text);
+    await CacheHelper.set(key: "email", value: email.text);
     await CacheHelper.set(key: "user_phone", value: phone.text);
     try {
       await ProfileDataSource.editprofile(

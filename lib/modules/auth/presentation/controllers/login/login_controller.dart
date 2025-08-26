@@ -13,7 +13,7 @@ class LoginController extends GetxController {
   final passwordController = TextEditingController();
   String userRole = 'patient'; // أو 'donor'
   bool isloading = false;
-
+Map<String, dynamic>? userData; 
   Future<bool?> loginfunction() async {
     isloading = true;
     update();
@@ -31,11 +31,27 @@ class LoginController extends GetxController {
     final result = await AuthDataSource.login(
         emailController.text, passwordController.text, endpoint, userRole);
        
+    
 
     update();
     isloading = false;
     update();
+if (result != null) {
+      userData = result; // خزنا الريسبونس كامل
 
-    return result;
+      print("✅ First Name: ${userData!['first_name']}");
+      print("✅ Last Name: ${userData!['last_name']}");
+      print("✅ Father Name: ${userData!['father_name']}");
+       await CacheHelper.set(key: "email", value: userData!['email']);
+        await CacheHelper.set(key: "first_name", value: userData!['first_name']);
+        await CacheHelper.set(key: "last_name", value: userData!['last_name']);
+        await CacheHelper.set(key: "father_name", value: userData!['father_name']);
+
+
+      return true;
+    }
+    return false;
   }
+    
+  
 }

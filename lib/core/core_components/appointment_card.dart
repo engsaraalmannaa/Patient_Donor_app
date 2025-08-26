@@ -1,15 +1,11 @@
+
 import 'package:Pationt_Donor/modules/patient/data/model/my_appointment_model.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/controllers/my_appointment_controller.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/appointment.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/my_appointments.dart.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../modules/patient/data/model/consultation_model.dart';
-import '../../modules/patient/presentation/controllers/home_controller.dart';
 import '../const/const_colors.dart';
 
 class MyAppointmentCard extends StatefulWidget {
@@ -17,9 +13,6 @@ class MyAppointmentCard extends StatefulWidget {
     super.key,
     required this.model,
     required this.index,
-
-    //  required this.model,
-    //   required this.index
   });
 
   final Data model;
@@ -35,10 +28,12 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
   bool isAccepted = false;
   bool isDeleted = false;
   MyAppointmentController controller = Get.find<MyAppointmentController>();
+
   @override
   Widget build(BuildContext context) {
     final doctor = widget.model.doctor;
     final String? photoUrl = doctor?.imageUrl;
+
     String _initials() {
       final f = (doctor?.firstName ?? '').trim();
       final l = (doctor?.lastName ?? '').trim();
@@ -50,8 +45,8 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
     if (isDeleted) return const SizedBox.shrink();
 
     return Padding(
-      padding: EdgeInsets.only(
-          right: 1.vmin, left: 5.vmin, top: 1.vmin, bottom: 1.vmin),
+      padding:
+          EdgeInsets.all(0.5.vmin),
       child: Card(
         elevation: 4,
         shape: RoundedRectangleBorder(
@@ -63,7 +58,7 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
         borderOnForeground: true,
         color: Colors.white54,
         child: Padding(
-          padding: EdgeInsets.only(),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -71,12 +66,12 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
                 title: Text(
                   "${doctor?.firstName ?? ''} ${doctor?.lastName ?? ''}",
                   textDirection: TextDirection.rtl,
-                  style: TextStyle(color: Colors.indigo),
+                  style: const TextStyle(color: Colors.indigo),
                 ),
                 subtitle: Text(
-                  " اليوم: ${widget.model.workDay ?? '-'}\n"
+                  "اليوم: ${widget.model.workDay ?? '-'}\n"
                   "الوقت: ${widget.model.workTime ?? '-'}\n"
-                  "الحالة: ${widget.model.meetStatus ?? '-'}\n"
+                  "الحالة: ${_translateStatus(widget.model.meetStatus)}\n"
                   "الكلفة: ${widget.model.meetCost!.toString()} ل.س ",
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
@@ -86,126 +81,130 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
                     fontSize: 16.sp,
                   ),
                 ),
+                
                 trailing: CircleAvatar(
-                  backgroundColor: Colors.white54,
-                  radius: 5.5.vmin,
-                  backgroundImage: (photoUrl != null && photoUrl.isNotEmpty)
-                      ? NetworkImage(photoUrl)
-                      : null,
-                  child: (photoUrl == null || photoUrl.isEmpty)
-                      ? Text(
-                          _initials(),
-                          style: TextStyle(
-                            color: Colors.indigo,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : 
-                   Icon(
-                    Icons.person,
-                    color: Colors.indigo,
+  radius: 7.vmin,
+  backgroundColor: Colors.transparent,
+  child: (widget.model.doctor?.imageUrl != null && widget.model.doctor!.imageUrl!.isNotEmpty)
+      ? ClipOval(
+          child: ExtendedImage.network(
+            widget.model.doctor!.imageUrl!,
+            width: 20.w,
+            height: 20.w,
+            fit: BoxFit.cover,
+          ),
+        )
+      : Icon(
+          Icons.person,
+          size: 5.w,
+          color: ConstColors.darkBlue,
+        ),
+),
+
+              ),
+
+              SizedBox(height: 2.vmin),
+
+              // ✅ إذا في تحميل (قبول أو رفض) يطلع اللودر بنص البطاقة
+              if (isAccepting || isRejecting)
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 3.vmin),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 0.8.vmin,
+                      color: ConstColors.darkBlue,
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 2.vmin,
-              ),
-              if (!isAccepted && !isRejecting)
+                )
+              else if (widget.model.meetStatus == "scheduled") // الأزرار بس إذا ما قبل الموعد
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    isAccepting
-                        ? SizedBox(
-                            width: 3.vmin,
-                            height: 200,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 0.5.vmin,
-                              color: ConstColors.darkBlue,
-                            ),
-                          )
-                        : SizedBox(
-                            width: 25.vmin,
-                            height: 10.vmin,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                setState(() => isAccepting = true);
-                                controller.accept(widget.model.id!);
-                                setState(() {
-                                  isAccepting = false;
-                                  isAccepted =
-                                      true; // ✅ إخفاء الأزرار بعد القبول
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.green,
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.vmin),
-                                  side: const BorderSide(color: Colors.green),
-                                ),
-                              ),
-                              child: Text(
-                                "قبول",
-                                style: TextStyle(
-                                  fontSize: 10.spa,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
+                    // زر القبول
+                    SizedBox(
+                      width: 25.vmin,
+                      height: 10.vmin,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          setState(() => isAccepting = true);
+                          await controller.accept(widget.model.id!);
+                          setState(() {
+                            isAccepting = false;
+                            isAccepted = true;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.green,
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.vmin),
+                            side: const BorderSide(color: Colors.green),
                           ),
-                    isRejecting
-                        ? SizedBox(
-                            width: 3.vmin,
-                            height: 3.vmin,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 0.5.vmin,
-                              color: ConstColors.darkBlue,
-                            ),
-                          )
-                        : SizedBox(
-                            width: 25.vmin,
-                            height: 10.vmin,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                setState(() => isRejecting = true);
-                                controller.reject(widget.model.id!);
-                                await Future.delayed(Duration(seconds: 1));
-                                setState(() {
-                                  isDeleted = true; // ✅ حذف البطاقة بعد الرفض
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                //foregroundColor: Colors.white,
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.vmin),
-                                  side: const BorderSide(color: Colors.red),
-                                ),
-                              ),
-                              child: Text(
-                                "رفض",
-                                style: TextStyle(
-                                  fontSize: 10.spa,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                        ),
+                        child: Text(
+                          "قبول",
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.w600,
                           ),
-                          
+                        ),
+                      ),
+                    ),
+
+                    // زر الرفض
+                    SizedBox(
+                      width: 25.vmin,
+                      height: 10.vmin,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          setState(() => isRejecting = true);
+                          await controller.reject(widget.model.id!);
+                          await Future.delayed(const Duration(seconds: 1));
+                          setState(() {
+                            isDeleted = true;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.vmin),
+                            side: const BorderSide(color: Colors.red),
+                          ),
+                        ),
+                        child: Text(
+                          "رفض",
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: 3.vmin,
-                )
+
+              SizedBox(height: 3.vmin),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+String _translateStatus(String? status) {
+  switch (status) {
+    case "accepted":
+      return "مقبولة";
+    case "rejected":
+      return "مرفوضة";
+    case "scheduled":
+      return "مجدولة";
+    default:
+      return "-";
   }
 }

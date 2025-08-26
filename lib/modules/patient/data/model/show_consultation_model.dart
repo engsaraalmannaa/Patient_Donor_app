@@ -1,98 +1,114 @@
 class ShowConsultationModel {
   int? status;
   String? message;
-  Data? data;
+  ConsultationData? data;
 
   ShowConsultationModel({this.status, this.message, this.data});
 
   ShowConsultationModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
-  Consultation? consultation;
-  List<Answers>? answers;
-
-  Data({this.consultation, this.answers});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    consultation = json['consultation'] != null
-        ? new Consultation.fromJson(json['consultation'])
+    data = json['data'] != null
+        ? ConsultationData.fromJson(json['data'])
         : null;
-    if (json['answers'] != null) {
-      answers = <Answers>[];
-      json['answers'].forEach((v) {
-        answers!.add(new Answers.fromJson(v));
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.consultation != null) {
-      data['consultation'] = this.consultation!.toJson();
+    final Map<String, dynamic> map = {};
+    map['status'] = status;
+    map['message'] = message;
+    if (data != null) {
+      map['data'] = data!.toJson();
     }
-    if (this.answers != null) {
-      data['answers'] = this.answers!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    return map;
   }
 }
 
-class Consultation {
+class ConsultationData {
   int? id;
   int? specialtyId;
   int? patientId;
   String? question;
   String? createdAt;
   String? updatedAt;
+  Specialty? specialty;
   Patient? patient;
+  List<Answer> answers = [];
 
-  Consultation(
-      {this.id,
-      this.specialtyId,
-      this.patientId,
-      this.question,
-      this.createdAt,
-      this.updatedAt,
-      this.patient});
+  ConsultationData({
+    this.id,
+    this.specialtyId,
+    this.patientId,
+    this.question,
+    this.createdAt,
+    this.updatedAt,
+    this.specialty,
+    this.patient,
+    List<Answer>? answers,
+  }) {
+    this.answers = answers ?? [];
+  }
 
-  Consultation.fromJson(Map<String, dynamic> json) {
+  ConsultationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     specialtyId = json['specialty_id'];
     patientId = json['patient_id'];
     question = json['question'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    patient =
-        json['patient'] != null ? new Patient.fromJson(json['patient']) : null;
+    specialty = json['specialty'] != null
+        ? Specialty.fromJson(json['specialty'])
+        : null;
+    patient = json['patient'] != null
+        ? Patient.fromJson(json['patient'])
+        : null;
+    answers = (json['answers'] as List?)
+            ?.map((e) => Answer.fromJson(e))
+            .toList() ??
+        [];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['specialty_id'] = this.specialtyId;
-    data['patient_id'] = this.patientId;
-    data['question'] = this.question;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.patient != null) {
-      data['patient'] = this.patient!.toJson();
+    final Map<String, dynamic> map = {};
+    map['id'] = id;
+    map['specialty_id'] = specialtyId;
+    map['patient_id'] = patientId;
+    map['question'] = question;
+    map['created_at'] = createdAt;
+    map['updated_at'] = updatedAt;
+    if (specialty != null) {
+      map['specialty'] = specialty!.toJson();
     }
-    return data;
+    if (patient != null) {
+      map['patient'] = patient!.toJson();
+    }
+    map['answers'] = answers.map((e) => e.toJson()).toList();
+    return map;
+  }
+}
+
+class Specialty {
+  int? id;
+  String? name;
+  String? createdAt;
+  String? updatedAt;
+
+  Specialty({this.id, this.name, this.createdAt, this.updatedAt});
+
+  Specialty.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
   }
 }
 
@@ -123,34 +139,37 @@ class Patient {
   String? status;
   String? createdAt;
   String? updatedAt;
+  User? user;
 
-  Patient(
-      {this.id,
-      this.userId,
-      this.firstName,
-      this.fatherName,
-      this.lastName,
-      this.gender,
-      this.birthDate,
-      this.nationalNumber,
-      this.address,
-      this.phone,
-      this.email,
-      this.socialStatus,
-      this.emergencyNum,
-      this.insuranceCompany,
-      this.insuranceNum,
-      this.smoker,
-      this.pregnant,
-      this.bloodType,
-      this.geneticDiseases,
-      this.chronicDiseases,
-      this.drugAllergy,
-      this.lastOperations,
-      this.presentMedicines,
-      this.status,
-      this.createdAt,
-      this.updatedAt});
+  Patient({
+    this.id,
+    this.userId,
+    this.firstName,
+    this.fatherName,
+    this.lastName,
+    this.gender,
+    this.birthDate,
+    this.nationalNumber,
+    this.address,
+    this.phone,
+    this.email,
+    this.socialStatus,
+    this.emergencyNum,
+    this.insuranceCompany,
+    this.insuranceNum,
+    this.smoker,
+    this.pregnant,
+    this.bloodType,
+    this.geneticDiseases,
+    this.chronicDiseases,
+    this.drugAllergy,
+    this.lastOperations,
+    this.presentMedicines,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.user,
+  });
 
   Patient.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -179,180 +198,41 @@ class Patient {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['first_name'] = this.firstName;
-    data['father_name'] = this.fatherName;
-    data['last_name'] = this.lastName;
-    data['gender'] = this.gender;
-    data['birth_date'] = this.birthDate;
-    data['national_number'] = this.nationalNumber;
-    data['address'] = this.address;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['social_status'] = this.socialStatus;
-    data['emergency_num'] = this.emergencyNum;
-    data['insurance_company'] = this.insuranceCompany;
-    data['insurance_num'] = this.insuranceNum;
-    data['smoker'] = this.smoker;
-    data['pregnant'] = this.pregnant;
-    data['blood_type'] = this.bloodType;
-    data['genetic_diseases'] = this.geneticDiseases;
-    data['chronic_diseases'] = this.chronicDiseases;
-    data['drug_allergy'] = this.drugAllergy;
-    data['last_operations'] = this.lastOperations;
-    data['present_medicines'] = this.presentMedicines;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-
-class Answers {
-  int? id;
-  int? doctorId;
-  int? consultationId;
-  String? answer;
-  String? createdAt;
-  String? updatedAt;
-  Doctor? doctor;
-
-  Answers(
-      {this.id,
-      this.doctorId,
-      this.consultationId,
-      this.answer,
-      this.createdAt,
-      this.updatedAt,
-      this.doctor});
-
-  Answers.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    doctorId = json['doctor_id'];
-    consultationId = json['consultation_id'];
-    answer = json['answer'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    doctor =
-        json['doctor'] != null ? new Doctor.fromJson(json['doctor']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['doctor_id'] = this.doctorId;
-    data['consultation_id'] = this.consultationId;
-    data['answer'] = this.answer;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.doctor != null) {
-      data['doctor'] = this.doctor!.toJson();
+    final Map<String, dynamic> map = {};
+    map['id'] = id;
+    map['user_id'] = userId;
+    map['first_name'] = firstName;
+    map['father_name'] = fatherName;
+    map['last_name'] = lastName;
+    map['gender'] = gender;
+    map['birth_date'] = birthDate;
+    map['national_number'] = nationalNumber;
+    map['address'] = address;
+    map['phone'] = phone;
+    map['email'] = email;
+    map['social_status'] = socialStatus;
+    map['emergency_num'] = emergencyNum;
+    map['insurance_company'] = insuranceCompany;
+    map['insurance_num'] = insuranceNum;
+    map['smoker'] = smoker;
+    map['pregnant'] = pregnant;
+    map['blood_type'] = bloodType;
+    map['genetic_diseases'] = geneticDiseases;
+    map['chronic_diseases'] = chronicDiseases;
+    map['drug_allergy'] = drugAllergy;
+    map['last_operations'] = lastOperations;
+    map['present_medicines'] = presentMedicines;
+    map['status'] = status;
+    map['created_at'] = createdAt;
+    map['updated_at'] = updatedAt;
+    if (user != null) {
+      map['user'] = user!.toJson();
     }
-    return data;
-  }
-}
-
-class Doctor {
-  int? id;
-  int? specialtyId;
-  int? userId;
-  String? firstName;
-  String? fatherName;
-  String? lastName;
-  String? gender;
-  String? birthDate;
-  String? nationalNumber;
-  String? address;
-  String? phone;
-  String? email;
-  String? licenseNumber;
-  String? experienceYears;
-  String? meetCost;
-  String? image;
-  String? bio;
-  String? createdAt;
-  String? updatedAt;
-  String? imageUrl;
-  User? user;
-
-  Doctor(
-      {this.id,
-      this.specialtyId,
-      this.userId,
-      this.firstName,
-      this.fatherName,
-      this.lastName,
-      this.gender,
-      this.birthDate,
-      this.nationalNumber,
-      this.address,
-      this.phone,
-      this.email,
-      this.licenseNumber,
-      this.experienceYears,
-      this.meetCost,
-      this.image,
-      this.bio,
-      this.createdAt,
-      this.updatedAt,
-      this.imageUrl,
-      this.user});
-
-  Doctor.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    specialtyId = json['specialty_id'];
-    userId = json['user_id'];
-    firstName = json['first_name'];
-    fatherName = json['father_name'];
-    lastName = json['last_name'];
-    gender = json['gender'];
-    birthDate = json['birth_date'];
-    nationalNumber = json['national_number'];
-    address = json['address'];
-    phone = json['phone'];
-    email = json['email'];
-    licenseNumber = json['license_number'];
-    experienceYears = json['experience_years'];
-    meetCost = json['meet_cost'];
-    image = json['image'];
-    bio = json['bio'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    imageUrl = json['image_url'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['specialty_id'] = this.specialtyId;
-    data['user_id'] = this.userId;
-    data['first_name'] = this.firstName;
-    data['father_name'] = this.fatherName;
-    data['last_name'] = this.lastName;
-    data['gender'] = this.gender;
-    data['birth_date'] = this.birthDate;
-    data['national_number'] = this.nationalNumber;
-    data['address'] = this.address;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['license_number'] = this.licenseNumber;
-    data['experience_years'] = this.experienceYears;
-    data['meet_cost'] = this.meetCost;
-    data['image'] = this.image;
-    data['bio'] = this.bio;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['image_url'] = this.imageUrl;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    return data;
+    return map;
   }
 }
 
@@ -360,7 +240,7 @@ class User {
   int? id;
   String? name;
   String? email;
-  Null? emailVerifiedAt;
+  String? emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
   bool? isAdmin;
@@ -368,17 +248,18 @@ class User {
   bool? isPatient;
   bool? isDonor;
 
-  User(
-      {this.id,
-      this.name,
-      this.email,
-      this.emailVerifiedAt,
-      this.createdAt,
-      this.updatedAt,
-      this.isAdmin,
-      this.isDoctor,
-      this.isPatient,
-      this.isDonor});
+  User({
+    this.id,
+    this.name,
+    this.email,
+    this.emailVerifiedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.isAdmin,
+    this.isDoctor,
+    this.isPatient,
+    this.isDonor,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -394,17 +275,134 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['is_admin'] = this.isAdmin;
-    data['is_doctor'] = this.isDoctor;
-    data['is_patient'] = this.isPatient;
-    data['is_donor'] = this.isDonor;
-    return data;
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'email_verified_at': emailVerifiedAt,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'is_admin': isAdmin,
+      'is_doctor': isDoctor,
+      'is_patient': isPatient,
+      'is_donor': isDonor,
+    };
   }
 }
+
+class Answer {
+  int? id;
+  int? doctorId;
+  int? consultationId;
+  String? answer;
+  String? createdAt;
+  String? updatedAt;
+  Doctor? doctor;
+
+  Answer({
+    this.id,
+    this.doctorId,
+    this.consultationId,
+    this.answer,
+    this.createdAt,
+    this.updatedAt,
+    this.doctor,
+  });
+
+  Answer.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    doctorId = json['doctor_id'];
+    consultationId = json['consultation_id'];
+    answer = json['answer'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['doctor_id'] = doctorId;
+    map['consultation_id'] = consultationId;
+    map['answer'] = answer;
+    map['created_at'] = createdAt;
+    map['updated_at'] = updatedAt;
+    if (doctor != null) {
+      map['doctor'] = doctor!.toJson();
+    }
+    return map;
+  }
+}
+
+class Doctor {
+  int? id;
+  int? specialtyId;
+  int? userId;
+  String? firstName;
+  String? fatherName;
+  String? lastName;
+  String? gender;
+  String? birthDate;
+  String? licenseNumber;
+  String? experienceYears;
+  String? meetCost;
+  String? bio;
+  String? imageUrl;
+  User? user;
+
+  Doctor({
+    this.id,
+    this.specialtyId,
+    this.userId,
+    this.firstName,
+    this.fatherName,
+    this.lastName,
+    this.gender,
+    this.birthDate,
+    this.licenseNumber,
+    this.experienceYears,
+    this.meetCost,
+    this.bio,
+    this.imageUrl,
+    this.user,
+  });
+
+  Doctor.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    specialtyId = json['specialty_id'];
+    userId = json['user_id'];
+    firstName = json['first_name'];
+    fatherName = json['father_name'];
+    lastName = json['last_name'];
+    gender = json['gender'];
+    birthDate = json['birth_date'];
+    licenseNumber = json['license_number'];
+    experienceYears = json['experience_years'];
+    meetCost = json['meet_cost'];
+    bio = json['bio'];
+    imageUrl = json['image_url'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['specialty_id'] = specialtyId;
+    map['user_id'] = userId;
+    map['first_name'] = firstName;
+    map['father_name'] = fatherName;
+    map['last_name'] = lastName;
+    map['gender'] = gender;
+    map['birth_date'] = birthDate;
+    map['license_number'] = licenseNumber;
+    map['experience_years'] = experienceYears;
+    map['meet_cost'] = meetCost;
+    map['bio'] = bio;
+    map['image_url'] = imageUrl;
+    if (user != null) {
+      map['user'] = user!.toJson();
+    }
+    return map;
+  }
+}
+

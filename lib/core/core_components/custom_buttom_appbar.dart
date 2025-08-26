@@ -5,7 +5,7 @@ import 'package:Pationt_Donor/core/const/const_colors.dart';
 
 import '../../modules/patient/presentation/screens/appointment.dart';
 import '../../modules/patient/presentation/screens/concultations.dart';
-import '../../modules/patient/presentation/screens/notofication.dart';
+import '../../modules/patient/presentation/screens/about_app.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -48,8 +48,8 @@ class CustomBottomNavBar extends StatelessWidget {
           label: 'تبرع',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
-          label: 'إشعارات',
+          icon: Icon(Icons.question_answer),
+          label: 'استشاراتي',
         ),
       ],
     );

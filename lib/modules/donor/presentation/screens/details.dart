@@ -79,34 +79,7 @@ final String text;
                     width: 25.vmin,
                     ontap:(){
                       Get.to(() => DonationInformation());
-                  /*showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        backgroundColor: Colors.white,
-                        title: Text('تنبيه'),
-                        content: Text('هل أنت متأكد من التبرع؟'),
-                        actions: [
-                          TextButton(
-                            child: Text('إلغاء',style: TextStyle(
-                                color: Colors.black
-                            ),),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                          ElevatedButton(
-                            child: Text('تأكيد',style: TextStyle(
-                              color: Colors.white
-                            ),),
-                            onPressed: () {
-                              // نفّذ الإجراء
-                              Get.to(() => DonationInformation());
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-*/
+                 
                 })
               ],
             ),

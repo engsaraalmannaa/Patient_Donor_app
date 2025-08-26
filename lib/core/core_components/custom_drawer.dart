@@ -6,9 +6,13 @@ import 'package:Pationt_Donor/modules/patient/data/model/consultation_model.dart
 import 'package:Pationt_Donor/modules/patient/data/model/profile_model.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/controllers/home_controller.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/controllers/profile_controller.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/about_hospital.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/appointment_in_hold.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/my_appointments.dart.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/my_disease.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/about_app.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/profile_screen.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/show_my_consultation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,35 +25,46 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? userName = CacheHelper.get('user_name');
-    final String? userEmail = CacheHelper.get('user_email');
+    //final String? userName = CacheHelper.get('user_name');
+    //final String? userEmail = CacheHelper.get('user_email');
+    final String? email = CacheHelper.get("email");
+    final String? first_name = CacheHelper.get("first_name");
+    final String? last_name = CacheHelper.get("last_name");
+    final String? father_name = CacheHelper.get("father_name");
 
+String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
     //final controller =Get.put (HomeController());
     //final ConsultationModel consultation = Get.put( ConsultationModel());
 
     return Drawer(
+       backgroundColor: Colors.white,
+            clipBehavior: Clip.antiAlias,
+            width: 90.w,
       child: ListView(
         padding: EdgeInsets.zero,
-        children: [
+        children: <Widget>[
           DrawerHeader(
+            
             decoration: BoxDecoration(
+              
               color: ConstColors.darkBlue,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 10.vmin,),
                 CircleAvatar(
-                  radius: 12.vmin,
+                  radius: 7.vmin,
                   backgroundColor: Colors.white,
                   child: Icon(
                     Icons.person,
-                    size: 14.vmin,
+                    size: 30,
                     color: ConstColors.darkBlue,
                   ),
                 ),
                 SizedBox(height: 10),
                 Text(
-                  userName ?? 'الاسم غير متوفر',
+                  fullName.trim().isEmpty ? 'الاسم غير متوفر' : fullName,
                   style: TextStyle(
                     //color: Colors.red,
                     color: Colors.white,
@@ -58,29 +73,15 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  userEmail ?? 'البريد غير متوفر',
+                  email ?? 'البريد غير متوفر',
                   style: TextStyle(
-                    color: Colors.red,
-                    // color: Colors.white70,
+                    //color: Colors.red,
+                     color: Colors.white70,
                     fontSize: 14.sp,
                   ),
                 ),
               ],
             ),
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.home,
-              color: ConstColors.darkBlue,
-            ),
-            title: Text(
-              'مواعيد محجوزة',
-              style: TextStyle(
-                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
-            ),
-            onTap: () {
-              Get.toNamed(MyAppointments.name);
-            },
           ),
           ListTile(
             leading: Icon(
@@ -94,23 +95,52 @@ class CustomDrawer extends StatelessWidget {
             ),
             onTap: () async {
               Get.toNamed(ProfilePatientScreen.name);
-
             },
           ),
           ListTile(
             leading: Icon(
-              Icons.settings,
+              Icons.event,
               color: ConstColors.darkBlue,
             ),
             title: Text(
-              'اعدادات',
+              'مواعيدي',
               style: TextStyle(
                   color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
             ),
             onTap: () {
-              //Get.toNamed(SettingsScreen.name);
+              Get.toNamed(MyAppointments.name);
             },
           ),
+          ListTile(
+            leading: Icon(
+              Icons.pending,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'مواعيد قيد الإنتظار',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
+            onTap: () {
+              // Handle logout
+              Get.toNamed(AppointmentInHold.name);
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.volunteer_activism,
+              color: ConstColors.darkBlue,
+            ),
+            title: Text(
+              'طلباتي للتبرع',
+              style: TextStyle(
+                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
+            ),
+            onTap: () {
+              Get.toNamed(MyDisease.name);
+            },
+          ),
+          
           ListTile(
             leading: Icon(
               Icons.info,
@@ -123,22 +153,7 @@ class CustomDrawer extends StatelessWidget {
             ),
             onTap: () {
               // Handle logout
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.pending,
-              color: ConstColors.darkBlue,
-            ),
-            title: Text(
-              'مواعيد قيد الانتظار ',
-              style: TextStyle(
-                  color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
-            ),
-            onTap: () {
-              // Handle logout
-              Get.toNamed(AppointmentInHold.name);
+              Get.toNamed(AboutAppScreen.name);
             },
           ),
           ListTile(
@@ -153,7 +168,8 @@ class CustomDrawer extends StatelessWidget {
             ),
             onTap: () {
               // Handle logout
-              Navigator.pop(context);
+            Get.toNamed(AboutHospitalScreen.name);
+
             },
           ),
           ListTile(

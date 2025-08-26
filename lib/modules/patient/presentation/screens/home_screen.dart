@@ -1,3 +1,5 @@
+import 'package:Pationt_Donor/modules/patient/presentation/screens/my_disease.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/show_my_consultation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -7,7 +9,7 @@ import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/appointment.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/concultations.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/add_disease_state.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/notofication.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/about_app.dart';
 
 import '../../../../core/core_components/container1.dart';
 import '../controllers/home_controller.dart';
@@ -44,10 +46,14 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
     //HomeScreen(),
     Center(child: Text("الصفحة الرئيسية")),
     DonationState(),
-    NotificationP(),
+    ShowMyConsultation(),
   ];
   final List<PreferredSizeWidget?> appBars = [
-    AppBar(
+    AppBar(shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(3.vmin),
+              ),
+            ),
       automaticallyImplyLeading: false,
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
@@ -56,7 +62,11 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
       title: Text("كتابة استشارة",
           style: TextStyle(fontSize: 14.spa, fontWeight: FontWeight.w600)),
     ),
-    AppBar(
+    AppBar(shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(3.vmin),
+              ),
+            ),
       automaticallyImplyLeading: false,
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
@@ -65,7 +75,11 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
       title: Text("حجز موعد",
           style: TextStyle(fontSize: 14.spa, fontWeight: FontWeight.w600)),
     ),
-    AppBar(
+    AppBar(shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(3.vmin),
+              ),
+            ),
       automaticallyImplyLeading: false,
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
@@ -76,6 +90,11 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
     ),
     AppBar(
       automaticallyImplyLeading: false,
+      shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(3.vmin),
+              ),
+            ),
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
         child: Image.asset("assets/images/logoo.png", width: 25.vmin),
@@ -85,11 +104,16 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
     ),
     AppBar(
       automaticallyImplyLeading: false,
+      shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(3.vmin),
+              ),
+            ),
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
         child: Image.asset("assets/images/logoo.png", width: 25.vmin),
       ),
-      title: Text("الإشعارات",
+      title: Text("استشاراتي",
           style: TextStyle(fontSize: 14.spa, fontWeight: FontWeight.w600)),
     ),
   ];
@@ -113,58 +137,6 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
             bottomNavigationBar: CustomBottomNavBar(
               currentIndex: currentIndex,
               onTap: (index) {
-                /* if (index == 2)
-                   //HomeScreen();
-                  // الرئيسية، ما نغير
-                   Padding(
-                    padding: EdgeInsets.all(3.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        */ /*Text(
-                          'الاستشارات الخاصة بك:',
-                          style: TextStyle(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
-                        ),*/ /*
-                        SizedBox(height: 2.h),
-                        Expanded(
-                          child: GetBuilder<HomeController>(
-                            initState: (state) async {
-                              await controller.Consultation();
-                            },
-                            builder: (controller) {
-                              return controller.isloading ?
-                              Center(child: CircularProgressIndicator()) :
-                              RefreshIndicator(
-                                  onRefresh: () async => controller.Consultations(),
-                              child:  ListView.builder(
-                                itemCount: controller.data!.length, // ← بدك تجيب عدد الاستشارات من API أو Controller
-                                itemBuilder: (context, index) {
-                                  return Card(
-                                    margin: EdgeInsets.only(bottom: 2.h),
-                                    elevation: 3,
-                                    child: ListTile(
-                                      title: Text('عنوان الاستشارة ${index + 1}'),
-                                      subtitle: Text('محتوى الاستشارة هنا بشكل مختصر...'),
-                                      trailing: Icon(Icons.arrow_forward_ios),
-                                      onTap: () {
-                                        // فتح التفاصيل مثلاً
-                                      },
-                                    ),
-                                  );
-                                },
-                              )
-                              );
-                            }
-                          ),
-                        ),
-                      ],
-                    ),
-                  );*/
-
                 setState(() {
                   currentIndex = index;
                 });
@@ -177,22 +149,23 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
   Widget _buildBody({required HomeController controler}) {
     if (currentIndex == 2) {
       return Padding(
-        padding: EdgeInsets.all(3.w),
+        padding: EdgeInsets.all(1.vmin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 2.h),
+            SizedBox(height: 0.5.h),
             Expanded(
               child: GetBuilder<HomeController>(
                 initState: (state) {
-                  controller.Consultations();
+                  controller.indexConsultations();
                 },
                 builder: (controller) {
                   if (controller.isloading) {
                     return Center(child: CircularProgressIndicator());
                   }
                   return RefreshIndicator(
-                    onRefresh: () async => controller.Consultations(),
+                    onRefresh: () async => 
+                    controller.indexConsultations(),
                     child: ListView.builder(
                         itemCount: controller.data?.length,
                         itemBuilder: (context, i) {

@@ -3,10 +3,17 @@ import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/login.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/register_screen_donor.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/about.dart';
+import 'package:Pationt_Donor/modules/donor/presentation/screens/donate_screen.dart';
+import 'package:Pationt_Donor/modules/donor/presentation/screens/edit_donate_screen.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/setting.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/share.dart';
+import 'package:Pationt_Donor/modules/donor/presentation/screens/this_disease_details.dart';
+import 'package:Pationt_Donor/modules/donor/presentation/screens/this_donation_details.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/about_hospital.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/appointment_in_hold.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/edit_consultation.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/profile_screen.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/show_my_consultation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -18,10 +25,10 @@ import 'package:Pationt_Donor/modules/donor/presentation/screens/my_donations.da
 import 'package:Pationt_Donor/modules/donor/presentation/screens/notifi_d_screen.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/add_disease_state.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/home_screen.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/information_screen2.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/information_screen3.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/information_screen4.dart';
-import 'package:Pationt_Donor/modules/patient/presentation/screens/notofication.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/show_consultations.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/my_disease.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/consultation_detail_screen.dart';
+import 'package:Pationt_Donor/modules/patient/presentation/screens/about_app.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/switch_screen.dart';
 import 'core/const/const_colors.dart';
 import 'core/core_components/pop_up.dart';
@@ -67,18 +74,19 @@ class MyApp extends StatelessWidget {
         },
         debugShowCheckedModeBanner: false,
         getPages: [
-          //LoginScreenDonor.page,
-          //LoginScreenPatient.page,
+          ThisDiseaseDetails.page,
+          DonateScreen.page,
           SplashScreen.page,
           RegisterScreenDonor.page,
           RegisterScreenPatient.page,
-          // InformationScreen.page,
-          // InformationScreen2.page,
-          // InformationScreen3.page,
-          // InformationScreen4.page,
+           ShowConsultations.page,
+           ThisDonationDetails.page,
+           MyDisease.page,
+           ShowMyConsultation.page,
+           ConsultationDetailsScreen.page,
           HomeScreen.page,
           Appointment.page,
-          NotificationP.page,
+          AboutAppScreen.page,
           Consultations.page,
           DonationState.page,
           SwitchScreen.page,
@@ -93,8 +101,10 @@ class MyApp extends StatelessWidget {
           LoginScreen5.page,
           ProfilePatientScreen.page,
           MyAppointments.page,
-          AppointmentInHold.page
-          //RegisterScreen.page
+          AppointmentInHold.page,
+          EditConsultationScreen.page,
+          EditDonateScreen.page,
+          AboutHospitalScreen.page
         ],
         initialBinding: LoginBinding(),
         theme: ThemeData(

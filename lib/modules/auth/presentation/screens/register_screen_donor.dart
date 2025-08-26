@@ -170,51 +170,54 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                         (_) => controller.isError.value = false;
                       },
                     ),
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        hintText: 'الجنس',
-                        prefixIcon: const Icon(Icons.perm_identity_outlined),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.vmin),
-                          //borderSide:  BorderSide(color: Colors.grey),
+                    Padding(
+                      padding:  EdgeInsets.symmetric(vertical: 2.vmin),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          label: Text("الجنس",style: TextStyle(fontSize: 15.spa),),
+                          prefixIcon: const Icon(Icons.perm_identity_outlined),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.vmin),
+                            //borderSide:  BorderSide(color: Colors.grey),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.vmin),
+                            //borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.vmin),
+                            //borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                          ),
+                          fillColor: Colors.blue.shade50,
+                          filled: true,
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.vmin),
-                          //borderSide: const BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.vmin),
-                          //borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                        ),
-                        fillColor: Colors.blue.shade50,
-                        filled: true,
+                        value: controller.genderController.text.isNotEmpty
+                            ? controller.genderController.text
+                            : null,
+                        items: const [
+                          DropdownMenuItem(
+                            value: "male",
+                            child: Text('ذكر'),
+                          ),
+                          DropdownMenuItem(
+                            value: "female",
+                            child: Text('أنثى'),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          // حفظ القيمة في الكونترولر على شكل نص لتتوافق مع إرسال الـ API
+                          controller.genderController.text = value!;
+                          //controller. update();
+                          controller.isError.value = false;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'الرجاء اختيار الجنس';
+                          }
+                          return null;
+                        },
                       ),
-                      value: controller.genderController.text.isNotEmpty
-                          ? controller.genderController.text
-                          : null,
-                      items: const [
-                        DropdownMenuItem(
-                          value: "male",
-                          child: Text('ذكر'),
-                        ),
-                        DropdownMenuItem(
-                          value: "female",
-                          child: Text('أنثى'),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        // حفظ القيمة في الكونترولر على شكل نص لتتوافق مع إرسال الـ API
-                        controller.genderController.text = value!;
-                        //controller. update();
-                        controller.isError.value = false;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'الرجاء اختيار الجنس';
-                        }
-                        return null;
-                      },
                     ),
                     AppTextFormField(
                       hint: ' تاريخ الميلاد ',

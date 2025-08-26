@@ -167,6 +167,7 @@ class ProfilePatientController extends GetxController {
          
       );
       var replyText = first_name.text;
+      
       showSnackBar("تم إرسال الرد بنجاح");
     } catch (e) {
       showSnackBar("فشل في إرسال الرد");
