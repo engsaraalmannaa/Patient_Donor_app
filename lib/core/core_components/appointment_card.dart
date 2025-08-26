@@ -82,24 +82,24 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
                   ),
                 ),
                 
-                trailing: CircleAvatar(
-  radius: 7.vmin,
-  backgroundColor: Colors.transparent,
-  child: (widget.model.doctor?.imageUrl != null && widget.model.doctor!.imageUrl!.isNotEmpty)
-      ? ClipOval(
-          child: ExtendedImage.network(
-            widget.model.doctor!.imageUrl!,
-            width: 20.w,
-            height: 20.w,
-            fit: BoxFit.cover,
-          ),
-        )
-      : Icon(
-          Icons.person,
-          size: 5.w,
-          color: ConstColors.darkBlue,
-        ),
-),
+//                 trailing: CircleAvatar(
+//   radius: 7.vmin,
+//   backgroundColor: Colors.transparent,
+//   child: (widget.model.doctor?.imageUrl != null && widget.model.doctor!.imageUrl!.isNotEmpty)
+//       ? ClipOval(
+//           child: ExtendedImage.network(
+//             widget.model.doctor!.imageUrl!,
+//             width: 20.w,
+//             height: 20.w,
+//             fit: BoxFit.cover,
+//           ),
+//         )
+//       : Icon(
+//           Icons.person,
+//           size: 5.w,
+//           color: ConstColors.darkBlue,
+//         ),
+// ),
 
               ),
 
