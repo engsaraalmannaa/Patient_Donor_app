@@ -103,12 +103,37 @@ class Specialty {
 }
 
 class Answer {
-  // حسب البيانات الحالية، answers فاضي، بس بنعمله كلاس للمستقبل
-  Answer();
+  final int id;
+  final String answerText;
+  final String doctorFullName;
+  final String doctorImageUrl;
+
+  Answer({
+    required this.id,
+    required this.answerText,
+    required this.doctorFullName,
+    required this.doctorImageUrl,
+  });
 
   factory Answer.fromJson(Map<String, dynamic> json) {
-    return Answer();
-  }
+    final doctor = json['doctor'] ?? {};
+    final firstName = doctor['first_name'] ?? '';
+    final fatherName = doctor['father_name'] ?? '';
+    final lastName = doctor['last_name'] ?? '';
+    final fullName = '$firstName $fatherName $lastName';
 
-  Map<String, dynamic> toJson() => {};
+    return Answer(
+      id: json['id'],
+      answerText: json['answer'] ?? '-',
+      doctorFullName: fullName,
+      doctorImageUrl: doctor['image_url'] ?? '',
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'answer': answerText,
+        'doctorFullName': doctorFullName,
+        'doctorImageUrl': doctorImageUrl,
+      };
 }
+

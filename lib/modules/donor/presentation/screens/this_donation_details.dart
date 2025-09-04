@@ -106,7 +106,8 @@ class ThisDonationDetailsState extends State<ThisDonationDetails> {
                                   donationid: widget.donationid,
                                 ));
                           } else {
-                            showSnackBar("عذرا.. لا يمكنك التعديل نظرا لقبول تبرعك");
+                            showSnackBar(
+                                "عذرا.. لا يمكنك التعديل نظرا لقبول تبرعك");
                           }
 
                           // if (result != null && result?['refresh'] == true) {
@@ -203,9 +204,8 @@ class ThisDonationDetailsState extends State<ThisDonationDetails> {
                                               child: Text(""
                                                   'حالة الطلب: ${controller.data1?.data?.status != null ? "في الانتظار  " : " جديد" ?? '-'}\n'
                                                   'اكتمال الحالة: ${controller.data1?.data?.disease!.donationStatus != null ? "لم تكتمل بعد" : " جديد" ?? '-'}\n'
-
                                                   'درجة الخطورة : ${controller.data1?.data?.disease?.urgencyLevel ?? "-"}\n'
-                                                  'حالة المريض: ${controller.data1?.data?.disease?.patientStatus != null ? "جديد  " : "" ?? '-'}\n'
+                                                  'حالة المريض: ${controller.data1?.data?.disease?.patientStatus ?? '-'}\n'
                                                   'المبلغ المتاح: ${controller.data1?.data?.disease?.availableMoney ?? '-'}\n'
                                                   'المبلغ المطلوب: ${controller.data1?.data?.disease?.neededAmount ?? '-'}\n'
                                                   'المبلغ المجمع: ${controller.data1?.data?.disease?.collectedAmount ?? '-'}\n'
@@ -231,20 +231,26 @@ class ThisDonationDetailsState extends State<ThisDonationDetails> {
                                                             BorderRadius
                                                                 .circular(
                                                                     3.vmin),
-                                                        child: Image.network(
+                                                        child:controller.isloadingd
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Image.network(
                                                           "${ApiConst.baseUrl}/storage/${controller.data1!.data!.image}",
                                                           height: 50.vmin,
                                                           width: 60.vmin,
                                                           fit: BoxFit.fill,
+                                                          
                                                           errorBuilder:
                                                               (context, error,
                                                                   stackTrace) {
                                                             return Icon(
-                                                                Icons
-                                                                    .broken_image,
-                                                                size: 20.vmin,
-                                                                color: Colors
-                                                                    .grey);
+                                                              Icons
+                                                                  .broken_image,
+                                                              size: 20.vmin,
+                                                              color:
+                                                                  Colors.grey,
+                                                            );
                                                           },
                                                         ),
                                                       ),

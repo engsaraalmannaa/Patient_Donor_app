@@ -152,8 +152,8 @@ class _EditConsultationScreenState extends State<EditConsultationScreen> {
                                     'refresh': true,
                                     'consultation': updatedConsultation
                                   });
-                                  Get.back();
                                   await controller.myconsultations();
+                                  Navigator.pop(context);
                                 }
                               },
                             ),

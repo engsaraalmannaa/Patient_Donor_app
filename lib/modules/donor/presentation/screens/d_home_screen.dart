@@ -155,8 +155,8 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                   title: Text('تسجيل الخروج ',
                       style: TextStyle(color: ConstColors.darkBlue)),
                   onTap: () async {
-                       await CacheHelper.clear();
-                    Get.offAllNamed(LoginScreen5.name);
+                  await CacheHelper.clear();
+                    Get.offAllNamed(LoginScreen5.name,arguments: {'role': 'donor'},);
 
 
                   

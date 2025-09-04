@@ -101,6 +101,30 @@ class AddDiseaseController extends GetxController {
     isloading = true;
     update();
     try {
+      if ( patient_status== null) {
+      showSnackBar("الرجاء ادخال الحالة المرضية");
+      return;
+    }
+    if (available_money == null) {
+      showSnackBar("الرجاء ادخال المبلغ المتاح  ");
+      return;
+    }
+    if (urgency_level == null) {
+      showSnackBar("الرجاء اختيار درجة خطورة المرض ");
+      return;
+    }
+    if (final_time == null) {
+      showSnackBar("الرجاء ادخال الوقت النهائي  ");
+      return;
+    }
+    if ( doctorId== null) {
+      showSnackBar("الرجاء اختيار الطبيب ");
+      return;
+    }
+    // if (image == null) {
+    //   showSnackBar("الرجاء اختيار صورة للتبرع");
+    //   return;
+    // }
       await DiseaseDataSource.adddisease(
           specialty_id: specialty_id!,
           doctor_id: doctorId!,

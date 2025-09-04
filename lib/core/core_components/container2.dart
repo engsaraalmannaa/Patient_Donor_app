@@ -72,7 +72,7 @@ final homeController = Get.find<HomeControllerd>();
                 subtitle: Text(
                                         caseData == null ? '-' : buildCaseSubtitle(caseData),
 
-                      maxLines: 5,
+                      maxLines: 15,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.right,
                   style: TextStyle(
@@ -130,10 +130,9 @@ String buildCaseSubtitle(Data d,) {
   
   final lines = <String>[
     
-    'حالة المريض: ${d.disease!.patientStatus!= null ? "جديد  " : ""  ??'-'} ',
+    'حالة المريض: ${d.disease!.patientStatus ??'-'} ',
     'حالة التبرع: ${translateDonationStatus(d.status) ??'-'} ',
     'المبلغ المتبرع به : ${d.amount ?? '-'} ',
-
     'درجة الخطورة: ${d.disease!.urgencyLevel != null ? "عالية" : ""?? '-'} ',
     
    ];

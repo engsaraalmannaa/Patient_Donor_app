@@ -16,11 +16,11 @@ class MyConsultationController extends GetxController {
   SpecialtiesModel? specialtiesModel;
   var specialties = <String>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    Future.microtask(() => myconsultations());
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   Future.microtask(() => myconsultations());
+  // }
 
   bool isloading = false;
   Future<void> myconsultations() async {
@@ -41,7 +41,10 @@ class MyConsultationController extends GetxController {
     print(' نتيجة الحذف: $result');
     isLoadingDel = false;
     update();
+
     if (result) {
+      Get.back();
+      Get.back();
       await myconsultations();
       // جلب المواعيد من جديد
     } else {
@@ -53,14 +56,15 @@ class MyConsultationController extends GetxController {
 
   bool isloadingupdate = false;
 
-  Future<void> updatemyconsultation(int id,int specialtyId,String question) async {
+  Future<void> updatemyconsultation(
+      int id, int specialtyId, String question) async {
     //int? specialty_id;
 
     TextEditingController question = TextEditingController();
 
     isloadingupdate = true;
     update();
-   //await Future.delayed(Duration(seconds: 1)); // تمثيل التأخير
+    //await Future.delayed(Duration(seconds: 1)); // تمثيل التأخير
     try {
       await MyConsultationsDataSource.editmyconsultation(
         id,

@@ -1,5 +1,3 @@
-
-
 import 'package:Pationt_Donor/core/core_components/my_consultations_card.dart';
 import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/controllers/my_consultation_controller.dart';
@@ -62,57 +60,58 @@ class ShowMyConsultationState extends State<ShowMyConsultation> {
           // ),
           body: SafeArea(
               child: Padding(
-                padding: EdgeInsets.all(1.vmin),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //SizedBox(height: 2.h),
-                    Expanded(
-                      child: GetBuilder<MyConsultationController>(
-                        initState: (state) {
-                          controller.myconsultations();
-                        },
-                        builder: (controller) {
-                         
-                          if (controller.isloading) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          if (controller.data == null || controller.data!.isEmpty) {
-                            return SizedBox(
-                              height: 70.h, // تعطي ارتفاع مناسب لتكون الرسالة في منتصف الشاشة تقريباً
-                              child: Center(
-                                child: Text(
-                                  'لا يوجد استشارات لعرضها',
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
+            padding: EdgeInsets.all(1.vmin),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //SizedBox(height: 2.h),
+                Expanded(
+                  child: GetBuilder<MyConsultationController>(
+                    initState: (state) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        controller.myconsultations();
+                      });
+                    },
+                    builder: (controller) {
+                      if (controller.isloading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (controller.data == null || controller.data!.isEmpty) {
+                        return SizedBox(
+                          height: 70
+                              .h, // تعطي ارتفاع مناسب لتكون الرسالة في منتصف الشاشة تقريباً
+                          child: Center(
+                            child: Text(
+                              'لا يوجد استشارات لعرضها',
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey[600],
                               ),
-                            );
-                          }
-                          return SizedBox(
-                            child: RefreshIndicator(
-                              onRefresh: () async =>
-                                  controller.myconsultations(),
-                              child: ListView.builder(
-                                  //shrinkWrap: true,
-                                  itemCount: controller.data?.length,
-                                  itemBuilder: (context, i) {
-                                    return MyConsultationsCard(
-                                      model: controller.data![i],
-                                      index: i,
-                                    );
-                                  }),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                          ),
+                        );
+                      }
+                      return SizedBox(
+                        child: RefreshIndicator(
+                          onRefresh: () async => controller.myconsultations(),
+                          child: ListView.builder(
+                              //shrinkWrap: true,
+                              itemCount: controller.data?.length,
+                              itemBuilder: (context, i) {
+                                return MyConsultationsCard(
+                                  model: controller.data![i],
+                                  index: i,
+                                );
+                              }),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              )),
+              ],
+            ),
+          )),
         ),
       ],
     );

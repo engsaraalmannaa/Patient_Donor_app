@@ -31,7 +31,7 @@ static Future<bool> deletrappointrequist({required int id}) async {
       requiresAuth: true
     );
     if (response != null) {
-      AppToast.showToast(message: "تم حذف حالة التبرع بنجاح");
+      AppToast.showToast(message: "تم حذف الموعد  بنجاح");
       print("response: $response");
 
       return true;

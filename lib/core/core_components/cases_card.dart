@@ -66,7 +66,8 @@ class _CasesCardState extends State<CasesCard> {
                      if (!snapshot.hasData) return CircularProgressIndicator();
                      return Text(
                       caseData == null ? '-' : buildCaseSubtitle(caseData,  snapshot.data!),
-                      textAlign: TextAlign.right, maxLines: 5,
+                      textAlign: TextAlign.right,
+                       maxLines: 15,
                   overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.black,
@@ -113,9 +114,8 @@ String buildCaseSubtitle(Data d,int patientNumber) {
   
   final lines = <String>[
     ' المريض: ${ patientNumber?? '-'} ',
-    'حالة المريض: ${d.patientStatus != null ? "جديد  " : "" '-'} ',
+    'حالة المريض: ${d.patientStatus ?? '-'} ',
     'حالة التبرع: ${d.donationStatus != null ? "في الانتظار " : "" '-'} ',
-
     'درجة الخطورة: ${d.urgencyLevel ?? '-'} ',
     
    ];

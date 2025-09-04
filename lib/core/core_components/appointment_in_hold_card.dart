@@ -87,7 +87,7 @@ class _AppointmentCardState extends State<AppointmentInHoldCard> {
                 ? null
                 : () async {
                     await controller.deleteappointmentrequist(widget.model.id!);
-                    Navigator.of(context).pop();
+                    //Navigator.of(context).pop();
                   },
             child: controller.isLoadingDel
                 ? SizedBox(
@@ -102,16 +102,7 @@ class _AppointmentCardState extends State<AppointmentInHoldCard> {
           );
         },
         ),
-      // TextButton(
-      //   onPressed: () {
-      //     controller.deleteappointmentrequist(widget.model.id!); // تنفيذ الحذف
-      //     Navigator.of(context).pop(); // إغلاق الحوار
-      //   },
-      //   child: Text(
-      //     'حذف',
-      //     style: TextStyle(color: Colors.red),
-      //   ),
-      // ),
+      
     ],
   ),
 );

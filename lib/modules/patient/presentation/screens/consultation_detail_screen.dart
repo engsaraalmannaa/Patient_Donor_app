@@ -72,8 +72,8 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
                   //   Get.to(
                   //       () => EditConsultationScreen(consultation: consultation));
                   //
-                  final result = await Get.to( ()=>
-                    EditConsultationScreen(
+                  final result = await Get.to(
+                    () => EditConsultationScreen(
                       consultation: widget.consultation,
                     ),
                   );
@@ -111,166 +111,157 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
             ],
           ),
           body: SafeArea(
-            child:  controller.isloading
-                    ? Center(child: CircularProgressIndicator())
-                    : SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(3.vmin),
-                child: Column(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: ConstColors.darkBlue,
-                            width: 0.5,
+            child: controller.isloading
+                ? Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.all(3.vmin),
+                      child: Column(
+                        //crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Card(
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  color: ConstColors.darkBlue,
+                                  width: 0.5,
+                                ),
+                                borderRadius: BorderRadius.circular(5.vmin)),
+                            borderOnForeground: true,
+                            color: Colors.white54,
+                            child: ListTile(
+                              title: Text(
+                                'التخصص: ${widget.consultation.specialty?.name ?? '-'}\n'
+                                'تاريخ الإضافة: ${widget.consultation.createdAt?.split("T").first ?? '-'}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                              subtitle: Text(
+                                'السؤال: ${widget.consultation.question ?? '-'}',
+                                style: TextStyle(color: ConstColors.darkBlue),
+                                // 'الإجابة: ${consultation.answers != null && consultation.answers!.isNotEmpty ? consultation.answers!.join("\n") : "لا يوجد إجابة"}',
+                              ),
+                              trailing: CircleAvatar(
+                                radius: 6.vmin,
+                                backgroundColor: Colors.red,
+                                child: IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text('تأكيد الحذف'),
+                                        content:
+                                            Text('هل أنت متأكد من حذف الموعد'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context)
+                                                    .pop(), // إلغاء
+                                            child: Text('إلغاء'),
+                                          ),
+                                          GetBuilder<MyConsultationController>(
+                                            //initState: (state) => WidgetsBinding.instance.addPostFrameCallback((_) {}),
+                                            builder: (controller) {
+                                              return TextButton(
+                                                onPressed: () async {
+  final success = await controller.deletemyconsultation(widget.consultation.id!);
+  if (success) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      //Navigator.of(context).pop();
+      //Get.offNamed(ShowMyConsultation.name);
+    });
+  }
+},
+                                                child: controller.isLoadingDel
+                                                    ? SizedBox(
+                                                        width: 18,
+                                                        height: 18,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                                strokeWidth: 2),
+                                                      )
+                                                    : Text(
+                                                        'حذف',
+                                                        style: TextStyle(
+                                                            color: Colors.red),
+                                                      ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 7.vmin,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(5.vmin)),
-                      borderOnForeground: true,
-                      color: Colors.white54,
-                      child: ListTile(
-                        title: Text(
-                          'التخصص: ${widget.consultation.specialty?.name ?? '-'}\n'
-                          'تاريخ الإضافة: ${widget.consultation.createdAt?.split("T").first ?? '-'}'
-                          ,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'السؤال: ${widget.consultation.question ?? '-'}',style: TextStyle(color: ConstColors.darkBlue),
-                          // 'الإجابة: ${consultation.answers != null && consultation.answers!.isNotEmpty ? consultation.answers!.join("\n") : "لا يوجد إجابة"}',
-                        ),
-                        trailing: CircleAvatar(
-                          radius: 6.vmin,
-                          backgroundColor: Colors.red,
-                          child: IconButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text('تأكيد الحذف'),
-                                  content: Text('هل أنت متأكد من حذف الموعد'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(), // إلغاء
-                                      child: Text('إلغاء'),
+                          SizedBox(height: 1.vmin),
+
+                          // بطاقة الإجابات
+                          if (widget.consultation.answers != null &&
+                              widget.consultation.answers!.isNotEmpty)
+                            ...widget.consultation.answers!.map((answer) {
+                              return Card(
+                                elevation: 4,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: ConstColors.darkBlue,
+                                    width: 0.5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.vmin),
+                                ),
+                                color: Colors.white54,
+                                child: ListTile(
+                                  title: Text(
+                                    "الدكتور: ${answer?.doctorFullName ?? '-'}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15.sp,
                                     ),
-                                    GetBuilder<MyConsultationController>(
-                                      builder: (controller) {
-                                        return TextButton(
-                                          onPressed: controller.isLoadingDel
-                                              ? null
-                                              : () async {
-                                                  final success =
-                                                      await controller
-                                                          .deletemyconsultation(
-                                                              widget
-                                                                  .consultation
-                                                                  .id!);
-                                                  if (success) {
-                                                    Navigator.of(context).pop();
-                                                    Get.offAllNamed(
-                                                        ShowMyConsultation
-                                                            .name);
-                                                  } else{
-                // ممكن تعرض رسالة خطأ هنا
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('حدث خطأ أثناء الحذف')),
-                );
-              }
-                                                },
-                                          child: controller.isLoadingDel
-                                              ? SizedBox(
-                                                  width: 18,
-                                                  height: 18,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                          strokeWidth: 2),
-                                                )
-                                              : Text(
-                                                  'حذف',
-                                                  style: TextStyle(
-                                                      color: Colors.red),
-                                                ),
-                                        );
-                                      },
+                                  ),
+                                  subtitle: Text(
+                                    "${answer?.answerText ?? ''}",
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 16.sp,
                                     ),
-                                  ],
+                                  ),
                                 ),
                               );
-                            },
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                              size: 7.vmin,
+                            }).toList()
+                          else
+                            Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  color: ConstColors.darkBlue,
+                                  width: 0.5,
+                                ),
+                                borderRadius: BorderRadius.circular(5.vmin),
+                              ),
+                              color: Colors.white54,
+                              child: ListTile(
+                                title: Text(
+                                  "لا يوجد إجابة",
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 15.sp,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 1.vmin),
-
-                    // بطاقة الإجابات
-                    if (widget.consultation.answers != null &&
-                        widget.consultation.answers!.isNotEmpty)
-                      ...widget.consultation.answers!.map((answer) {
-                        return Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              color: ConstColors.darkBlue,
-                              width: 0.5,
-                            ),
-                            borderRadius: BorderRadius.circular(5.vmin),
-                          ),
-                          color: Colors.white54,
-                          child: ListTile(
-                            title: Text(
-                              "الدكتور: ${widget.consultation.answers ?? '-'}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15.sp,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "${widget.consultation.answers ?? ''}",
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList()
-                    else
-                      Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: ConstColors.darkBlue,
-                            width: 0.5,
-                          ),
-                          borderRadius: BorderRadius.circular(5.vmin),
-                        ),
-                        color: Colors.white54,
-                        child: ListTile(
-                          title: Text(
-                            "لا يوجد إجابة",
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 15.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
           ),
         ),
       ],

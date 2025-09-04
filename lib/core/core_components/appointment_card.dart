@@ -72,7 +72,7 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
                   "اليوم: ${widget.model.workDay ?? '-'}\n"
                   "الوقت: ${widget.model.workTime ?? '-'}\n"
                   "الحالة: ${_translateStatus(widget.model.meetStatus)}\n"
-                  "الكلفة: ${widget.model.meetCost!.toString()} ل.س ",
+                  "الكلفة: ${widget.model.meetCost!.toString()} ل.س",
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.right,
