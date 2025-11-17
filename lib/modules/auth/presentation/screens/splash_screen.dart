@@ -55,4 +55,3 @@ class SplashScreen extends StatelessWidget {
     );
   }
 }
- //TODO :: change icon , page Transition , change Font

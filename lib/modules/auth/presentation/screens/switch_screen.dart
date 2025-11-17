@@ -19,7 +19,10 @@ class SwitchScreen extends StatelessWidget {
 
   static const name = "/1";
 
-  static final page = GetPage(name: name, page: () => SwitchScreen(),middlewares: [LoginMiddleware(),]);
+  static final page =
+      GetPage(name: name, page: () => SwitchScreen(), middlewares: [
+    LoginMiddleware(),
+  ]);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,6 @@ class SwitchScreen extends StatelessWidget {
                   height: 8.h,
                 ),
                 Text("يرجى اختيار طريقة تسجيل ",
-                    //textDirection: TextDirection.rtl,
                     style: TextStyle(
                         color: ConstColors.darkBlue,
                         fontWeight: FontWeight.w600,
@@ -45,7 +47,6 @@ class SwitchScreen extends StatelessWidget {
                   height: 1.h,
                 ),
                 Text("الدخول المناسبة: ",
-                    //textDirection: TextDirection.rtl,
                     style: TextStyle(
                         color: ConstColors.darkBlue,
                         fontWeight: FontWeight.w600,
@@ -62,7 +63,6 @@ class SwitchScreen extends StatelessWidget {
                         Get.to(() => LoginScreen5(
                               role: "patient",
                             ));
-                        //Get.to( ()=>LoginScreen.name,arguments: {'role':'patient'});
                       },
                       text: 'مريض',
                     ),
@@ -71,7 +71,6 @@ class SwitchScreen extends StatelessWidget {
                       ontap: () {
                         Get.to(() => LoginScreen5(role: 'donor'));
                       },
-                      //Get.to(()=>LoginScreen.name, arguments: {'role':'donor'}),
                       text: "متبرع",
                     )
                   ],

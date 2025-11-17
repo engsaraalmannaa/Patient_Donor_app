@@ -7,7 +7,6 @@ import 'package:Pationt_Donor/core/core_components/app_button.dart';
 import 'package:Pationt_Donor/core/core_components/wallpaper.dart';
 import '../../../../core/const/const_colors.dart';
 import 'donation_information.dart';
-//import '../const/const_colors.dart';
 
 class DetailsScreen extends StatelessWidget {
 final String text;
@@ -16,10 +15,7 @@ final String text;
   static final page = GetPage(
     name: name,
     page: () =>  DetailsScreen(text: "55",),
-    //binding: LoginBinding(),
-    // middlewares: [
-    //   LoginMiddleware(),
-    // ]
+   
   );
   @override
   Widget build(BuildContext context) {

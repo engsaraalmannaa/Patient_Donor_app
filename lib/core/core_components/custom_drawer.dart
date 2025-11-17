@@ -25,34 +25,31 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final String? userName = CacheHelper.get('user_name');
-    //final String? userEmail = CacheHelper.get('user_email');
     final String? email = CacheHelper.get("email");
     final String? first_name = CacheHelper.get("first_name");
     final String? last_name = CacheHelper.get("last_name");
     final String? father_name = CacheHelper.get("father_name");
 
-String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
-    //final controller =Get.put (HomeController());
-    //final ConsultationModel consultation = Get.put( ConsultationModel());
+    String fullName =
+        "${first_name ?? ''} ${father_name ?? ''} ${last_name ?? ''}";
 
     return Drawer(
-       backgroundColor: Colors.white,
-            clipBehavior: Clip.antiAlias,
-            width: 90.w,
+      backgroundColor: Colors.white,
+      clipBehavior: Clip.antiAlias,
+      width: 90.w,
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            
             decoration: BoxDecoration(
-              
               color: ConstColors.darkBlue,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10.vmin,),
+                SizedBox(
+                  height: 10.vmin,
+                ),
                 CircleAvatar(
                   radius: 7.vmin,
                   backgroundColor: Colors.white,
@@ -66,7 +63,6 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                 Text(
                   fullName.trim().isEmpty ? 'الاسم غير متوفر' : fullName,
                   style: TextStyle(
-                    //color: Colors.red,
                     color: Colors.white,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
@@ -75,8 +71,7 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                 Text(
                   email ?? 'البريد غير متوفر',
                   style: TextStyle(
-                    //color: Colors.red,
-                     color: Colors.white70,
+                    color: Colors.white70,
                     fontSize: 14.sp,
                   ),
                 ),
@@ -122,7 +117,6 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                   color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
             ),
             onTap: () {
-              // Handle logout
               Get.toNamed(AppointmentInHold.name);
             },
           ),
@@ -140,7 +134,6 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
               Get.toNamed(MyDisease.name);
             },
           ),
-          
           ListTile(
             leading: Icon(
               Icons.info,
@@ -152,7 +145,6 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                   color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
             ),
             onTap: () {
-              // Handle logout
               Get.toNamed(AboutAppScreen.name);
             },
           ),
@@ -167,9 +159,7 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                   color: ConstColors.darkBlue, fontWeight: FontWeight.w400),
             ),
             onTap: () {
-              // Handle logout
-            Get.toNamed(AboutHospitalScreen.name);
-
+              Get.toNamed(AboutHospitalScreen.name);
             },
           ),
           ListTile(
@@ -185,7 +175,7 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
             onTap: () async {
               await CacheHelper.clear();
               Get.offAllNamed(LoginScreen5.name);
-              // Handle logout
+             
             },
           ),
         ],

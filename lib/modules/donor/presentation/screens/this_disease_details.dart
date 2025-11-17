@@ -20,7 +20,7 @@ class ThisDiseaseDetails extends StatefulWidget {
   const ThisDiseaseDetails({
     super.key,
     required this.diseaseId,
-    required this.model, //this.model1,
+    required this.model, 
   });
 
   static const name = '/diseasedetails';
@@ -50,8 +50,7 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
     }
   }
 
-//Data1? data;
-  //bool loading = true;
+
   final GlobalKey<FormState> key = GlobalKey();
 
   final HomeControllerd controller = Get.put(HomeControllerd());
@@ -66,7 +65,6 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
           image: "assets/images/pattern.png",
         ),
         GetBuilder<HomeControllerd>(
-            //init: HomeControllerd(),
             builder: (controller) {
           return controller.isloadingd
               ? Center(child: CircularProgressIndicator())
@@ -90,7 +88,6 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
                     ),
                     centerTitle: true,
                     actions: [
-                      
                       IconButton(
                         onPressed: () => Navigator.pop(context),
                         icon: Icon(
@@ -123,19 +120,20 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
                                       color: Colors.white54,
                                       child: ListTile(
                                         title: FutureBuilder<int>(
-                                          future: controller.gePersistentRandomNumber(widget.model.patientId!),
-                                          builder: (context,snapshot) {
-                                            return Text(
-                                              'المريض: ${snapshot.data ?? '-'}',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18.sp,
-                                                  color: Colors.indigoAccent),
-                                            );
-                                          }
-                                        ),
+                                            future: controller
+                                                .gePersistentRandomNumber(
+                                                    widget.model.patientId!),
+                                            builder: (context, snapshot) {
+                                              return Text(
+                                                'المريض: ${snapshot.data ?? '-'}',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.sp,
+                                                    color: Colors.indigoAccent),
+                                              );
+                                            }),
                                         subtitle: Text(""
-                                            'الحالة: ${controller.data1?.data?.patientStatus != null ? "جديد  " : " جديد"?? '-'}\n'
+                                            'الحالة: ${controller.data1?.data?.patientStatus ?? '-'}\n'
                                             'درجة الخطورة : ${controller.data1?.data?.urgencyLevel ?? "-"}\n'
                                             'المبلغ المتاح: ${controller.data1?.data?.availableMoney ?? '-'}\n'
                                             'المبلغ المطلوب: ${controller.data1?.data?.neededAmount ?? '-'}\n'
@@ -143,7 +141,6 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
                                             'الوقت النهائي: ${controller.data1?.data?.finalTime ?? '-'}\n'
                                             'حالة التبرع: ${controller.data1?.data?.donationStatus != null ? "في الانتظار " : "" ?? '-'}\n'
                                             'تاريخ الإضافة: ${controller.data1?.data?.createdAt?.split("T").first ?? '-'}'),
-                                       
                                       ),
                                     ),
                                     SizedBox(height: 10.vmin),
@@ -160,22 +157,20 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.of(context)
-                                                          .pop(), // إلغاء
+                                                          .pop(), 
                                                   child: Text('إلغاء'),
                                                 ),
-
                                                 TextButton(
                                                   onPressed: () {
                                                     showDialog(
-                                                      
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                            height: 150,
-                                                            child: AlertDialog(
-                                                                                                                    title: Text(
+                                                        height: 150,
+                                                        child: AlertDialog(
+                                                          title: Text(
                                                               'تأكيد التبرع'),
-                                                                                                                    content: Column(
+                                                          content: Column(
                                                             children: [
                                                               Text(
                                                                   " شكرا لك ، \n من فضلك قم بالتبرع لاحدى الحسابات التالية \n "),
@@ -240,12 +235,10 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
                                                                 ),
                                                               ),
                                                             ],
-                                                                                                                    ),
-                                                                                                                    actions: [
-                                                                                                                
+                                                          ),
+                                                          actions: [
                                                             TextButton(
                                                               onPressed: () {
-                                                                
                                                                 final controller =
                                                                     Get.find<
                                                                         HomeControllerd>();
@@ -259,13 +252,13 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
                                                                   DonateScreen
                                                                       .name,
                                                                   arguments:
-                                                                      widget.model
+                                                                      widget
+                                                                          .model
                                                                           .id,
                                                                 );
                                                                 print(
                                                                     '${widget.model.id}');
                                                               },
-                                                            
                                                               child: Text(
                                                                 'تم',
                                                                 style: TextStyle(
@@ -273,10 +266,9 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
                                                                         .red),
                                                               ),
                                                             ),
-                                                            
-                                                                                                                    ],
-                                                                                                                  ),
-                                                          ),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     );
                                                   },
                                                   child: Text(
@@ -285,12 +277,10 @@ class ThisDiseaseDetailsState extends State<ThisDiseaseDetails> {
                                                         color: Colors.red),
                                                   ),
                                                 ),
-                                               
                                               ],
                                             ),
                                           );
                                         }),
-
                                   ],
                                 ),
                               ),

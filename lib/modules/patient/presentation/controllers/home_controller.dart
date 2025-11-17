@@ -8,9 +8,8 @@ import '../../data/model/consultation_model.dart';
 
 class HomeController extends GetxController {
   List<ConsultationModel>? data;
-   ConsultationData? data1;
-ShowConsultationModel? showConsultationModel;
-
+  ConsultationData? data1;
+  ShowConsultationModel? showConsultationModel;
 
   @override
   void onInit() {
@@ -18,7 +17,6 @@ ShowConsultationModel? showConsultationModel;
     Future.microtask(() => indexConsultations());
   }
 
-  //final TextEditingController answer = TextEditingController();
   int? idConsltation;
   bool isloading = false;
   Future<void> indexConsultations() async {
@@ -29,23 +27,20 @@ ShowConsultationModel? showConsultationModel;
     isloading = false;
     update();
   }
-bool isloadingConsultations = false;
+
+  bool isloadingConsultations = false;
   Future<void> showConsultations() async {
     isloadingConsultations = true;
     update();
-    
-    ShowConsultationModel? result = await ConsultationDataSource.ShowConsultation(idConsltation!);
-showConsultationModel = result;
-data1 = result?.data;
 
- print("عدد الإجابات: ${data1?.answers?.length}");
-    
-    
-    //print(data?.length.toString());
+    ShowConsultationModel? result =
+        await ConsultationDataSource.ShowConsultation(idConsltation!);
+    showConsultationModel = result;
+    data1 = result?.data;
+
+    print("عدد الإجابات: ${data1?.answers?.length}");
+
     isloadingConsultations = false;
     update();
   }
-
-
-
 }

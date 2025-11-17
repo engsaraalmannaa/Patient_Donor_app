@@ -9,23 +9,20 @@ import '../../../../core/core_components/app_button.dart';
 import '../../../../core/core_components/app_text_form_field.dart';
 
 class MyAppointments extends StatefulWidget {
-   MyAppointments({super.key});
+  MyAppointments({super.key});
 
   static const name = '/myappointments';
   static final page = GetPage(
     name: name,
-    page: () =>  MyAppointments(),
-    //binding: LoginBinding(),
-    // middlewares: [
-    //   LoginMiddleware(),
-    // ]
+    page: () => MyAppointments(),
   );
   @override
   State<MyAppointments> createState() => MyAppointmentsState();
 }
 
 class MyAppointmentsState extends State<MyAppointments> {
-    MyAppointmentController controller = Get.put<MyAppointmentController>(MyAppointmentController());
+  MyAppointmentController controller =
+      Get.put<MyAppointmentController>(MyAppointmentController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,53 +53,48 @@ class MyAppointmentsState extends State<MyAppointments> {
             child: Padding(
               padding: EdgeInsets.all(2.vmin),
               child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                        GetBuilder<MyAppointmentController>(
-                    
-                          builder: (controller) {
-                            final filtered = controller.data!
-                                      .where((item) => item.meetStatus != "rejected")
-                                      .toList();
-                            if (controller.isloading) {
-                              return SizedBox(height:500,child:  Center(child: CircularProgressIndicator()));
-                            }
-                            if (filtered.isEmpty) {
-        return SizedBox(
-          height: 500,
-          child: Center(
-            child: Text(
-              "لا يوجد مواعيد",
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-        );
-      }
-                            
-                            return ListView.builder(
-                              
-                               shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: controller.data!.where((item) => item.meetStatus != "rejected")
-                                    .length,
-                                itemBuilder: (context, i) {
-                                   
-                                      
-                            
-                                  return MyAppointmentCard(
-                                    
-                                    model: filtered[i],
-                                    index: i,
-                                  );
-                                });
-                          },
-                        ),
-                
+                  GetBuilder<MyAppointmentController>(
+                    builder: (controller) {
+                      final filtered = controller.data!
+                          .where((item) => item.meetStatus != "rejected")
+                          .toList();
+                      if (controller.isloading) {
+                        return SizedBox(
+                            height: 500,
+                            child: Center(child: CircularProgressIndicator()));
+                      }
+                      if (filtered.isEmpty) {
+                        return SizedBox(
+                          height: 500,
+                          child: Center(
+                            child: Text(
+                              "لا يوجد مواعيد",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: controller.data!
+                              .where((item) => item.meetStatus != "rejected")
+                              .length,
+                          itemBuilder: (context, i) {
+                            return MyAppointmentCard(
+                              model: filtered[i],
+                              index: i,
+                            );
+                          });
+                    },
+                  ),
                 ],
               ),
             ),

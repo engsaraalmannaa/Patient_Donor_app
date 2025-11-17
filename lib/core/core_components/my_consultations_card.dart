@@ -1,5 +1,3 @@
-
-
 import 'package:Pationt_Donor/core/const/const_colors.dart';
 import 'package:Pationt_Donor/modules/patient/data/model/my_consultation_model.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/controllers/appointment_in_hold_controller.dart';
@@ -16,9 +14,7 @@ class MyConsultationsCard extends StatefulWidget {
     required this.model,
     required this.index,
 
-    //  required this.model,
-    //   required this.index
-  });
+     });
 
   final Consultation model;
   final int index;
@@ -56,11 +52,8 @@ class MyConsultationsCardState extends State<MyConsultationsCard> {
                     style: TextStyle(color: Colors.indigo),
                   ),
                   subtitle: Text(
-                    //" اسم الطبيب: ${widget.model.doctor?.firstName ?? '-'} ${widget.model.doctor?.lastName ?? '-'}\n"
                     "تاريخ الإضافة: ${widget.model.createdAt?.split("T").first}\n"
-                    
                     "السؤال:  ${widget.model.question ?? '-'} ",
-                    //"الحالة: ${widget.model.patient?.status == 'pending' ? 'في الانتظار' : '-'}\n"
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.right,
@@ -69,74 +62,18 @@ class MyConsultationsCardState extends State<MyConsultationsCard> {
                       fontSize: 16.sp,
                     ),
                   ),
-
                   trailing: InkWell(
-                    child: CircleAvatar(
-                      backgroundColor: ConstColors.darkBlue,
-                      child: IconButton(onPressed: (){
-                        Get.toNamed(
-  ConsultationDetailsScreen.name,
-  arguments: widget.model,
-);
-
-                      }, icon: Icon(Icons.remove_red_eye,color: Colors.white))
-                    )
-                  ),
-//                   trailing: CircleAvatar(
-//                     backgroundColor: Colors.red,
-//                     child: IconButton(
-//                       onPressed: () {
-//                         showDialog(
-//   context: context,
-//   builder: (context) => AlertDialog(
-//     title: Text('تأكيد الحذف'),
-//     content: Text('هل أنت متأكد من حذف الموعد'),
-//     actions: [
-//       TextButton(
-//         onPressed: () => Navigator.of(context).pop(), // إلغاء
-//         child: Text('إلغاء'),
-//       ),
-
-//       GetBuilder<AppointmentInHoldController>(
-//         builder: (_) {
-//           return TextButton(
-//             onPressed: controller.isLoadingDel
-//                 ? null
-//                 : () async {
-//                     await controller.deleteappointmentrequist(widget.model.id!);
-//                     Navigator.of(context).pop();
-//                   },
-//             child: controller.isLoadingDel
-//                 ? SizedBox(
-//                     width: 18,
-//                     height: 18,
-//                     child: CircularProgressIndicator(strokeWidth: 2),
-//                   )
-//                 : Text(
-//                     'حذف',
-//                     style: TextStyle(color: Colors.red),
-//                   ),
-//           );
-//         },
-//         ),
-//       // TextButton(
-//       //   onPressed: () {
-//       //     controller.deleteappointmentrequist(widget.model.id!); // تنفيذ الحذف
-//       //     Navigator.of(context).pop(); // إغلاق الحوار
-//       //   },
-//       //   child: Text(
-//       //     'حذف',
-//       //     style: TextStyle(color: Colors.red),
-//       //   ),
-//       // ),
-//     ],
-//   ),
-// );
-
-//                       },
-//                       icon: Icon(Icons.delete, color: Colors.white),
-//                     ),
-//                   ),
+                      child: CircleAvatar(
+                          backgroundColor: ConstColors.darkBlue,
+                          child: IconButton(
+                              onPressed: () {
+                                Get.toNamed(
+                                  ConsultationDetailsScreen.name,
+                                  arguments: widget.model,
+                                );
+                              },
+                              icon: Icon(Icons.remove_red_eye,
+                                  color: Colors.white)))),
                 ),
               ],
             ),

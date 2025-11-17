@@ -7,15 +7,15 @@ class MyAppointmentController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-     myAppointments();
+    myAppointments();
   }
+
   bool isloading = false;
   Future<void> myAppointments() async {
     isloading = true;
     update();
-    
-     final result = await MyAppointmentDataSource.getAllMyAppointment();
-  //data = result.where((item) => item.meetStatus == " scheduled" || item.meetStatus == " accepted" ).toList();
+
+    final result = await MyAppointmentDataSource.getAllMyAppointment();
 
     data = (await MyAppointmentDataSource.getAllMyAppointment());
     print(data?.length.toString());
@@ -25,15 +25,11 @@ class MyAppointmentController extends GetxController {
 
   bool isAccepting = false;
   Future<void> accept(int id) async {
-    // final data = {
-    //   "amount" : amountCont.text
-    // };
     isAccepting = true;
     update();
     await MyAppointmentDataSource.acceptappointment(id);
     isAccepting = false;
     update();
-    //myAppointments();
   }
 
   Future<void> reject(int id) async {
@@ -42,6 +38,5 @@ class MyAppointmentController extends GetxController {
     await MyAppointmentDataSource.rejectappointment(id);
     isAccepting = false;
     update();
-    //myAppointments();
   }
 }

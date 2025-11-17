@@ -72,73 +72,71 @@ class ConsultationsState extends State<Consultations> {
                   builder: (controller) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child:controller.isloading
-    ?  SizedBox(
-      height: 500,
-        //width: double.infinity,
-      child:
-       Center(child: CircularProgressIndicator()))
-    :  Column(
-                        children: [
-                          CustomDropdown(
-                            items: controller.specialties,
-                            hint1: "اختر التخصص",
-                            onChanged: (val) {
-                              log("$val");
-                              final matchedSpecialty = controller
-                                  .specialtiesModel?.data
-                                  ?.firstWhereOrNull((e) => e.name == val);
+                      child: controller.isloading
+                          ? SizedBox(
+                              height: 500,
+                              child: Center(child: CircularProgressIndicator()))
+                          : Column(
+                              children: [
+                                CustomDropdown(
+                                  items: controller.specialties,
+                                  hint1: "اختر التخصص",
+                                  onChanged: (val) {
+                                    log("$val");
+                                    final matchedSpecialty = controller
+                                        .specialtiesModel?.data
+                                        ?.firstWhereOrNull(
+                                            (e) => e.name == val);
 
-                              if (matchedSpecialty != null) {
-                                controller.selectedSpecialtyId =
-                                    matchedSpecialty.id.toString();
-                                controller.specialty_id =
-                                    matchedSpecialty.id.toString();
-                                log(controller.specialty_id.toString());
-                              } else {
-                                controller.selectedSpecialtyId = null;
-                                controller.specialty_id = null;
-                                showSnackBar("لم يتم العثور على التخصص المحدد");
-                              }
-                            },
-                            showSecondDropdown: false,
-                          ),
-                          SizedBox(
-                            height: 10.vmin,
-                          ),
-                          AppTextFormField1(
-                            hint: "اكتب استشارتك",
-                            controller: controller.question,
-                            minlines: 4,
-                          ),
-                          SizedBox(
-                            height: 10.vmin,
-                          ),
-                          controller.isloading_write_Consltation
-                              ? CircularProgressIndicator()
-                              : AppButton(
-                                  text: "تم",
-                                  ontap: () async {
-                                    if (key.currentState!.validate()) {
-                                      await controller.Writeconsultations();
-                                      await CacheHelper.set(
-                                        key:
-                                            'consultation_reply_${controller.question}',
-                                        value: controller.question.text,
-                                      );
-                                      setState(() {
-                                        replyText = controller.question.text;
-                                        controller.question.clear();
-                                      });
+                                    if (matchedSpecialty != null) {
+                                      controller.selectedSpecialtyId =
+                                          matchedSpecialty.id.toString();
+                                      controller.specialty_id =
+                                          matchedSpecialty.id.toString();
+                                      log(controller.specialty_id.toString());
+                                    } else {
+                                      controller.selectedSpecialtyId = null;
+                                      controller.specialty_id = null;
+                                      showSnackBar(
+                                          "لم يتم العثور على التخصص المحدد");
                                     }
                                   },
-                                  // ontap: () {
-                                  //   globalController.submitAndClear(context,
-                                  //       " تم كتابة الاستشارة,سيتم الرد في اقرب وقت");
-                                  // }
-                                )
-                        ],
-                      ),
+                                  showSecondDropdown: false,
+                                ),
+                                SizedBox(
+                                  height: 10.vmin,
+                                ),
+                                AppTextFormField1(
+                                  hint: "اكتب استشارتك",
+                                  controller: controller.question,
+                                  minlines: 4,
+                                ),
+                                SizedBox(
+                                  height: 10.vmin,
+                                ),
+                                controller.isloading_write_Consltation
+                                    ? CircularProgressIndicator()
+                                    : AppButton(
+                                        text: "تم",
+                                        ontap: () async {
+                                          if (key.currentState!.validate()) {
+                                            await controller
+                                                .Writeconsultations();
+                                            await CacheHelper.set(
+                                              key:
+                                                  'consultation_reply_${controller.question}',
+                                              value: controller.question.text,
+                                            );
+                                            setState(() {
+                                              replyText =
+                                                  controller.question.text;
+                                              controller.question.clear();
+                                            });
+                                          }
+                                        },
+                                      )
+                              ],
+                            ),
                     );
                   },
                 ),

@@ -5,19 +5,11 @@ import 'package:get/get.dart';
 
 class AppointmentInHoldController extends GetxController {
   List<Data>? data;
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   Future.microtask(() => myAppointmentsinhold());
-  // }
 
   bool isloading = false;
   Future<void> myAppointmentsinhold() async {
     isloading = true;
     update();
-
-    //    final result = await AppointmentInHoldDataSource.getAllAppointmentInHold();
-    // data = result.where((item) => item.meetStatus == " scheduled" || item.meetStatus == " accepted" ).toList();
 
     data = (await AppointmentInHoldDataSource.getAllAppointmentInHold());
     print(data?.length.toString());
@@ -37,7 +29,7 @@ class AppointmentInHoldController extends GetxController {
     update();
     if (result) {
       Get.back();
-      await myAppointmentsinhold(); // جلب المواعيد من جديد
+      await myAppointmentsinhold();
     } else {
       print(' فشل الحذف!');
     }

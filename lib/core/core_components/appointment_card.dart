@@ -1,4 +1,3 @@
-
 import 'package:Pationt_Donor/modules/patient/data/model/my_appointment_model.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/controllers/my_appointment_controller.dart';
 import 'package:extended_image/extended_image.dart';
@@ -45,8 +44,7 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
     if (isDeleted) return const SizedBox.shrink();
 
     return Padding(
-      padding:
-          EdgeInsets.all(0.5.vmin),
+      padding: EdgeInsets.all(0.5.vmin),
       child: Card(
         elevation: 4,
         shape: RoundedRectangleBorder(
@@ -81,31 +79,8 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
                     fontSize: 16.sp,
                   ),
                 ),
-                
-//                 trailing: CircleAvatar(
-//   radius: 7.vmin,
-//   backgroundColor: Colors.transparent,
-//   child: (widget.model.doctor?.imageUrl != null && widget.model.doctor!.imageUrl!.isNotEmpty)
-//       ? ClipOval(
-//           child: ExtendedImage.network(
-//             widget.model.doctor!.imageUrl!,
-//             width: 20.w,
-//             height: 20.w,
-//             fit: BoxFit.cover,
-//           ),
-//         )
-//       : Icon(
-//           Icons.person,
-//           size: 5.w,
-//           color: ConstColors.darkBlue,
-//         ),
-// ),
-
               ),
-
               SizedBox(height: 2.vmin),
-
-              // ✅ إذا في تحميل (قبول أو رفض) يطلع اللودر بنص البطاقة
               if (isAccepting || isRejecting)
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.vmin),
@@ -116,11 +91,10 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
                     ),
                   ),
                 )
-              else if (widget.model.meetStatus == "scheduled") // الأزرار بس إذا ما قبل الموعد
+              else if (widget.model.meetStatus == "scheduled")
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // زر القبول
                     SizedBox(
                       width: 25.vmin,
                       height: 10.vmin,
@@ -152,8 +126,6 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
                         ),
                       ),
                     ),
-
-                    // زر الرفض
                     SizedBox(
                       width: 25.vmin,
                       height: 10.vmin,
@@ -186,7 +158,6 @@ class _AppointmentCardState extends State<MyAppointmentCard> {
                     ),
                   ],
                 ),
-
               SizedBox(height: 3.vmin),
             ],
           ),

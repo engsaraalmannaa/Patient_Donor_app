@@ -12,10 +12,7 @@ class DonationInformation extends StatelessWidget {
   static final page = GetPage(
     name: name,
     page: () =>  DonationInformation(),
-    //binding: LoginBinding(),
-    // middlewares: [
-    //   LoginMiddleware(),
-    // ]
+    
   );
   @override
   Widget build(BuildContext context) {

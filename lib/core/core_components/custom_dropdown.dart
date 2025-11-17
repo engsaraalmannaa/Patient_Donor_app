@@ -2,18 +2,18 @@
 import 'package:flutter/material.dart';
 
 class CustomDropdown<S> extends StatefulWidget {
-  final List<String> items; // قائمة العناصر للقائمة المنسدلة الأولى (البلدان)
+  final List<String> items; 
   final String hint1;
   final String? hint2;
-  final ValueChanged<String>? onChanged; // دالة يتم استدعاؤها عند تغيير الخيار في القائمة الأولى
+  final ValueChanged<String>? onChanged; 
   final Map<String, List<String>>? data;
-  final bool showSecondDropdown;// هيكل البيانات الذي يربط بين القائمتين
+  final bool showSecondDropdown;
 
   const CustomDropdown({
     Key? key,
     required this.items,
      this.onChanged,
-     this.data, // إضافة البيانات كمعامل
+     this.data, 
     required this.hint1,
       this.hint2,
      this.showSecondDropdown= true,
@@ -24,28 +24,28 @@ class CustomDropdown<S> extends StatefulWidget {
 }
 
 class CustomDropdownState extends State<CustomDropdown> {
-  // متغيرات الحالة
-  String? selectedSpecialety; // العنصر المحدد في القائمة الأولى
-  String? selectedDoctor; // العنصر المحدد في القائمة الثانية
-  List<String> doctors = []; // قائمة المدن التي سيتم عرضها في القائمة الثانية
+ 
+  String? selectedSpecialety;
+  String? selectedDoctor; 
+  List<String> doctors = [];
 
   @override
   void initState() {
     super.initState();
-    // تهيئة القائمة الثانية بأول بلد
+ 
     selectedSpecialety = null;
-     // نستخدم widget.items بدلاً من item.keys
+    
       doctors =[];
       selectedDoctor = null;
 
   }
 
-  // دالة لتحديث عناصر القائمة الثانية
+
   void updateDoctors(String? doctor1) {
     setState(() {
       selectedSpecialety = doctor1;
       if (widget.data!=null && widget.data!.containsKey(doctor1)) {
-        doctors = widget.data![doctor1]!; // نستخدم widget.data بدلاً من item
+        doctors = widget.data![doctor1]!; 
         selectedDoctor =  null;
       } else {
         doctors = [];
@@ -59,7 +59,7 @@ class CustomDropdownState extends State<CustomDropdown> {
 
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
-      //labelText: label,
+  
       labelStyle: TextStyle(color: Colors.grey.shade700),
       filled: true,
       fillColor: Colors.blue.shade50,
@@ -82,7 +82,6 @@ class CustomDropdownState extends State<CustomDropdown> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // القائمة المنسدلة الأولى (البلدان)
         DropdownButtonFormField<String>(
           decoration: _inputDecoration(widget.hint1),
           hint: Text(widget.hint1) ,
@@ -96,16 +95,15 @@ class CustomDropdownState extends State<CustomDropdown> {
               child: Text(val),
             );
           }).toList(),
-          onChanged: updateDoctors, // استدعاء دالة _updateCities عند تغيير الخيار
+          onChanged: updateDoctors, 
         ),
-        // القائمة المنسدلة الثانية (المدن)
+       
         if(widget.showSecondDropdown && doctors.isNotEmpty)
         DropdownButton<String>(
           hint: widget.hint2 != null ? Text(widget.hint2!) : null,
           value: selectedDoctor != null && doctors.contains(selectedDoctor)
               ? selectedDoctor
               : null,
-          // value: selectedDoctor,
           isExpanded: true,
           items: doctors.map((String doc) {
             return DropdownMenuItem<String>(

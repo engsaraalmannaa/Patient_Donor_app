@@ -69,9 +69,6 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
                   size: 7.vmin,
                 ),
                 onPressed: () async {
-                  //   Get.to(
-                  //       () => EditConsultationScreen(consultation: consultation));
-                  //
                   final result = await Get.to(
                     () => EditConsultationScreen(
                       consultation: widget.consultation,
@@ -81,7 +78,6 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
                   if (result != null && result?['refresh'] == true) {
                     Consultation updatedConsultation = result['consultation'];
 
-                    // حدث الكائن الأصلي (consultation) بالبيانات الجديدة:
                     widget.consultation.id = updatedConsultation.id;
                     widget.consultation.specialtyId =
                         updatedConsultation.specialtyId;
@@ -96,7 +92,6 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
                         updatedConsultation.specialty;
                     widget.consultation.answers = updatedConsultation.answers;
 
-                    // حدث الواجهة:
                     (context as Element).markNeedsBuild();
                   }
                 },
@@ -117,7 +112,6 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
                     child: Padding(
                       padding: EdgeInsets.all(3.vmin),
                       child: Column(
-                        //crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Card(
                             elevation: 4,
@@ -141,7 +135,6 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
                               subtitle: Text(
                                 'السؤال: ${widget.consultation.question ?? '-'}',
                                 style: TextStyle(color: ConstColors.darkBlue),
-                                // 'الإجابة: ${consultation.answers != null && consultation.answers!.isNotEmpty ? consultation.answers!.join("\n") : "لا يوجد إجابة"}',
                               ),
                               trailing: CircleAvatar(
                                 radius: 6.vmin,
@@ -157,23 +150,25 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
                                         actions: [
                                           TextButton(
                                             onPressed: () =>
-                                                Navigator.of(context)
-                                                    .pop(), // إلغاء
+                                                Navigator.of(context).pop(),
                                             child: Text('إلغاء'),
                                           ),
                                           GetBuilder<MyConsultationController>(
-                                            //initState: (state) => WidgetsBinding.instance.addPostFrameCallback((_) {}),
                                             builder: (controller) {
                                               return TextButton(
                                                 onPressed: () async {
-  final success = await controller.deletemyconsultation(widget.consultation.id!);
-  if (success) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      //Navigator.of(context).pop();
-      //Get.offNamed(ShowMyConsultation.name);
-    });
-  }
-},
+                                                  final success =
+                                                      await controller
+                                                          .deletemyconsultation(
+                                                              widget
+                                                                  .consultation
+                                                                  .id!);
+                                                  if (success) {
+                                                    WidgetsBinding.instance
+                                                        .addPostFrameCallback(
+                                                            (_) {});
+                                                  }
+                                                },
                                                 child: controller.isLoadingDel
                                                     ? SizedBox(
                                                         width: 18,
@@ -204,8 +199,6 @@ class _ConsultationDetailsScreenState extends State<ConsultationDetailsScreen> {
                             ),
                           ),
                           SizedBox(height: 1.vmin),
-
-                          // بطاقة الإجابات
                           if (widget.consultation.answers != null &&
                               widget.consultation.answers!.isNotEmpty)
                             ...widget.consultation.answers!.map((answer) {

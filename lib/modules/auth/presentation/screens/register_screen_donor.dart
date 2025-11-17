@@ -22,15 +22,12 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
     name: name,
     page: () => RegisterScreenDonor(),
     binding: RegisterBinding(),
-    // middlewares: [
-    //   RegisterMiddleware(),
-    // ]
   );
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-  controller.userRole = role!;
+    controller.userRole = role!;
 
     return Stack(
       children: [
@@ -61,12 +58,7 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                           foregroundColor: Colors.transparent,
                           radius: 21.vmin,
                           backgroundImage: ExtendedAssetImageProvider(
-                              "assets/images/logoo.png")
-                          // child: Icon(
-                          //   Icons.person,
-                          //   size: 37.vmin,
-                          // ),
-                          ),
+                              "assets/images/logoo.png")),
                     ),
                     SizedBox(
                       height: 2.5.vmin,
@@ -75,7 +67,6 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                     Text(
                       "ادخل بياناتك",
                       style: TextStyle(
-                          //color: ConstColors.darkBlue,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 14.spa),
@@ -171,23 +162,23 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                       },
                     ),
                     Padding(
-                      padding:  EdgeInsets.symmetric(vertical: 2.vmin),
+                      padding: EdgeInsets.symmetric(vertical: 2.vmin),
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          label: Text("الجنس",style: TextStyle(fontSize: 15.spa),),
+                          label: Text(
+                            "الجنس",
+                            style: TextStyle(fontSize: 15.spa),
+                          ),
                           prefixIcon: const Icon(Icons.perm_identity_outlined),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.vmin),
-                            //borderSide:  BorderSide(color: Colors.grey),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.vmin),
-                            //borderSide: const BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.vmin),
-                            //borderSide: BorderSide(color: Theme.of(context).primaryColor),
                           ),
                           fillColor: Colors.blue.shade50,
                           filled: true,
@@ -206,9 +197,7 @@ class RegisterScreenDonor extends GetView<RegisterdonorController> {
                           ),
                         ],
                         onChanged: (value) {
-                          // حفظ القيمة في الكونترولر على شكل نص لتتوافق مع إرسال الـ API
                           controller.genderController.text = value!;
-                          //controller. update();
                           controller.isError.value = false;
                         },
                         validator: (value) {

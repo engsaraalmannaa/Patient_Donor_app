@@ -23,16 +23,12 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
     name: name,
     page: () => RegisterScreenPatient(),
     binding: RegisterBinding(),
-    // middlewares: [
-    //   RegisterMiddleware(),
-    // ]
   );
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     controller.userRole = role!;
-    //print("controller is: ${controller.emailController}"); // فحص
 
     return Stack(
       children: [
@@ -72,7 +68,6 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                     Text(
                       "ادخل بياناتك",
                       style: TextStyle(
-                          //color: ConstColors.darkBlue,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 14.spa),
@@ -119,7 +114,6 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                         (_) => controller.isError.value = false;
                       },
                     ),
-
                     AppTextFormField(
                       hint: 'البريد الالكتروني',
                       icon: const Icon(Icons.email_outlined),
@@ -199,9 +193,7 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                         ),
                       ],
                       onChanged: (value) {
-                        // حفظ القيمة في الكونترولر على شكل نص لتتوافق مع إرسال الـ API
                         controller.genderController.text = value!;
-                        //controller. update();
                         controller.isError.value = false;
                       },
                       validator: (value) {
@@ -212,7 +204,6 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       },
                     ),
                     AppTextFormField(
-                      
                       hint: ' تاريخ الميلاد ',
                       icon: const Icon(Icons.perm_identity_outlined),
                       keyboardType: TextInputType.name,
@@ -221,7 +212,7 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                         if (value == null || value.isEmpty) {
                           return 'تاريخ الميلاد مطلوب';
                         }
-                      
+
                         onChanged:
                         (_) => controller.isError.value = false;
                       },
@@ -318,10 +309,9 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       },
                     ),
                     DropdownButtonFormField<String>(
-                      padding: EdgeInsets.symmetric(vertical:2.vmin),
+                      padding: EdgeInsets.symmetric(vertical: 2.vmin),
                       isDense: true,
                       decoration: InputDecoration(
-                        
                         labelText: 'هل أنت مدخن؟',
                         prefixIcon: const Icon(Icons.perm_identity_outlined),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -358,7 +348,7 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                       },
                     ),
                     DropdownButtonFormField<String>(
-                      padding: EdgeInsets.symmetric(vertical:2.vmin),
+                      padding: EdgeInsets.symmetric(vertical: 2.vmin),
                       isDense: true,
                       decoration: InputDecoration(
                         labelText: 'هل انتِ حامل؟',
@@ -396,15 +386,6 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                         (_) => controller.isError.value = false;
                       },
                     ),
-
-                    // DropdownMenuItem(
-                    //   child: AppTextFormField(
-                    //     hint: ' هل انتِ حامل؟',
-                    //     icon: const Icon(Icons.perm_identity_outlined),
-                    //     keyboardType: TextInputType.phone,
-                    //     controller: controller.smokerController,
-                    //   ),
-                    // ),
                     AppTextFormField(
                       hint: ' زمرة الدم',
                       icon: const Icon(Icons.perm_identity_outlined),
@@ -497,7 +478,6 @@ class RegisterScreenPatient extends GetView<RegisterpatientController> {
                               print("after valid");
                               if (formKey.currentState!.validate()) {
                                 var success =
-                                
                                     await controller.registerfunction();
                                 if (success == true) {
                                   Get.offAllNamed(LoginScreen5.name);

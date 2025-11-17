@@ -186,8 +186,7 @@ class _DonationStateState extends State<DonationState> {
                                                       [])
                                                   .map((d) =>
                                                       DropdownMenuItem<String>(
-                                                        value: d.id
-                                                            ?.toString(), // <-- القيمة هي الـ id
+                                                        value: d.id?.toString(),
                                                         child: Text(
                                                             "${d.firstName ?? ''} ${d.lastName ?? ''}"),
                                                       ))
@@ -242,10 +241,6 @@ class _DonationStateState extends State<DonationState> {
                                   SizedBox(
                                     height: 5.vmin,
                                   ),
-                                  // AppTextFormField1(
-                                  //     hint: "درجة خطورة المرض",
-                                  //     controller: controller.urgency_level,
-                                  //     minlines: 1),
                                   DropdownButtonFormField<String>(
                                     isExpanded: true,
                                     decoration: InputDecoration(
@@ -273,11 +268,10 @@ class _DonationStateState extends State<DonationState> {
                                       ),
                                     ),
                                     icon: const Icon(Icons.arrow_drop_down),
-
                                     value:
                                         controller.urgency_level.text.isNotEmpty
                                             ? controller.urgency_level.text
-                                            : null, // القيمة المختارة حالياً
+                                            : null,
                                     items: const [
                                       DropdownMenuItem(
                                         value: "عالية",
@@ -294,8 +288,7 @@ class _DonationStateState extends State<DonationState> {
                                     ],
                                     onChanged: (val) {
                                       if (val != null) {
-                                        controller.urgency_level.text =
-                                            val; // نخزن القيمة المختارة لنبعتها للباك
+                                        controller.urgency_level.text = val;
                                       }
                                     },
                                     validator: (val) {
@@ -305,7 +298,6 @@ class _DonationStateState extends State<DonationState> {
                                       return null;
                                     },
                                   ),
-
                                   SizedBox(
                                     height: 5.vmin,
                                   ),

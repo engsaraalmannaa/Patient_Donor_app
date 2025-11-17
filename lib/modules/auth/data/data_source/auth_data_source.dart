@@ -29,14 +29,7 @@ class AuthDataSource {
     if (response != null) {
       await CacheHelper.set(key: AppKey.role, value: userRole); // تخزين role
       await CacheHelper.set(key: AppKey.token, value: response["token"]);
-      // final user = response['user'];
-      // await CacheHelper.set(
-      //     key: 'user_name',
-      //     value: "${user['first_name']}" ?? "" "${user['last_name']}" ?? "");
-      // await CacheHelper.set(key: 'user_email', value: user['email']);
-      // await CacheHelper.set(
-      //     key: 'user_id', value: response['data']['user_id'].toString());
-
+     
       return response;
     }
     Get.snackbar(
@@ -81,36 +74,36 @@ class AuthDataSource {
       method: RequestType.post,
       context: Get.context!,
       body: {
-        "first_name": first_name, // required|string|max:255
-        "father_name": father_name, // required|string|max:255
-        "last_name": last_name, // required|string|max:255
-        "gender": gender, // required|in:male,female
-        "birth_date": birth_data, // required|date
+        "first_name": first_name, 
+        "father_name": father_name,  
+        "last_name": last_name, 
+        "gender": gender, 
+        "birth_date": birth_data, 
         "national_number":
-            national_number, // required|string|unique:patients,national_number
-        "address": address, // required|string|max:255
-        "phone": phone, // required|string|unique:patients,phone
-        "email": email, // required|email|unique:patients,email
-        "password": password, // required|string|min:8|confirmed
+            national_number, 
+        "address": address,
+        "phone": phone, 
+        "email": email, 
+        "password": password,
         "password_confirmation":
-            password_confirmation, // required for confirmation matching
-        "social_status": social_status, // nullable|string // optional
-        "emergency_num": emergency_num, // nullable|string|max:20 // optional
+            password_confirmation,
+        "social_status": social_status,
+        "emergency_num": emergency_num, 
         "insurance_company":
-            insurance_company, // nullable|string|max:255 // optional
-        "insurance_num": insurance_num, // nullable|string|max:50 // optional
-        "smoker": smoker, // nullable|boolean // optional
-        "pregnant": pregnant, // nullable|boolean // optional
-        "blood_type": blood_type, // nullable|string|max:3 // optional
-        "genetic_diseases": genetic_diseases, // nullable|string // optional
-        "chronic_diseases": chronic_diseases, // nullable|string // optional
-        "drug_allergy": drug_allergy, // nullable|string // optional
-        "last_operations": last_operations, // nullable|string // optional
+            insurance_company,
+        "insurance_num": insurance_num,
+        "smoker": smoker,
+        "pregnant": pregnant, 
+        "blood_type": blood_type, 
+        "genetic_diseases": genetic_diseases, 
+        "chronic_diseases": chronic_diseases, 
+        "drug_allergy": drug_allergy, 
+        "last_operations": last_operations, 
         "present_medicines": present_medicines,
       },
     );
     print('RESPONSE: $response');
-    //print("test respo${response}");
+    
     if (response?['errors'] != null) {
       final emailErrors = response['errors']['email'];
       if (emailErrors != null && emailErrors.isNotEmpty) {
@@ -119,7 +112,6 @@ class AuthDataSource {
       return response;
     }
     if (response != null) {
-      //await CacheHelper.set(key: AppKey.token, value: response["token"]);
       await CacheHelper.set(key: AppKey.role, value: userRole);
       Get.back();
     }
@@ -141,33 +133,30 @@ class AuthDataSource {
       required String country,
       required String endpoint}) async {
     String userRole = 'donor';
-    // final gen = genderController.text == " ذكر" ? " male" : "female";
-    print(father_name ?? "000");
+    
     print(email ?? "000");
     print(password ?? "000");
-    //print(confpassword ?? "000");
     var response = await apiHelper.sendRequest(
       endPoint: endpoint,
       method: RequestType.post,
       context: Get.context!,
       body: {
-        "first_name": first_name, // required|string|max:255
-        "father_name": father_name, // required|string|max:255
-        "last_name": last_name, // required|string|max:255
-        "gender": gender, // required|in:male,female
-        "birth_date": birth_data, // required|date
+        "first_name": first_name,  
+        "father_name": father_name,  
+        "last_name": last_name,
+        "gender": gender, 
+        "birth_date": birth_data, 
         "national_number":
-            national_number, // required|string|unique:patients,national_number
-        "address": address, // required|string|max:255
-        "phone": phone, // required|string|unique:patients,phone
-        "email": email, // required|email|unique:patients,email
-        "password": password, // required|string|min:8|confirmed
+            national_number,
+        "address": address, 
+        "phone": phone, 
+        "email": email, 
+        "password": password,
         "password_confirmation":
-            password_confirmation, // required for confirmation matching
+            password_confirmation, 
         "country": country,
       },
     );
-    //print("test respo${response}");
     if (response != null) {
         await CacheHelper.set(key: AppKey.role, value: userRole);
       Get.back();

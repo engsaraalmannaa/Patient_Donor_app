@@ -16,10 +16,6 @@ class ShowMyConsultation extends StatefulWidget {
   static final page = GetPage(
     name: name,
     page: () => ShowMyConsultation(),
-    //binding: LoginBinding(),
-    // middlewares: [
-    //   LoginMiddleware(),
-    // ]
   );
   @override
   State<ShowMyConsultation> createState() => ShowMyConsultationState();
@@ -39,32 +35,12 @@ class ShowMyConsultationState extends State<ShowMyConsultation> {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          // appBar: AppBar(
-          //   shape: Border.all(),
-          //   leading: Padding(
-          //     padding: EdgeInsets.only(right: 4.vmin),
-          //     child: Image.asset("assets/images/logoo.png", width: 25.vmin),
-          //   ),
-          //   title: Text("استشاراتي ",
-          //       style:
-          //           TextStyle(fontSize: 14.spa, fontWeight: FontWeight.w600)),
-          //            actions: [
-          //     IconButton(
-          //       onPressed: () => Navigator.pop(context),
-          //       icon: Icon(
-          //         Icons.arrow_forward,
-          //         size: 10.vmin,
-          //       ),
-          //     ),
-          //   ],
-          // ),
           body: SafeArea(
               child: Padding(
             padding: EdgeInsets.all(1.vmin),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //SizedBox(height: 2.h),
                 Expanded(
                   child: GetBuilder<MyConsultationController>(
                     initState: (state) {
@@ -78,8 +54,7 @@ class ShowMyConsultationState extends State<ShowMyConsultation> {
                       }
                       if (controller.data == null || controller.data!.isEmpty) {
                         return SizedBox(
-                          height: 70
-                              .h, // تعطي ارتفاع مناسب لتكون الرسالة في منتصف الشاشة تقريباً
+                          height: 70.h,
                           child: Center(
                             child: Text(
                               'لا يوجد استشارات لعرضها',
@@ -96,7 +71,6 @@ class ShowMyConsultationState extends State<ShowMyConsultation> {
                         child: RefreshIndicator(
                           onRefresh: () async => controller.myconsultations(),
                           child: ListView.builder(
-                              //shrinkWrap: true,
                               itemCount: controller.data?.length,
                               itemBuilder: (context, i) {
                                 return MyConsultationsCard(

@@ -13,22 +13,20 @@ class AddDiseaseController extends GetxController {
   final isLoadingDoctors = false.obs;
   bool isSubmitting = false;
 
-  // بيانات
   final specialties = <String>[].obs;
   DoctorBySpecialetyModel? doctorsOfSelected;
 
-  // خرائط ربط اسم ↔ id
   final Map<String, String> specialtyNameToId = {};
   final Map<String, String> doctorNameToId = {};
 
   String? specialty_id;
   String? doctorId;
-  final selectedSpecialty = RxnString(); // أو RxString('')
-  final selectedDoctor = RxnString(); // أو RxString('')
+  final selectedSpecialty = RxnString(); 
+  final selectedDoctor = RxnString(); 
   @override
   void onInit() {
     super.onInit();
-    // ممكن تستدعي getSpecialties() من هون بدل initState في الواجهة
+   
   }
 
   Future<void> getSpecialties() async {
@@ -61,10 +59,9 @@ class AddDiseaseController extends GetxController {
     isLoadingDoctors.value = true;
     try {
       final res = await DiseaseDataSource.getAlldoctorsbyspecialety(id: id);
-      // doctorsOfSelected = null;
-      // doctorNameToId.clear();
+     
       if ((res.data?.isEmpty ?? true)) {
-        doctorsOfSelected = null; // هذا يعني لا تعرض الدروب داون
+        doctorsOfSelected = null; 
         showSnackBar("لا يوجد أطباء لهذا التخصص");
       } else {
         doctorsOfSelected = res;
@@ -79,11 +76,10 @@ class AddDiseaseController extends GetxController {
   }
 
   void onDoctorSelected(String doctorIdSelected) {
-    // selectedDoctor.value = doctorName;
-    // doctor_id = doctorNameToId[doctorName];
+  
     doctorId = doctorIdSelected;
     print("✅ تم اختيار الطبيب id = $doctorId");
-    //print("✅ تم اختيار الطبيب: $doctorName => id = test");
+   
   }
 
   final TextEditingController patient_status = TextEditingController();
@@ -121,10 +117,7 @@ class AddDiseaseController extends GetxController {
       showSnackBar("الرجاء اختيار الطبيب ");
       return;
     }
-    // if (image == null) {
-    //   showSnackBar("الرجاء اختيار صورة للتبرع");
-    //   return;
-    // }
+  
       await DiseaseDataSource.adddisease(
           specialty_id: specialty_id!,
           doctor_id: doctorId!,

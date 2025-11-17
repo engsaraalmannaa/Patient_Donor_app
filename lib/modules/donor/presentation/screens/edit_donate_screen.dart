@@ -16,11 +16,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class EditDonateScreen extends StatefulWidget {
   final int donationid;
-  //final Data? model1;
+ 
 
   const EditDonateScreen({
     super.key,
-    required this.donationid, //this.model1,
+    required this.donationid, 
   });
 
   static const name = '/EditDonateScreen';
@@ -35,26 +35,10 @@ class EditDonateScreen extends StatefulWidget {
 }
 
 class EditDonateScreenState extends State<EditDonateScreen> {
-  // String? replyText;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // String? savedReply =
-  //   //     CacheHelper.get<String>('amount_reply${controller.amount}');
-  //   // if (savedReply != null) {
-  //   //   replyText = savedReply;
-  //   // }
-  // }
-
-//Data1? data;
-  //bool loading = true;
-  // File? selectedImage;
-  // final ImagePicker picker = ImagePicker();
   final GlobalKey<FormState> key = GlobalKey();
 
   final MyDonationsController controller = Get.put(MyDonationsController());
 
-  //final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     print('${widget.donationid}');
@@ -65,7 +49,6 @@ class EditDonateScreenState extends State<EditDonateScreen> {
           image: "assets/images/pattern.png",
         ),
         GetBuilder<MyDonationsController>(
-            //init: MyDonationsController(),
             builder: (controller) {
           return controller.isloading
               ? Center(child: CircularProgressIndicator())

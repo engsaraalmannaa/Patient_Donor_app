@@ -13,8 +13,6 @@ class AppToast {
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 2,
       fontSize: 16.0,
-      //textColor: AppColor.toastColor,
-      //backgroundColor: color ?? AppColor.primary,
       textColor: Colors.indigo,
         backgroundColor: Colors.white,
     );

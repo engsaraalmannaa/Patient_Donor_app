@@ -21,7 +21,7 @@ class ThisDonationDetails extends StatefulWidget {
   const ThisDonationDetails({
     super.key,
     required this.donationid,
-    required this.model, //this.model1,
+    required this.model,
   });
 
   static const name = '/donationdetails';
@@ -40,19 +40,11 @@ class ThisDonationDetails extends StatefulWidget {
 }
 
 class ThisDonationDetailsState extends State<ThisDonationDetails> {
-  //String? replyText;
   @override
   void initState() {
     super.initState();
-    // String? savedReply =
-    //     CacheHelper.get<String>('amount_reply${controller.amount}');
-    // if (savedReply != null) {
-    //   replyText = savedReply;
-    // }
   }
 
-//Data1? data;
-  //bool loading = true;
   final GlobalKey<FormState> key = GlobalKey();
   final HomeControllerd homeController = Get.find<HomeControllerd>();
 
@@ -67,9 +59,7 @@ class ThisDonationDetailsState extends State<ThisDonationDetails> {
           num: 0.3,
           image: "assets/images/pattern.png",
         ),
-        GetBuilder<MyDonationsController>(
-            //init: MyDonationsController(),
-            builder: (controller) {
+        GetBuilder<MyDonationsController>(builder: (controller) {
           return controller.isloadingd
               ? Center(child: CircularProgressIndicator())
               : Scaffold(
@@ -109,28 +99,6 @@ class ThisDonationDetailsState extends State<ThisDonationDetails> {
                             showSnackBar(
                                 "عذرا.. لا يمكنك التعديل نظرا لقبول تبرعك");
                           }
-
-                          // if (result != null && result?['refresh'] == true) {
-                          //   Consultation updatedConsultation = result['consultation'];
-
-                          //   // حدث الكائن الأصلي (consultation) بالبيانات الجديدة:
-                          //   widget.consultation.id = updatedConsultation.id;
-                          //   widget.consultation.specialtyId =
-                          //       updatedConsultation.specialtyId;
-                          //   widget.consultation.patientId =
-                          //       updatedConsultation.patientId;
-                          //   widget.consultation.question = updatedConsultation.question;
-                          //   widget.consultation.createdAt =
-                          //       updatedConsultation.createdAt;
-                          //   widget.consultation.updatedAt =
-                          //       updatedConsultation.updatedAt;
-                          //   widget.consultation.specialty =
-                          //       updatedConsultation.specialty;
-                          //   widget.consultation.answers = updatedConsultation.answers;
-
-                          //   // حدث الواجهة:
-                          //   (context as Element).markNeedsBuild();
-                          // }
                         },
                       ),
                       IconButton(
@@ -231,28 +199,32 @@ class ThisDonationDetailsState extends State<ThisDonationDetails> {
                                                             BorderRadius
                                                                 .circular(
                                                                     3.vmin),
-                                                        child:controller.isloadingd
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Image.network(
-                                                          "${ApiConst.baseUrl}/storage/${controller.data1!.data!.image}",
-                                                          height: 50.vmin,
-                                                          width: 60.vmin,
-                                                          fit: BoxFit.fill,
-                                                          
-                                                          errorBuilder:
-                                                              (context, error,
-                                                                  stackTrace) {
-                                                            return Icon(
-                                                              Icons
-                                                                  .broken_image,
-                                                              size: 20.vmin,
-                                                              color:
-                                                                  Colors.grey,
-                                                            );
-                                                          },
-                                                        ),
+                                                        child: controller
+                                                                .isloadingd
+                                                            ? Center(
+                                                                child:
+                                                                    CircularProgressIndicator(),
+                                                              )
+                                                            : Image.network(
+                                                                "${ApiConst.baseUrl}/storage/${controller.data1!.data!.image}",
+                                                                height: 50.vmin,
+                                                                width: 60.vmin,
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                                errorBuilder:
+                                                                    (context,
+                                                                        error,
+                                                                        stackTrace) {
+                                                                  return Icon(
+                                                                    Icons
+                                                                        .broken_image,
+                                                                    size:
+                                                                        20.vmin,
+                                                                    color: Colors
+                                                                        .grey,
+                                                                  );
+                                                                },
+                                                              ),
                                                       ),
                                                     ),
                                                 ],
@@ -260,219 +232,9 @@ class ThisDonationDetailsState extends State<ThisDonationDetails> {
                                             ),
                                           ],
                                         ),
-
-                                        //           trailing: CircleAvatar(
-                                        //             radius: 6.vmin,
-                                        //             backgroundColor: Colors.red,
-                                        //             child: IconButton(
-                                        //               onPressed: () {
-                                        //                 showDialog(
-                                        //                   context: context,
-                                        //                   builder: (context) => AlertDialog(
-                                        //                     title: Text('تأكيد الحذف'),
-                                        //                     content: Text('هل أنت متأكد من حذف الموعد'),
-                                        //                     actions: [
-                                        //                       TextButton(
-                                        //                         onPressed: () =>
-                                        //                             Navigator.of(context).pop(), // إلغاء
-                                        //                         child: Text('إلغاء'),
-                                        //                       ),
-                                        //                       GetBuilder<MyDonationsController>(
-                                        //                         builder: (controller) {
-                                        //                           return TextButton(
-                                        //                             onPressed: controller.isLoadingDel
-                                        //                                 ? null
-                                        //                                 : () async {
-                                        //                                     final success =
-                                        //                                         await controller
-                                        //                                             .deletemyconsultation(
-                                        //                                                 widget
-                                        //                                                     .consultation
-                                        //                                                     .id!);
-                                        //                                     if (success) {
-                                        //                                       Navigator.of(context).pop();
-                                        //                                       Get.offAllNamed(
-                                        //                                           ShowMyConsultation
-                                        //                                               .name);
-                                        //                                     } else{
-                                        //   // ممكن تعرض رسالة خطأ هنا
-                                        //   ScaffoldMessenger.of(context).showSnackBar(
-                                        //     SnackBar(content: Text('حدث خطأ أثناء الحذف')),
-                                        //   );
-                                        // }
-                                        //                                   },
-                                        //                             child: controller.isLoadingDel
-                                        //                                 ? SizedBox(
-                                        //                                     width: 18,
-                                        //                                     height: 18,
-                                        //                                     child:
-                                        //                                         CircularProgressIndicator(
-                                        //                                             strokeWidth: 2),
-                                        //                                   )
-                                        //                                 : Text(
-                                        //                                     'حذف',
-                                        //                                     style: TextStyle(
-                                        //                                         color: Colors.red),
-                                        //                                   ),
-                                        //                           );
-                                        //                         },
-                                        //                       ),
-                                        //                     ],
-                                        //                   ),
-                                        //                 );
-                                        //               },
-                                        //               icon: Icon(
-                                        //                 Icons.delete,
-                                        //                 color: Colors.white,
-                                        //                 size: 7.vmin,
-                                        //               ),
-                                        //             ),
-                                        //           ),
                                       ),
                                     ),
                                     SizedBox(height: 10.vmin),
-                                    // AppButton(
-                                    //     text: "تفاصيل التبرع ",
-                                    //     ontap: () {
-                                    //       showDialog(
-                                    //         context: context,
-                                    //         builder: (context) => AlertDialog(
-                                    //           title: Text('تفاصيل التبرع '),
-                                    //           content: Text(
-                                    //               'هل أنت متأكد من التبرع'),
-                                    //           actions: [
-                                    //             TextButton(
-                                    //               onPressed: () =>
-                                    //                   Navigator.of(context)
-                                    //                       .pop(), // إلغاء
-                                    //               child: Text('إلغاء'),
-                                    //             ),
-
-                                    //             TextButton(
-                                    //               onPressed: () {
-                                    //                 showDialog(
-                                    //                   context: context,
-                                    //                   builder: (context) =>
-                                    //                       AlertDialog(
-                                    //                     title: Text(
-                                    //                         'تأكيد التبرع'),
-                                    //                     content: Container(
-                                    //                       height: 110.vmin,
-                                    //                       child: Column(
-                                    //                         children: [
-                                    //                           Text(
-                                    //                               " شكرا لك ، \n من فضلك قم بالتبرع لاحدى الحسابات التالية \n "),
-                                    //                           Directionality(
-                                    //                             textDirection:
-                                    //                                 TextDirection
-                                    //                                     .ltr,
-                                    //                             child: Column(
-                                    //                               mainAxisAlignment:
-                                    //                                   MainAxisAlignment
-                                    //                                       .end,
-                                    //                               children: [
-                                    //                                 Text(
-                                    //                                   " بنك البركة   ",
-                                    //                                   style: TextStyle(
-                                    //                                       fontSize:
-                                    //                                           12.spa),
-                                    //                                 ),
-                                    //                                 SelectableText(
-                                    //                                   "5324137 رقم الحساب \n",
-                                    //                                   style: TextStyle(
-                                    //                                       fontSize:
-                                    //                                           11.spa),
-                                    //                                 ),
-                                    //                                 Text(
-                                    //                                   " البنك الاسلامي   ",
-                                    //                                   style: TextStyle(
-                                    //                                       fontSize:
-                                    //                                           12.spa),
-                                    //                                 ),
-                                    //                                 SelectableText(
-                                    //                                   "5121688   رقم الحساب \n ",
-                                    //                                   style: TextStyle(
-                                    //                                       fontSize:
-                                    //                                           11.spa),
-                                    //                                 ),
-                                    //                                 Text(
-                                    //                                   " شركة الهرم للحوالات المالية   ",
-                                    //                                   style: TextStyle(
-                                    //                                       fontSize:
-                                    //                                           12.spa),
-                                    //                                 ),
-                                    //                                 SelectableText(
-                                    //                                   " 0955555555   رقم الهاتف   \n",
-                                    //                                   style: TextStyle(
-                                    //                                       fontSize:
-                                    //                                           11.spa),
-                                    //                                 ),
-                                    //                                 Text(
-                                    //                                   " شركة الفؤاد للحوالات المالية   ",
-                                    //                                   style: TextStyle(
-                                    //                                       fontSize:
-                                    //                                           12.spa),
-                                    //                                 ),
-                                    //                                 SelectableText(
-                                    //                                   "0988888888     رقم الهاتف   \n",
-                                    //                                   style: TextStyle(
-                                    //                                       fontSize:
-                                    //                                           11.spa),
-                                    //                                 ),
-                                    //                               ],
-                                    //                             ),
-                                    //                           ),
-                                    //                         ],
-                                    //                       ),
-                                    //                     ),
-                                    //                     actions: [
-
-                                    //                       TextButton(
-                                    //                         onPressed: () {
-
-                                    //                           final controller =
-                                    //                               Get.find<
-                                    //                                   MyDonationsController>();
-                                    //                           controller
-                                    //                                   .idConsltation =
-                                    //                               widget.model
-                                    //                                   .id!;
-                                    //                           controller
-                                    //                               .showDiseases();
-                                    //                           Get.toNamed(
-                                    //                             DonateScreen
-                                    //                                 .name,
-                                    //                             arguments:
-                                    //                                 widget.model
-                                    //                                     .id,
-                                    //                           );
-                                    //                           print(
-                                    //                               '${widget.model.id}');
-                                    //                         },
-
-                                    //                         child: Text(
-                                    //                           'تم',
-                                    //                           style: TextStyle(
-                                    //                               color: Colors
-                                    //                                   .red),
-                                    //                         ),
-                                    //                       ),
-
-                                    //                     ],
-                                    //                   ),
-                                    //                 );
-                                    //               },
-                                    //               child: Text(
-                                    //                 'التالي',
-                                    //                 style: TextStyle(
-                                    //                     color: Colors.red),
-                                    //               ),
-                                    //             ),
-
-                                    //           ],
-                                    //         ),
-                                    //       );
-                                    //     }),
                                   ],
                                 ),
                               ),

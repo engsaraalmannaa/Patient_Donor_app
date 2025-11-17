@@ -39,7 +39,7 @@ class CustomBottomNavBar extends StatelessWidget {
           icon: Icon(
             Icons.home,
             size: 35,
-            color: Colors.lightBlue, // لون دائم وثابت
+            color: Colors.lightBlue, 
           ),
           label: 'الرئيسية',
         ),

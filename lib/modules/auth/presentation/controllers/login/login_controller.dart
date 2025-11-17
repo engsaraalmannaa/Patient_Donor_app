@@ -3,17 +3,15 @@ import 'package:Pationt_Donor/core/const/app_key.dart';
 import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../core/base_controllers/send_data_controller.dart';
 import '../../../../../core/core_components/pop_up.dart';
-import '../../../../../core/data_state/handler.dart';
 import '../../../data/data_source/auth_data_source.dart';
 
 class LoginController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  String userRole = 'patient'; // أو 'donor'
+  String userRole = 'patient';
   bool isloading = false;
-Map<String, dynamic>? userData; 
+  Map<String, dynamic>? userData;
   Future<bool?> loginfunction() async {
     isloading = true;
     update();
@@ -23,35 +21,24 @@ Map<String, dynamic>? userData;
     print("role: $userRole");
     String endpoint =
         userRole == 'patient' ? ApiConst.loginpatient : ApiConst.logindonor;
-    /*await AuthDataSource.login(
-        emailController.text,
-        passwordController.text,
-        endpoint
-    );*/
+
     final result = await AuthDataSource.login(
         emailController.text, passwordController.text, endpoint, userRole);
-       
-    
 
     update();
     isloading = false;
     update();
-if (result != null) {
-      userData = result; // خزنا الريسبونس كامل
+    if (result != null) {
+      userData = result;
 
-      print("✅ First Name: ${userData!['first_name']}");
-      print("✅ Last Name: ${userData!['last_name']}");
-      print("✅ Father Name: ${userData!['father_name']}");
-       await CacheHelper.set(key: "email", value: userData!['email']);
-        await CacheHelper.set(key: "first_name", value: userData!['first_name']);
-        await CacheHelper.set(key: "last_name", value: userData!['last_name']);
-        await CacheHelper.set(key: "father_name", value: userData!['father_name']);
-
+      await CacheHelper.set(key: "email", value: userData!['email']);
+      await CacheHelper.set(key: "first_name", value: userData!['first_name']);
+      await CacheHelper.set(key: "last_name", value: userData!['last_name']);
+      await CacheHelper.set(
+          key: "father_name", value: userData!['father_name']);
 
       return true;
     }
     return false;
   }
-    
-  
 }

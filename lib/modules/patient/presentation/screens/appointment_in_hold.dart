@@ -18,10 +18,6 @@ class AppointmentInHold extends StatefulWidget {
   static final page = GetPage(
     name: name,
     page: () => AppointmentInHold(),
-    //binding: LoginBinding(),
-    // middlewares: [
-    //   LoginMiddleware(),
-    // ]
   );
   @override
   State<AppointmentInHold> createState() => AppointmentInHoldState();
@@ -42,7 +38,7 @@ class AppointmentInHoldState extends State<AppointmentInHold> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-           shape: RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(3.vmin),
               ),
@@ -62,17 +58,15 @@ class AppointmentInHoldState extends State<AppointmentInHold> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //SizedBox(height: 2.h),
                   GetBuilder<AppointmentInHoldController>(
                     initState: (state) {
                       controller.myAppointmentsinhold();
                     },
                     builder: (controller) {
-                     
                       if (controller.isloading) {
                         return SizedBox(
-                          height: 500,
-                          child: Center(child: CircularProgressIndicator()));
+                            height: 500,
+                            child: Center(child: CircularProgressIndicator()));
                       }
                       return SizedBox(
                         child: RefreshIndicator(

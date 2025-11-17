@@ -21,29 +21,14 @@ class MyDonations extends StatefulWidget {
 }
 
 class _MyDonationsState extends State<MyDonations> {
-  //final controller = Get.put((MyDonationsController()));
     MyDonationsController controller = Get.put<MyDonationsController>(MyDonationsController());
 
-  //final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Container(
-        //   width: double.infinity,
-        //   height: double.infinity,
-        //   color: Colors.white,
-        //   child: Container(
-        //     decoration: BoxDecoration(
-        //       gradient: LinearGradient(
-        //         colors: [Colors.white30, Colors.black26],
-        //         begin: Alignment.topCenter,
-        //         end: Alignment.bottomCenter,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+       
          Wallpaper(
           num: 0.3,
           image: "assets/images/pattern.png",
@@ -72,7 +57,6 @@ class _MyDonationsState extends State<MyDonations> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                //SizedBox(height: 2.h),
                                 Expanded(
                                   child: GetBuilder<MyDonationsController>(
                           

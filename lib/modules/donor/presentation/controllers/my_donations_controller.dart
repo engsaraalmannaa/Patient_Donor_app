@@ -31,7 +31,6 @@ class MyDonationsController extends GetxController {
     } catch (e) {
       print("Error fetching diseases: $e");
     }
-    //data = (await MyDonationsDataSourse.getAllDonations());
     print(data?.length.toString());
     isloading = false;
     update();
@@ -42,7 +41,6 @@ class MyDonationsController extends GetxController {
   Future<void> showdonation() async {
     isloadingd = true;
     update();
-    //   Data? data1;
     try {
       data1 = await MyDonationsDataSourse.getthisdonation(donationid!);
     } catch (e) {
@@ -71,7 +69,6 @@ class MyDonationsController extends GetxController {
         "image": await dio.MultipartFile.fromFile(
           image!.path,
           filename: image!.path.split('/').last,
-          // contentType: MediaType('image', 'jpeg'), // اختياري
         ),
         "_method": "PUT",
       });
@@ -87,7 +84,6 @@ class MyDonationsController extends GetxController {
       isloadingeditdonation = false;
       update();
     }
-    //return result;
   }
 
   Future<void> pickImage() async {

@@ -1,12 +1,10 @@
-
 import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/login.dart';
 import 'package:Pationt_Donor/modules/auth/presentation/screens/register_screen_donor.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/about.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/donate_screen.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/edit_donate_screen.dart';
-import 'package:Pationt_Donor/modules/donor/presentation/screens/setting.dart';
-import 'package:Pationt_Donor/modules/donor/presentation/screens/share.dart';
+
 import 'package:Pationt_Donor/modules/donor/presentation/screens/this_disease_details.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/this_donation_details.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/screens/about_hospital.dart';
@@ -79,11 +77,11 @@ class MyApp extends StatelessWidget {
           SplashScreen.page,
           RegisterScreenDonor.page,
           RegisterScreenPatient.page,
-           ShowConsultations.page,
-           ThisDonationDetails.page,
-           MyDisease.page,
-           ShowMyConsultation.page,
-           ConsultationDetailsScreen.page,
+          ShowConsultations.page,
+          ThisDonationDetails.page,
+          MyDisease.page,
+          ShowMyConsultation.page,
+          ConsultationDetailsScreen.page,
           HomeScreen.page,
           Appointment.page,
           AboutAppScreen.page,
@@ -95,9 +93,7 @@ class MyApp extends StatelessWidget {
           DonationInformation.page,
           NotifiDScreen.page,
           MyDonations.page,
-          SettingsPage.page,
           AboutAppPage.page,
-          ShareAppPage.page,
           LoginScreen5.page,
           ProfilePatientScreen.page,
           MyAppointments.page,

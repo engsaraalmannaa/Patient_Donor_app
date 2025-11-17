@@ -4,8 +4,6 @@ import 'package:Pationt_Donor/modules/donor/data/model/disease_model.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/controllers/home_controller.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/about.dart';
 import 'package:Pationt_Donor/modules/donor/presentation/screens/profile_screen.dart';
-import 'package:Pationt_Donor/modules/donor/presentation/screens/setting.dart';
-import 'package:Pationt_Donor/modules/donor/presentation/screens/share.dart';
 import 'package:Pationt_Donor/modules/patient/presentation/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,9 +30,7 @@ class DHomeScreen extends StatefulWidget {
     name: name,
     page: () => DHomeScreen(),
     binding: LoginBinding(),
-    // middlewares: [
-    //   LoginMiddleware(),
-    // ]
+    
   );
 
   @override
@@ -127,7 +123,7 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                     style: TextStyle(color: ConstColors.darkBlue),
                   ),
                   onTap: () {
-                    Get.to(() => ProfileScreen()); // يغلق الدراور
+                    Get.to(() => ProfileScreen()); 
                   },
                 ),
                 ListTile(
@@ -138,7 +134,7 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                     style: TextStyle(color: ConstColors.darkBlue),
                   ),
                   onTap: () {
-                    Get.toNamed(MyDonations.name); // يغلق الدراور
+                    Get.toNamed(MyDonations.name); 
                   },
                 ),
 
@@ -147,7 +143,7 @@ String fullName = "${ first_name?? ''} ${father_name ?? ''} ${last_name ?? ''}";
                   title: Text('حول التطبيق',
                       style: TextStyle(color: ConstColors.darkBlue)),
                   onTap: () {
-                    Get.to(() => AboutAppPage()); // يغلق الدراور
+                    Get.to(() => AboutAppPage());
                   },
                 ),
                 ListTile(

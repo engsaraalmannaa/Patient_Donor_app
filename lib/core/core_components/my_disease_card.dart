@@ -12,9 +12,6 @@ class MyDiseaseCard extends StatefulWidget {
     super.key,
     required this.model,
     required this.index,
-
-    //  required this.model,
-    //   required this.index
   });
 
   final Data model;
@@ -61,11 +58,7 @@ class MyDiseaseCardState extends State<MyDiseaseCard> {
                     "المبلغ المطلوب:  ${widget.model.neededAmount ?? '-'} \n"
                     "المبلغ المجمع:  ${widget.model.collectedAmount ?? '-'} \n"
                     "الوقت النهائي:  ${widget.model.finalTime ?? '-'}\n"
-
-                    //"الكلفة:  ${widget.model.doctor?.meetCost ?? '-'} ل.س \n"
                     "تاريخ الإضافة: ${widget.model.createdAt?.split("T").first}",
-                    //maxLines: 5,
-                    //overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: Colors.black,

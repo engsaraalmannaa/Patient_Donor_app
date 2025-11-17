@@ -11,9 +11,6 @@ class AppointmentInHoldCard extends StatefulWidget {
     super.key,
     required this.model,
     required this.index,
-
-    //  required this.model,
-    //   required this.index
   });
 
   final Data model;
@@ -28,8 +25,7 @@ class _AppointmentCardState extends State<AppointmentInHoldCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(
-            0.5.vmin),
+        padding: EdgeInsets.all(0.5.vmin),
         child: Card(
           elevation: 4,
           shape: RoundedRectangleBorder(
@@ -47,15 +43,13 @@ class _AppointmentCardState extends State<AppointmentInHoldCard> {
               children: [
                 ListTile(
                   title: Text(
-                  "${widget.model.patient?.firstName ?? '-'} ${widget.model.patient?.lastName ?? '-'}",
-
+                    "${widget.model.patient?.firstName ?? '-'} ${widget.model.patient?.lastName ?? '-'}",
                     textDirection: TextDirection.rtl,
                     style: TextStyle(color: Colors.indigo),
                   ),
                   subtitle: Text(
                     "اسم الطبيب: ${widget.model.doctor?.firstName ?? '-'} ${widget.model.doctor?.lastName ?? '-'}\n"
                     "التكلفة:  ${widget.model.doctor?.meetCost ?? '-'} ل.س \n"
-                    //"الحالة: ${widget.model.patient!.address == 'pending' ? 'في الانتظار' : '-'}\n"
                     "تاريخ الإضافة: ${widget.model.createdAt?.split("T").first}",
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
@@ -70,43 +64,42 @@ class _AppointmentCardState extends State<AppointmentInHoldCard> {
                     child: IconButton(
                       onPressed: () {
                         showDialog(
-  context: context,
-  builder: (context) => AlertDialog(
-    title: Text('تأكيد الحذف'),
-    content: Text('هل أنت متأكد من حذف الموعد'),
-    actions: [
-      TextButton(
-        onPressed: () => Navigator.of(context).pop(), // إلغاء
-        child: Text('إلغاء'),
-      ),
-
-      GetBuilder<AppointmentInHoldController>(
-        builder: (_) {
-          return TextButton(
-            onPressed: controller.isLoadingDel
-                ? null
-                : () async {
-                    await controller.deleteappointmentrequist(widget.model.id!);
-                    //Navigator.of(context).pop();
-                  },
-            child: controller.isLoadingDel
-                ? SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(
-                    'حذف',
-                    style: TextStyle(color: Colors.red),
-                  ),
-          );
-        },
-        ),
-      
-    ],
-  ),
-);
-
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('تأكيد الحذف'),
+                            content: Text('هل أنت متأكد من حذف الموعد'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text('إلغاء'),
+                              ),
+                              GetBuilder<AppointmentInHoldController>(
+                                builder: (_) {
+                                  return TextButton(
+                                    onPressed: controller.isLoadingDel
+                                        ? null
+                                        : () async {
+                                            await controller
+                                                .deleteappointmentrequist(
+                                                    widget.model.id!);
+                                          },
+                                    child: controller.isLoadingDel
+                                        ? SizedBox(
+                                            width: 18,
+                                            height: 18,
+                                            child: CircularProgressIndicator(
+                                                strokeWidth: 2),
+                                          )
+                                        : Text(
+                                            'حذف',
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       icon: Icon(Icons.delete, color: Colors.white),
                     ),

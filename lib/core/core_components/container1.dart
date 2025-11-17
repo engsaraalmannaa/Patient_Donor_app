@@ -12,12 +12,12 @@ import '../../modules/patient/presentation/controllers/home_controller.dart';
 import '../const/const_colors.dart';
 
 class Container1 extends StatefulWidget {
-  const Container1({super.key, required this.model, required this.index, this.data1});
+  const Container1(
+      {super.key, required this.model, required this.index, this.data1});
 
   final ConsultationModel model;
   final int index;
-   final ShowConsultationModel? data1;
-
+  final ShowConsultationModel? data1;
 
   @override
   State<Container1> createState() => _Container1State();
@@ -25,7 +25,6 @@ class Container1 extends StatefulWidget {
 
 class _Container1State extends State<Container1> {
   final controller = Get.find<HomeController>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +53,8 @@ class _Container1State extends State<Container1> {
                   style: TextStyle(color: Colors.indigo, fontSize: 12.spa),
                 ),
                 subtitle: Text(
-                  // "رقم المريض: ${widget.model.meetStatus ?? '-'}\n"
                   "التخصص: ${widget.model.specialty?.name ?? '-'}\n"
                   "السؤال: ${widget.model.question ?? '-'}",
-      
-                  // "الكلفة: ${widget.model.meetCost!.toString()} ل.س ",
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.right,
@@ -68,41 +64,28 @@ class _Container1State extends State<Container1> {
                   ),
                 ),
                 trailing: Column(
-                  mainAxisSize:MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     InkWell(
-                      child: CircleAvatar(
-                       
-                        backgroundColor: ConstColors.darkBlue,
-                        child: IconButton(onPressed: (){
-                          final controller = Get.find<HomeController>();
-                            controller.idConsltation = widget.model.id!;
-                            controller.showConsultations();
-                          Get.toNamed(
-                            ShowConsultations.name,
-                            arguments: widget.model.id,
-                          );
-                          
-                        }, icon: Icon(Icons.remove_red_eye,color: Colors.white,))
-                      )
+                        child: CircleAvatar(
+                            backgroundColor: ConstColors.darkBlue,
+                            child: IconButton(
+                                onPressed: () {
+                                  final controller = Get.find<HomeController>();
+                                  controller.idConsltation = widget.model.id!;
+                                  controller.showConsultations();
+                                  Get.toNamed(
+                                    ShowConsultations.name,
+                                    arguments: widget.model.id,
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.white,
+                                )))),
+                    SizedBox(
+                      height: 1.h,
                     ),
-                    SizedBox(height: 1.h,),
-                  //                     Text(
-                  //   (controller.data1!.answers != null &&
-                  //           controller.data1!.answers.isNotEmpty)
-                  //       ? "تم الرد"
-                  //       : "لم يتم الرد بعد",
-                  //   style: TextStyle(
-                  //     color: (controller.data1!.answers != null &&
-                  //             controller.data1!.answers.isNotEmpty)
-                  //         ? Colors.green
-                  //         : Colors.red,
-                  //     fontSize: 14.sp,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-
-                    
                   ],
                 ),
               )

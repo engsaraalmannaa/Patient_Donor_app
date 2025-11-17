@@ -31,7 +31,7 @@ class LoginScreen5 extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     controller.userRole = role ?? "patient";
-    print("controller is: ${controller.emailController}"); // فحص
+    print("controller is: ${controller.emailController}"); 
     return Stack(
       children: [
         Wallpaper(
@@ -140,7 +140,7 @@ class LoginScreen5 extends GetView<LoginController> {
                               Get.toNamed(RegisterScreenDonor.name,
                                   arguments: {'role': 'donor'});
                             }
-                            //Get.offAllNamed(RegisterScreen.name);
+                          
                           },
                           child: Text.rich(
                             TextSpan(text: "ليس لديك حساب،", children: [

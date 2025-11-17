@@ -73,12 +73,9 @@ class _EditConsultationScreenState extends State<EditConsultationScreen> {
               padding: EdgeInsets.all(10.vmin),
               child: SingleChildScrollView(
                 child: GetBuilder<MyConsultationController>(
-                  //init: MyConsultationController(),
-
                   builder: (controller) => controller.isloading
                       ? SizedBox(
                           height: 500,
-                          //width: double.infinity,
                           child: Center(child: CircularProgressIndicator()))
                       : Column(
                           children: [
@@ -105,12 +102,6 @@ class _EditConsultationScreenState extends State<EditConsultationScreen> {
                               minlines: 5,
                               hint: "اكتب استشارتك",
                               controller: _questionController,
-                              // validator: (val) {
-                              //   if (val == null || val.isEmpty) {
-                              //     return "يرجى كتابة الاستشارة";
-                              //   }
-                              //   return null;
-                              // },
                             ),
                             SizedBox(height: 24),
                             AppButton(
@@ -129,8 +120,6 @@ class _EditConsultationScreenState extends State<EditConsultationScreen> {
                                   );
                                   controller.isloadingupdate = false;
                                   controller.update();
-                                  // await controller.myconsultations();
-                                  // Get.back(); // ممكن ترجع على تفاصيل الاستشارة
                                   Consultation updatedConsultation =
                                       Consultation(
                                     id: widget.consultation.id,
@@ -147,7 +136,6 @@ class _EditConsultationScreenState extends State<EditConsultationScreen> {
                                     answers: widget.consultation.answers,
                                   );
 
-                                  // ارجع الـ Consultation المحدث:
                                   Get.back(result: {
                                     'refresh': true,
                                     'consultation': updatedConsultation

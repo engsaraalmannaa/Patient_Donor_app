@@ -15,11 +15,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DonateScreen extends StatefulWidget {
   final int diseaseId;
-  //final Data? model1;
+ 
 
   const DonateScreen({
     super.key,
-    required this.diseaseId, //this.model1,
+    required this.diseaseId, 
   });
 
   static const name = '/donatescreen';
@@ -45,8 +45,7 @@ class DonateScreenState extends State<DonateScreen> {
     }
   }
 
-//Data1? data;
-  //bool loading = true;
+
   File? selectedImage;
   final ImagePicker picker = ImagePicker();
   final GlobalKey<FormState> key = GlobalKey();
@@ -63,7 +62,6 @@ class DonateScreenState extends State<DonateScreen> {
           image: "assets/images/pattern.png",
         ),
         GetBuilder<HomeControllerd>(
-            //init: HomeControllerd(),
             builder: (controller) {
           return controller.isloading
               ? Center(child: CircularProgressIndicator())
@@ -110,8 +108,7 @@ class DonateScreenState extends State<DonateScreen> {
                                     AppTextFormField(
                                       hint: "ادخل المبلغ المراد التبرع به ",
                                       controller: controller.amount,
-                                      //fillColor: Colors.w,
-                                      //minlines: 1,
+                                     
                                     ),
                                     SizedBox(
                                       height: 10.vmin,
@@ -159,7 +156,7 @@ class DonateScreenState extends State<DonateScreen> {
                                                 final homeController =
                                                     Get.find<HomeControllerd>();
                                                 await homeController
-                                                    .showDiseases(); // أو تابع تحديث الهوم عندك
+                                                    .showDiseases(); 
                                                 Get.offAllNamed('/dhome');
                                                 if (mounted) {
                                                   setState(() {
@@ -189,7 +186,7 @@ class DonateScreenState extends State<DonateScreen> {
       setState(() {
         selectedImage = File(image.path);
       });
-      controller.image = selectedImage; // ⚠️ مهم
+      controller.image = selectedImage; 
       controller.update();
     }
   }

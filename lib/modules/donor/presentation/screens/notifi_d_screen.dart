@@ -11,10 +11,7 @@ class NotifiDScreen extends StatelessWidget {
   static final page = GetPage(
     name: name,
     page: () =>  NotifiDScreen(),
-    //binding: LoginBinding(),
-    // middlewares: [
-    //   LoginMiddleware(),
-    // ]
+   
   );
   @override
   Widget build(BuildContext context) {

@@ -94,9 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 setState(() {
                                   isEditing = !isEditing;
                                   if (!isEditing) {
-                                    // Save changes here
-                                    // You can add your save logic
-                                  }
+                                    }
                                 });
                               },
                             ),
@@ -184,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 "male"
                                             ? "ذكر"
                                             : controller.gender
-                                                .text, // لو فيه أي نص آخر يظل كما هو
+                                                .text, 
                                   ),
                                 ),
                                 AppTextFormField(
@@ -229,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           text: "حفظ التعديلات",
                                           ontap: () async {
                                             if (isEditing) {
-                                              // حفظ البيانات
+                                             
                                               if (key.currentState!
                                                   .validate()) {
                                                 await controller
@@ -245,18 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               isEditing = !isEditing;
                                             });
                                           },
-                                          // if (key.currentState!.validate()) {
-                                          //   await controller.updateprofile();
-                                          //   await CacheHelper.set(
-                                          //     key:
-                                          //         '${controller.updateprofile()}',
-                                          //     value: controller.updateprofile(),
-                                          //   );
-                                          //   setState(() {
-                                          //     var replyText = controller.first_name.text;
-                                          //     controller.first_name.clear();
-                                          //   });
-                                          // }
+                                         
                                         )
                               ],
                             ),
@@ -269,12 +256,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // @override
-  // void dispose() {
-  //   nameController.dispose();
-  //   emailController.dispose();
-  //   phoneController.dispose();
-
-  //   super.dispose();
-  // }
+  
 }

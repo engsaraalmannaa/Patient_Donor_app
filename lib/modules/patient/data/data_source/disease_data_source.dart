@@ -60,9 +60,9 @@ class DiseaseDataSource {
            },
         context: Get.context!);
         if (response != null) {
-      //showSnackBar("تم حجز موعد .. سيتم ابلاغك بالوقت");
+      
       return;
     }
-    //showSnackBar("فشل في إرسال الموعد");
+    
   }
 }

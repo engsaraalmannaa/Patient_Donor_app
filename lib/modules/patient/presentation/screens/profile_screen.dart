@@ -23,7 +23,6 @@ class ProfilePatientScreen extends StatefulWidget {
   State<ProfilePatientScreen> createState() => _ProfilePatientScreenState();
 }
 
-//CacheHelper.set
 class _ProfilePatientScreenState extends State<ProfilePatientScreen> {
   final GlobalKey<FormState> key = GlobalKey();
   final ProfilePatientController controller =
@@ -67,11 +66,12 @@ class _ProfilePatientScreenState extends State<ProfilePatientScreen> {
                   : Scaffold(
                       key: scaffoldKey,
                       backgroundColor: Colors.transparent,
-                      appBar: AppBar(shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(3.vmin),
-              ),
-            ),
+                      appBar: AppBar(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(3.vmin),
+                          ),
+                        ),
                         leading: IconButton(
                           icon: Icon(
                             Icons.arrow_back,
@@ -92,10 +92,7 @@ class _ProfilePatientScreenState extends State<ProfilePatientScreen> {
                             onPressed: () {
                               setState(() {
                                 isEditing = !isEditing;
-                                if (!isEditing) {
-                                  // Save changes here
-                                  // You can add your save logic
-                                }
+                                if (!isEditing) {}
                               });
                             },
                           ),
@@ -116,31 +113,31 @@ class _ProfilePatientScreenState extends State<ProfilePatientScreen> {
                               children: [
                                 SizedBox(height: 1.h),
                                 AppTextFormField(
-                                  hint: " الاسم الاول", 
+                                  hint: " الاسم الاول",
                                   keyboardType: TextInputType.text,
                                   controller: controller.first_name,
-                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                  fillColor: isEditing
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: " اسم الاب",
                                   keyboardType: TextInputType.text,
                                   controller: controller.father_name,
                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: "  الاسم الاخير",
                                   keyboardType: TextInputType.text,
                                   controller: controller.last_name,
                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: "الايميل",
@@ -148,172 +145,169 @@ class _ProfilePatientScreenState extends State<ProfilePatientScreen> {
                                   controller: controller.email,
                                   keyboardType: TextInputType.emailAddress,
                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: "الهاتف",
                                   isEditing: isEditing,
                                   controller: controller.phone,
                                   keyboardType: TextInputType.phone,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " الجنس",
                                   keyboardType: TextInputType.text,
                                   controller: TextEditingController(
-                                    text: controller.gender.text
-                                                .toLowerCase() ==
-                                            "female"
-                                        ? "أنثى"
-                                        : controller.gender.text
-                                                    .toLowerCase() ==
-                                                "male"
-                                            ? "ذكر"
-                                            : controller.gender
-                                                .text, // لو فيه أي نص آخر يظل كما هو
+                                    text:
+                                        controller.gender.text.toLowerCase() ==
+                                                "female"
+                                            ? "أنثى"
+                                            : controller.gender.text
+                                                        .toLowerCase() ==
+                                                    "male"
+                                                ? "ذكر"
+                                                : controller.gender.text,
                                   ),
                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: " تاريخ الميلاد",
                                   keyboardType: TextInputType.text,
                                   controller: controller.birth_data,
                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: " الرقم الوطني",
                                   keyboardType: TextInputType.phone,
                                   controller: controller.national_number,
                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: " العنوان",
                                   keyboardType: TextInputType.text,
                                   controller: controller.address,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " الحالة الاجتماعية ",
                                   keyboardType: TextInputType.text,
                                   controller: controller.social_status,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " شركة التأمين  ",
                                   keyboardType: TextInputType.text,
                                   controller: controller.insurance_company,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " رقم التأمين  ",
                                   keyboardType: TextInputType.phone,
                                   controller: controller.insurance_num,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " رقم الطوارئ  ",
                                   keyboardType: TextInputType.phone,
                                   controller: controller.emergency_num,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " مدخن  ",
                                   keyboardType: TextInputType.text,
                                   controller: TextEditingController(
-                                    text: controller.smoker.text
-                                                .toLowerCase() ==
-                                            "1"
-                                        ? "نعم"
-                                        : controller.smoker.text
-                                                    .toLowerCase() ==
-                                                "0"
-                                            ? "لا"
-                                            : controller.smoker
-                                                .text, // لو فيه أي نص آخر يظل كما هو
+                                    text:
+                                        controller.smoker.text.toLowerCase() ==
+                                                "1"
+                                            ? "نعم"
+                                            : controller.smoker.text
+                                                        .toLowerCase() ==
+                                                    "0"
+                                                ? "لا"
+                                                : controller.smoker.text,
                                   ),
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " حامل  ",
                                   keyboardType: TextInputType.text,
-                                  controller:  TextEditingController(
+                                  controller: TextEditingController(
                                     text: controller.pregnant.text
                                                 .toLowerCase() ==
                                             "1"
-                                        ? "نعم"
+                                        ? "لا"
                                         : controller.pregnant.text
                                                     .toLowerCase() ==
                                                 "0"
-                                            ? "لا"
-                                            : controller.pregnant
-                                                .text, // لو فيه أي نص آخر يظل كما هو
+                                            ? "نعم"
+                                            : controller.pregnant.text,
                                   ),
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " زمرة الدم  ",
                                   keyboardType: TextInputType.text,
                                   controller: controller.blood_type,
                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: " امراض وراثية  ",
                                   keyboardType: TextInputType.text,
                                   controller: controller.genetic_diseases,
                                   fillColor: isEditing
-                                        ? Colors.grey.shade400
-                                        : Colors.blue.shade50,
-                                         readOnly: true,
+                                      ? Colors.grey.shade400
+                                      : Colors.blue.shade50,
+                                  readOnly: true,
                                 ),
                                 AppTextFormField(
                                   hint: " امراض مزمنة  ",
                                   keyboardType: TextInputType.text,
                                   controller: controller.chronic_diseases,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " ادوية تسبب التحسس  ",
                                   keyboardType: TextInputType.text,
                                   controller: controller.drug_allergy,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " آخر عملية  ",
                                   keyboardType: TextInputType.text,
                                   controller: controller.last_operations,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 AppTextFormField(
                                   hint: " الأدوية الحالية  ",
                                   keyboardType: TextInputType.text,
                                   controller: controller.present_medicines,
-                                   fillColor:  Colors.blue.shade50,
-                                         readOnly: !isEditing,
+                                  fillColor: Colors.blue.shade50,
+                                  readOnly: !isEditing,
                                 ),
                                 if (isEditing)
                                   controller.isloading
@@ -322,7 +316,6 @@ class _ProfilePatientScreenState extends State<ProfilePatientScreen> {
                                           text: "حفظ التعديلات",
                                           ontap: () async {
                                             if (isEditing) {
-                                              // حفظ البيانات
                                               if (key.currentState!
                                                   .validate()) {
                                                 await controller
@@ -336,18 +329,6 @@ class _ProfilePatientScreenState extends State<ProfilePatientScreen> {
                                               isEditing = !isEditing;
                                             });
                                           },
-                                          // if (key.currentState!.validate()) {
-                                          //   await controller.updateprofile();
-                                          //   await CacheHelper.set(
-                                          //     key:
-                                          //         '${controller.updateprofile()}',
-                                          //     value: controller.updateprofile(),
-                                          //   );
-                                          //   setState(() {
-                                          //     var replyText = controller.first_name.text;
-                                          //     controller.first_name.clear();
-                                          //   });
-                                          // }
                                         )
                               ],
                             ),

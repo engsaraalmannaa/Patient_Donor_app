@@ -14,7 +14,6 @@ import 'package:http_parser/http_parser.dart';
 
 class HomeControllerd extends GetxController {
   List<Data>? data = [];
-  //Data1? disease;
   int? idConsltation;
   @override
   void onInit() {
@@ -43,7 +42,6 @@ class HomeControllerd extends GetxController {
   Future<void> showDiseases() async {
     isloadingd = true;
     update();
-    //   Data? data1;
     try {
       data1 = await HomeDataSourse.getthisdiseas(idConsltation!);
     } catch (e) {
@@ -82,7 +80,6 @@ class HomeControllerd extends GetxController {
           "image": await dio.MultipartFile.fromFile(
             image!.path,
             filename: image!.path.split('/').last,
-            // contentType: MediaType('image', 'jpeg'), // اختياري
           ),
         
       });
@@ -98,7 +95,6 @@ class HomeControllerd extends GetxController {
       isloadingpostdonation = false;
       update();
     }
-    //return result;
   }
 
   Future<void> pickImage() async {
@@ -107,13 +103,12 @@ class HomeControllerd extends GetxController {
         await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       image = File(pickedImage.path);
-      update(); // لتحديث الواجهة
-    }
+      update(); 
+       }
   }
 
   Map<int, int> patientRandomNumbers = {};
 
-  // تابع للحصول على الرقم العشوائي
   Future<int> gePersistentRandomNumber(int patientId) async {
     int? storedNumber = await CacheHelper.get<int>('patient_$patientId');
 
@@ -124,7 +119,6 @@ class HomeControllerd extends GetxController {
     int randomNumber = 1000 + Random().nextInt(9000);
     patientRandomNumbers[patientId] = randomNumber;
 
-    // نخزنه في SharedPreferences
     await CacheHelper.set(key: 'patient_$patientId', value: randomNumber);
 
     return randomNumber;

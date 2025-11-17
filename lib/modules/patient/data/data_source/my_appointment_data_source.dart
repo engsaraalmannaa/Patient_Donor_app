@@ -8,36 +8,32 @@ import 'package:get/get_core/src/get_main.dart';
 
 class MyAppointmentDataSource {
   static ApiHelper apiHelper = ApiHelper();
-  static Future <List<Data>> getAllMyAppointment() async {
+  static Future<List<Data>> getAllMyAppointment() async {
     var response = await apiHelper.sendRequest(
         endPoint: ApiConst.indexappointment,
         method: RequestType.get,
         requiresAuth: true,
         context: Get.context!);
-    MyAppointmentModel? appointment =MyAppointmentModel();
- 
-  if (response != null && response["data"] != null) {
-    List<dynamic> rawList = response["data"];
-    return rawList.map((json) => Data.fromJson(json)).toList();
+    MyAppointmentModel? appointment = MyAppointmentModel();
+
+    if (response != null && response["data"] != null) {
+      List<dynamic> rawList = response["data"];
+      return rawList.map((json) => Data.fromJson(json)).toList();
+    }
+
+    return [];
   }
 
-  return [];
-  
-  }
-
-
-
-static Future<bool> acceptappointment(int id) async {
+  static Future<bool> acceptappointment(int id) async {
     var response = await apiHelper.sendRequest(
-        context: Get.context!,
-        endPoint: ApiConst.acceptappointment(id),
-        requiresAuth: true,
-        method: RequestType.put,
-        
+      context: Get.context!,
+      endPoint: ApiConst.acceptappointment(id),
+      requiresAuth: true,
+      method: RequestType.put,
     );
     if (response != null) {
       AppToast.showToast(message: "تم الموافقة على الموعد");
-      //Get.back();
+      
       return true;
     }
     return false;
@@ -49,16 +45,12 @@ static Future<bool> acceptappointment(int id) async {
         endPoint: ApiConst.rejectappointment(id),
         requiresAuth: true,
         method: RequestType.put,
-        body: null
-    );
+        body: null);
     if (response != null) {
-      AppToast.showToast(message: "تم رفض الموعد بنجاح .. الرجاء تسجيل موعد آخر");
+      AppToast.showToast(
+          message: "تم رفض الموعد بنجاح .. سيتم إخيارك بالوقت الجديد");
       return true;
     }
     return false;
   }
-
-
-
-
 }

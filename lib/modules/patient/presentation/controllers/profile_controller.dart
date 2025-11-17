@@ -11,9 +11,6 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class ProfilePatientController extends GetxController {
-  // late Data model;
-  // ProfilePatientController(this.model);
-
   @override
   void onInit() {
     super.onInit();
@@ -64,15 +61,12 @@ class ProfilePatientController extends GetxController {
   bool isloading = false;
   PatientProfileModel? data;
 
-
-
   Future<void> Profileinfo() async {
     isloading = true;
     update();
-    try{
-    data = await ProfileDataSourcePatient.getProfileInfo();
+    try {
+      data = await ProfileDataSourcePatient.getProfileInfo();
 
-      // إذا حابب تعبي الفيلدات تلقائياً من البيانات:
       first_name.text = data?.data?.firstName ?? "";
       father_name.text = data?.data?.fatherName ?? "";
       last_name.text = data?.data?.lastName ?? "";
@@ -94,7 +88,6 @@ class ProfilePatientController extends GetxController {
       drug_allergy.text = data?.data?.drugAllergy ?? "";
       last_operations.text = data?.data?.lastOperations ?? "";
       present_medicines.text = data?.data?.presentMedicines ?? "";
-  
     } catch (e) {
       print("خطأ أثناء جلب البيانات: $e");
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -108,15 +101,10 @@ class ProfilePatientController extends GetxController {
     });
   }
 
-
-
-
-   Future<void> updatepatientprofile() async {
+  Future<void> updatepatientprofile() async {
     isloading = true;
     update();
-    await Future.delayed(Duration(seconds: 1)); // تمثيل التأخير
-
-    // بعدها خزن القيم الجديدة
+    await Future.delayed(Duration(seconds: 1));
     await CacheHelper.set(key: "user_name", value: first_name.text);
     await CacheHelper.set(key: "user_email", value: email.text);
     await CacheHelper.set(key: "user_phone", value: phone.text);
@@ -124,50 +112,52 @@ class ProfilePatientController extends GetxController {
     await CacheHelper.set(key: "user_last_name", value: last_name.text);
     await CacheHelper.set(key: "user_gender", value: gender.text);
     await CacheHelper.set(key: "user_birth_data", value: birth_data.text);
-    await CacheHelper.set(key: "user_national_number", value: national_number.text);
+    await CacheHelper.set(
+        key: "user_national_number", value: national_number.text);
     await CacheHelper.set(key: "user_address", value: address.text);
     await CacheHelper.set(key: "user_social_status", value: social_status.text);
     await CacheHelper.set(key: "user_emergency_num", value: emergency_num.text);
-    await CacheHelper.set(key: "user_insurance_company", value: insurance_company.text);
+    await CacheHelper.set(
+        key: "user_insurance_company", value: insurance_company.text);
     await CacheHelper.set(key: "user_insurance_num", value: insurance_num.text);
     await CacheHelper.set(key: "user_smoker", value: smoker.text);
     await CacheHelper.set(key: "user_pregnant", value: pregnant.text);
     await CacheHelper.set(key: "user_blood_type", value: blood_type.text);
-    await CacheHelper.set(key: "user_chronic_diseases", value: chronic_diseases.text);
-    await CacheHelper.set(key: "user_genetic_diseases", value: genetic_diseases.text);
+    await CacheHelper.set(
+        key: "user_chronic_diseases", value: chronic_diseases.text);
+    await CacheHelper.set(
+        key: "user_genetic_diseases", value: genetic_diseases.text);
     await CacheHelper.set(key: "user_drug_allergy", value: drug_allergy.text);
-    await CacheHelper.set(key: "user_last_operations", value: last_operations.text);
-    await CacheHelper.set(key: "user_present_medicines", value: present_medicines.text);
-
+    await CacheHelper.set(
+        key: "user_last_operations", value: last_operations.text);
+    await CacheHelper.set(
+        key: "user_present_medicines", value: present_medicines.text);
 
     try {
       await ProfileDataSourcePatient.editprofilepatient(
-        first_name: first_name.text,
-        email: email.text,
-        phone: phone.text, 
-        father_name:father_name.text,
-         last_name: last_name.text,
+          first_name: first_name.text,
+          email: email.text,
+          phone: phone.text,
+          father_name: father_name.text,
+          last_name: last_name.text,
           gender: gender.text,
-           birth_date: birth_data.text,
-           address: address.text,
-           blood_type: blood_type.text,
-           chronic_diseases: chronic_diseases.text,
-           drug_allergy: drug_allergy.text,
-           emergency_num: emergency_num.text,
-           genetic_diseases: genetic_diseases.text,
-           insurance_company: insurance_company.text,
-           insurance_num: insurance_num.text,
-
-           last_operations: last_operations.text,
-           national_number: national_number.text,
-           pregnant: pregnant.text,
-           present_medicines: present_medicines.text,
-           smoker: smoker.text,
-           social_status: social_status.text
-         
-      );
+          birth_date: birth_data.text,
+          address: address.text,
+          blood_type: blood_type.text,
+          chronic_diseases: chronic_diseases.text,
+          drug_allergy: drug_allergy.text,
+          emergency_num: emergency_num.text,
+          genetic_diseases: genetic_diseases.text,
+          insurance_company: insurance_company.text,
+          insurance_num: insurance_num.text,
+          last_operations: last_operations.text,
+          national_number: national_number.text,
+          pregnant: pregnant.text,
+          present_medicines: present_medicines.text,
+          smoker: smoker.text,
+          social_status: social_status.text);
       var replyText = first_name.text;
-      
+
       showSnackBar("تم إرسال الرد بنجاح");
     } catch (e) {
       showSnackBar("فشل في إرسال الرد");
@@ -175,5 +165,4 @@ class ProfilePatientController extends GetxController {
     isloading = false;
     update();
   }
-
 }

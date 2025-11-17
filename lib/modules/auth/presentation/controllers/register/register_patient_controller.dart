@@ -1,10 +1,8 @@
 import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../core/base_controllers/send_data_controller.dart';
 import '../../../../../core/const/api_const.dart';
 import '../../../../../core/core_components/pop_up.dart';
-import '../../../../../core/data_state/handler.dart';
 import '../../../data/data_source/auth_data_source.dart';
 
 class RegisterpatientController extends GetxController {
@@ -47,8 +45,6 @@ class RegisterpatientController extends GetxController {
         ? ApiConst.registerpatient
         : ApiConst.registerdonor;
 
-        
-
     final result = await AuthDataSource.registerpatient(
         email: emailController.text.trim(),
         password: passwordController.text,
@@ -65,12 +61,7 @@ class RegisterpatientController extends GetxController {
         emergency_num: emergency_numController.text,
         insurance_num: insurance_numController.text,
         insurance_company: insurance_companyController.text,
-        //emergency_num: emergency_numController.text.isEmpty ? null : emergency_numController.text,
-        // insurance_company: insurance_companyController.text.isEmpty ? null : insurance_companyController.text,
-        //insurance_num: insurance_numController.text.isEmpty ? null : insurance_numController.text,
-        //smoker: smokerController.isBlank,
         smoker: smokerController.text.toLowerCase() == "true",
-        //pregnant: pregnantController.isBlank,
         pregnant: pregnantController.text.toLowerCase() == 'true',
         blood_type: blood_typeController.text,
         genetic_diseases: genetic_diseasesController.text,
@@ -83,29 +74,22 @@ class RegisterpatientController extends GetxController {
     isloading = false;
     update();
     if (result != null && result['user'] != null) {
-    final user = result['user'];
+      final user = result['user'];
 
-    final firstName = user['first_name'] ?? '';
-    final lastName = user['last_name'] ?? '';
-    final email = user['email'] ?? '';
-    final id = user['id']?.toString() ?? '';
+      final firstName = user['first_name'] ?? '';
+      final lastName = user['last_name'] ?? '';
+      final email = user['email'] ?? '';
+      final id = user['id']?.toString() ?? '';
 
-    await CacheHelper.set(key: 'user_name', value: '$firstName $lastName');
-    await CacheHelper.set(key: 'user_email', value: email);
-    await CacheHelper.set(key: 'user_id', value: id);
-    await CacheHelper.set(key: 'userRole', value: userRole);
+      await CacheHelper.set(key: 'user_name', value: '$firstName $lastName');
+      await CacheHelper.set(key: 'user_email', value: email);
+      await CacheHelper.set(key: 'user_id', value: id);
+      await CacheHelper.set(key: 'userRole', value: userRole);
 
-    return true;
-  }
+      return true;
+    }
 
-  isError.value = true;
-  return false;
-    // if (result != true) {
-    //   isError.value = true;
-    // }
-    // print("Result: $result");
-
-    // // await CacheHelper.set(key: 'userRole', value: userRole); // تخزين role
-    // return result;
+    isError.value = true;
+    return false;
   }
 }

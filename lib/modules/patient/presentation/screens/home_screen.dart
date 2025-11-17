@@ -28,7 +28,7 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return _HomeScreenState(); // استدعاء كلاس داخلي فيه StatefulWidget
+    return _HomeScreenState();
   }
 }
 
@@ -38,22 +38,22 @@ class _HomeScreenState extends StatefulWidget {
 }
 
 class _HomeScreenStateState extends State<_HomeScreenState> {
-  int currentIndex = 2; // لازم يكون عندك currentIndex لإدارة الضغط
+  int currentIndex = 2;
 
   final List<Widget> screens = [
     Consultations(),
     Appointment(),
-    //HomeScreen(),
     Center(child: Text("الصفحة الرئيسية")),
     DonationState(),
     ShowMyConsultation(),
   ];
   final List<PreferredSizeWidget?> appBars = [
-    AppBar(shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(3.vmin),
-              ),
-            ),
+    AppBar(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(3.vmin),
+        ),
+      ),
       automaticallyImplyLeading: false,
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
@@ -62,11 +62,12 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
       title: Text("كتابة استشارة",
           style: TextStyle(fontSize: 14.spa, fontWeight: FontWeight.w600)),
     ),
-    AppBar(shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(3.vmin),
-              ),
-            ),
+    AppBar(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(3.vmin),
+        ),
+      ),
       automaticallyImplyLeading: false,
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
@@ -75,11 +76,12 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
       title: Text("حجز موعد",
           style: TextStyle(fontSize: 14.spa, fontWeight: FontWeight.w600)),
     ),
-    AppBar(shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(3.vmin),
-              ),
-            ),
+    AppBar(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(3.vmin),
+        ),
+      ),
       automaticallyImplyLeading: false,
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
@@ -91,10 +93,10 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
     AppBar(
       automaticallyImplyLeading: false,
       shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(3.vmin),
-              ),
-            ),
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(3.vmin),
+        ),
+      ),
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
         child: Image.asset("assets/images/logoo.png", width: 25.vmin),
@@ -105,10 +107,10 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
     AppBar(
       automaticallyImplyLeading: false,
       shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(3.vmin),
-              ),
-            ),
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(3.vmin),
+        ),
+      ),
       leading: Padding(
         padding: EdgeInsets.only(right: 4.vmin),
         child: Image.asset("assets/images/logoo.png", width: 25.vmin),
@@ -164,13 +166,11 @@ class _HomeScreenStateState extends State<_HomeScreenState> {
                     return Center(child: CircularProgressIndicator());
                   }
                   return RefreshIndicator(
-                    onRefresh: () async => 
-                    controller.indexConsultations(),
+                    onRefresh: () async => controller.indexConsultations(),
                     child: ListView.builder(
                         itemCount: controller.data?.length,
                         itemBuilder: (context, i) {
                           return Container1(
-                            
                             model: controller.data![i],
                             index: i,
                           );

@@ -27,7 +27,7 @@ class Container2 extends StatefulWidget {
 
 class _Container2State extends State<Container2> {
   MyDonationsController controller = Get.find<MyDonationsController>();
-  //HomeControllerd controller = Get.find<HomeControllerd>();
+  
 final homeController = Get.find<HomeControllerd>();
 
 

@@ -1,10 +1,8 @@
 import 'package:Pationt_Donor/core/storage/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../core/base_controllers/send_data_controller.dart';
 import '../../../../../core/const/api_const.dart';
 import '../../../../../core/core_components/pop_up.dart';
-import '../../../../../core/data_state/handler.dart';
 import '../../../data/data_source/auth_data_source.dart';
 
 class RegisterdonorController extends GetxController {
@@ -25,7 +23,6 @@ class RegisterdonorController extends GetxController {
   String userRole = 'donor';
   bool isloading = false;
   Future<bool?> registerfunction() async {
-    //final gen = genderController.text == " ذكر" ? " male" : "female";
     isloading = true;
     update();
     print("i am in register funcation");
@@ -56,7 +53,7 @@ class RegisterdonorController extends GetxController {
     isloading = false;
     update();
     if (result != true) {
-      isError.value = true; // صار خطأ، أظهر الزر بالأحمر
+      isError.value = true; 
     }
    
     return result;

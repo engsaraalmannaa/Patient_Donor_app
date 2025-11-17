@@ -18,13 +18,11 @@ class ProfileController extends GetxController {
   final TextEditingController national_number = TextEditingController();
   final TextEditingController address = TextEditingController();
   final TextEditingController country = TextEditingController();
-  //final TextEditingController id = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
 
-    // استرجاع البيانات من الكاش وتعبئة الحقول تلقائياً
     first_name.text = CacheHelper.get("first_name") ?? "";
     email.text = CacheHelper.get("email") ?? "";
     phone.text = CacheHelper.get("phone") ?? "";
@@ -35,15 +33,13 @@ class ProfileController extends GetxController {
     national_number.text = CacheHelper.get("national_number") ?? "";
     address.text = CacheHelper.get("address") ?? "";
     country.text = CacheHelper.get("country") ?? "";
-    //id.text = CacheHelper.get("user_id") ?? "";
   }
 
   Future<void> updateprofile() async {
     isloading = true;
     update();
-    await Future.delayed(Duration(seconds: 1)); // تمثيل التأخير
+    await Future.delayed(Duration(seconds: 1)); 
 
-    // بعدها خزن القيم الجديدة
     await CacheHelper.set(key: "user_name", value: first_name.text);
     await CacheHelper.set(key: "email", value: email.text);
     await CacheHelper.set(key: "user_phone", value: phone.text);
@@ -72,7 +68,6 @@ class ProfileController extends GetxController {
     try {
       data = await ProfileDataSource.showprofile();
 
-      // إذا حابب تعبي الفيلدات تلقائياً من البيانات:
       first_name.text = data?.data?.firstName ?? "";
       father_name.text = data?.data?.fatherName ?? "";
       last_name.text = data?.data?.lastName ?? "";

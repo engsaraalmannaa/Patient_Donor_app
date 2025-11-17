@@ -17,9 +17,8 @@ class AboutAppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-
       children: [
-         Wallpaper(
+        Wallpaper(
           num: 0.3,
           image: "assets/images/pattern.png",
         ),
@@ -52,14 +51,6 @@ class AboutAppScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Center(
-                //   child: Icon(
-                //     Icons.info_outline,
-                //     size: 15.vmin,
-                //     color: ConstColors.darkBlue,
-                //   ),
-                // ),
-                //SizedBox(height: 3.h),
                 Text(
                   "تطبيق المريض الصحي",
                   style: TextStyle(
@@ -71,14 +62,12 @@ class AboutAppScreen extends StatelessWidget {
                 SizedBox(height: 1.h),
                 Text(
                   "هذا التطبيق مخصص لإدارة إستشارات ومواعيد المرضى. "
-                  "يمكن للمرضى تسجيل المواعيد،تسجيل حالة تبرع، متابعة الاستشارات، والحصول على أوقات مواعيدهم لقبولها او رفضها . "
-                  //"كما يتيح للمتبرعين متابعة طلبات التبرع والمساهمة في دعم المرضى المحتاجين.",
-                  ,style: TextStyle(
+                  "يمكن للمرضى تسجيل المواعيد،تسجيل حالة تبرع، متابعة الاستشارات، والحصول على أوقات مواعيدهم لقبولها او رفضها . ",
+                  style: TextStyle(
                     fontSize: 17.sp,
                     height: 1.5,
                   ),
                 ),
-                
                 SizedBox(height: 2.h),
                 Text(
                   "للتواصل مع الدعم الفني: ",
@@ -93,31 +82,9 @@ class AboutAppScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 17.sp,
                     color: Colors.blueAccent,
-                    //decoration: TextDecoration.underline,
                   ),
                 ),
                 SizedBox(height: 5.h),
-                // Center(
-                //    child: AppButton(ontap: Get.back,
-                //    text: "رجوع",)
-                //   // ElevatedButton.icon(
-                //   //   onPressed: () {
-                //   //     Navigator.pop(context);
-                //   //   },
-                //   //   icon: Icon(Icons.arrow_back),
-                //   //   label: Text("رجوع"),
-                //   //   style: ElevatedButton.styleFrom(
-                //   //     backgroundColor: ConstColors.darkBlue,
-                //   //     padding: EdgeInsets.symmetric(
-                //   //       horizontal: 10.w,
-                //   //       vertical: 2.h,
-                //   //     ),
-                //   //     shape: RoundedRectangleBorder(
-                //   //       borderRadius: BorderRadius.circular(2.vmin),
-                //   //     ),
-                //   //   ),
-                //   // ),
-                // )
                 SizedBox(height: 2.h),
                 Text(
                   "النسخة الحالية: 1.0.0",

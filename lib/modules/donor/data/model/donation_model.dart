@@ -6,7 +6,6 @@ class DonationModel {
   DonationModel({this.status, this.message, this.data});
 
   DonationModel.fromJson(Map<String, dynamic> json) {
-    //status = json['status'];
     status = int.tryParse(json['status'].toString());
     message = json['message'];
     if (json['data'] != null) {

@@ -23,10 +23,7 @@ class ShowConsultations extends StatefulWidget {
     page: () => ShowConsultations(
       consultationId: Get.arguments,
     ),
-    //binding: LoginBinding(),
-    // middlewares: [
-    //   LoginMiddleware(),
-    // ]
+   
   );
 
   @override
@@ -105,8 +102,7 @@ class _ShowConsultationsState extends State<ShowConsultations> {
                                   ),
                                   subtitle: Column(
                                     children: [
-                                      // Text(
-                                      //     ),
+                                     
                                       Text(
                                         "السؤال: ${controller.data1?.question ?? "لا يوجد"}",
                                         style: TextStyle(
